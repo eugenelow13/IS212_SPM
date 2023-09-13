@@ -1,2 +1,3 @@
 # IS212_SPM
-test line
+Frontend: VueJS, Bootstrap, Javascript
+Backend: Python (Flask)
