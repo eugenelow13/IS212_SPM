@@ -9,10 +9,6 @@ app = Flask(__name__)
 
 # mysql+mysqlconnector://<user>:<password>@<host>[:<port>]/<dbname>
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get("SQLALCHEMY_DATABASE_URI")
-<<<<<<< Updated upstream
-=======
-
->>>>>>> Stashed changes
 
 # Register applications, listings, and staff blueprints under api (nest all)
 api = Blueprint("api", __name__, url_prefix="/api")
