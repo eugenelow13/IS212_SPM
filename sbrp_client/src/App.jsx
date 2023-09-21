@@ -4,9 +4,11 @@ import viteLogo from '/vite.svg'
 
 //CSS
 import './App.css'
+import Home from './pages/Home';
 import Listings from './pages/Listings';
-import { BrowserRouter, Routes, Route, NavLink } from 'react-router-dom';
-import { Nav, Navbar, Container } from 'react-bootstrap';
+import RootLayout from './layouts/RootLayout';
+import { createBrowserRouter, createRoutesFromChildren, Route, RouterProvider} from 'react-router-dom';
+
 
 
 function App() {
@@ -22,6 +24,14 @@ function App() {
   //   fetchStaff();
 
   // }, [])
+  const router = createBrowserRouter(
+    createRoutesFromChildren(
+      <Route path='/' element={<RootLayout/>}>
+        <Route index element={<Home />} />
+        <Route path="/listings" element={<Listings />} />
+      </Route>
+    )
+  )
 
   return (
     <>
@@ -31,29 +41,7 @@ function App() {
         integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM"
         crossorigin="anonymous"
       />
-      <BrowserRouter>
-        <header>
-          <Navbar className='bg-body-tertiary'>
-            <Container>
-              <Navbar.Brand>SBRP</Navbar.Brand>
-              <Nav>
-                <NavLink to="/listings"className="nav-link">Listings</NavLink>
-                <NavLink to="/help"className="nav-link">Help</NavLink>
-              </Nav>
-            </Container>
-          </Navbar>
-        </header>
-
-        <main>
-          <Container>
-            <Routes>
-              <Route path="/listings" element={<Listings />} />
-              {/* <Route path="/help" element={<Help/>} /> */}
-            </Routes>
-          </Container>
-        </main>
-
-      </BrowserRouter >
+      <RouterProvider router={router}/>
     </>
   )
 }

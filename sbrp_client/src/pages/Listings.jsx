@@ -1,7 +1,9 @@
-import React from 'react'
+import { Container } from 'react-bootstrap';
 
 export default function Listings() {
   return (
-    <div>Listings</div>
+    <Container className='mt-3'>
+        <h1>Listings</h1>
+    </Container>
   )
 }
