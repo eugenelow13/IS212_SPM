@@ -5,7 +5,7 @@ staff = Blueprint("staff", __name__, url_prefix="/staff")
 @staff.route("/", methods=["GET"])
 def see_staffs():
     pass
-    return "see staffs"
+    return {"data": "see staffs"}
 
 @staff.route("/<int:staff_id>", methods=["GET"])
 def see_staff():
