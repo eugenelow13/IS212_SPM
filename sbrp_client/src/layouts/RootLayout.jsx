@@ -18,7 +18,9 @@ export default function RootLayout() {
                 </Navbar>
             </header>
             <main>
-                <Outlet />
+                <Container>
+                    <Outlet />
+                </Container>
             </main>
         </>
     )

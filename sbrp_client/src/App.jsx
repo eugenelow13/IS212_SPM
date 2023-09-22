@@ -6,8 +6,9 @@ import viteLogo from '/vite.svg'
 import './App.css'
 import Home from './pages/Home';
 import Listings from './pages/Listings';
+import Listing from './pages/Listing';
 import RootLayout from './layouts/RootLayout';
-import { createBrowserRouter, createRoutesFromChildren, Route, RouterProvider} from 'react-router-dom';
+import { createBrowserRouter, createRoutesFromChildren, Route, RouterProvider } from 'react-router-dom';
 
 
 
@@ -26,9 +27,14 @@ function App() {
   // }, [])
   const router = createBrowserRouter(
     createRoutesFromChildren(
-      <Route path='/' element={<RootLayout/>}>
+      <Route path='/' element={<RootLayout />}>
         <Route index element={<Home />} />
         <Route path="/listings" element={<Listings />} />
+        <Route
+          path="/listings/:id"
+          element={<Listing />}
+        />
+
       </Route>
     )
   )
@@ -39,9 +45,9 @@ function App() {
         rel="stylesheet"
         href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
         integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM"
-        crossorigin="anonymous"
+        crossOrigin="anonymous"
       />
-      <RouterProvider router={router}/>
+      <RouterProvider router={router} />
     </>
   )
 }
