@@ -8,20 +8,8 @@ staff = Blueprint("staff", __name__, url_prefix="/staff")
 def see_staffs():
     stafflist = Staff.query.all()
     if(len(stafflist)):
-        return jsonify(
-            {
-                "code":200,
-                "data":{
-                    "staff": [staff.json() for staff in stafflist]
-                }
-            }
-        )
-    return jsonify(
-        {
-            "code":404,
-            "message":"There are no staffs."
-        }
-    ),404
+        return jsonify({"staff": [Staff.json() for Staff in stafflist]})
+    return jsonify({"message": "No staffs found."}), 404
 
 @staff.route("/<int:staff_id>", methods=["GET"])
 def see_staff():
@@ -30,4 +18,5 @@ def see_staff():
 @staff.route("/", methods=["POST"])
 def create_staff():
     pass
+
 
