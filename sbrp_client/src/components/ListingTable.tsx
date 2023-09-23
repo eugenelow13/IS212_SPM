@@ -1,6 +1,7 @@
 import * as React from 'react'
 import ReactDOM from 'react-dom/client'
 import { useState } from 'react'
+import './ListingTable.css'
 
 // import './index.css'
 

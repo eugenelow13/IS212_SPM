@@ -1,22 +1,19 @@
 import { Container } from 'react-bootstrap';
 import ListingTable from '../components/ListingTable';
 import { Link } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
-const data = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
-const Listings = () => (
-  // <Container className='mt-3'>
-  //   <h1>Listings</h1>
-  //   <ul>
-  //     {data.map((item, index) => (
-  //       <li key={index}>
-  //         <Link to={`${item}`}>{item}</Link>
-  //       </li>
-  //     ))}
-  //   </ul>
+// const Listings = () => (
+  
+//   <ListingTable />
 
-  // </Container>
-  <ListingTable />
-)
+// )
 
-export default Listings;
+export default function Listings(){
+  const location = useLocation();
+  console.log(location.state);
+  return <div>
+    <ListingTable />
+  </div>
+}
