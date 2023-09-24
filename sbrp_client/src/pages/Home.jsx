@@ -1,10 +1,18 @@
 import { useNavigate } from 'react-router-dom';
+import { useContext } from 'react';
+import { AccessContext } from '../common/AccessProvider';
 
 export default function Home() {
+
+  const {setAccessControl} = useContext(AccessContext);
+
   const navigation = useNavigate();
 
   const navigate = (accessControl) =>{
-    navigation(`/listings/`,{state:{id:accessControl}})
+    sessionStorage.setItem("accessControl", accessControl);
+    setAccessControl(accessControl)
+    navigation(`/listings`)
+    // navigation(`/listings/`,{state:{id:accessControl}})
     console.log(accessControl);
   }
   return (
