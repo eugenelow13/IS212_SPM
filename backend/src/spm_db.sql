@@ -4,12 +4,12 @@ create schema spm_db;
 use spm_db;
 
 -- Table structure for table `access_control`
-DROP TABLE IF EXISTS `access_control`;
-CREATE TABLE IF NOT EXISTS `access_control` (
-  `Access_ID` int NOT NULL,
-  `Access_Control_Name` varchar(20) NOT NULL,
-  PRIMARY KEY (`Access_ID`)
-);
+-- DROP TABLE IF EXISTS `access_control`;
+-- CREATE TABLE IF NOT EXISTS `access_control` (
+--   `Access_ID` int NOT NULL,
+--   `Access_Control_Name` varchar(20) NOT NULL,
+--   PRIMARY KEY (`Access_ID`)
+-- );
 
 -- Table structure for table `role`
 DROP TABLE IF EXISTS `role`;
@@ -36,9 +36,8 @@ CREATE TABLE IF NOT EXISTS `staff` (
   `Dept` varchar(50) NOT NULL,
   `Country` varchar(50) NOT NULL,
   `Email` varchar(50) NOT NULL,
-  `Access_Role` int NOT NULL,
+  `Role` int NOT NULL,
   PRIMARY KEY (`Staff_ID`),
-  FOREIGN KEY (Access_Role) REFERENCES access_control(Access_ID)
 );
 
 -- Table structure for table `role_listing`
@@ -56,7 +55,7 @@ CREATE TABLE IF NOT EXISTS `role_listing` (
 -- Table structure for table `application`
 DROP TABLE IF EXISTS `application`;
 CREATE TABLE IF NOT EXISTS `application` (
-  `Role_Name` varchar(20) NOT NULL REFERENCES role(Role_Name),
+  `Role_Name` varchar(20) NOT NULL REFERENCES role_listing(Role_Name),
   `Start_Date` date NOT NULL REFERENCES role_listing(Start_Date),
   `End_Date` date NOT NULL REFERENCES role_listing(End_Date),
   `Staff_ID` int NOT NULL REFERENCES staff(Staff_ID),
