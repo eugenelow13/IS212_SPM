@@ -1,13 +1,17 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import MockAdapter from 'axios-mock-adapter';
 
 // Takes in two objects, one for search params, and one for validatorObj
 // returns object with each param in validate, and boolean if test passed
 // only false if validator exists and validator failed
 
 export const ENDPOINTS = {
-    roles: "/roles"
+    roles: "/api/roles",
+    listings: "/api/listings"
 }
+
+export const mock = new MockAdapter(axios);
 
 export function validateAll(params, validatorObj){
 

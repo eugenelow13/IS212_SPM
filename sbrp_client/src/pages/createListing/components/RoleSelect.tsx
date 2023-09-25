@@ -1,15 +1,16 @@
+import React from 'react';
 import { useState, useEffect } from 'react';
 
 import { ENDPOINTS } from '../../../common/utilities';
 
 import axios from 'axios';
-import MockAdapter from 'axios-mock-adapter'
+import { mock } from '../../../common/utilities';
 
 // Type Definitions ||
 type Role = {
   role_name: string;
   role_desc: string;
-} | {}
+};
 
 type Data = {
   roles: Role[];
@@ -50,36 +51,47 @@ const fakeData: Data = {
   ]
 }
 
-const mock = new MockAdapter(axios);
 mock.onGet(ENDPOINTS.roles).reply(200, fakeData)
 
 // Data Fetching ||
-function fetchRoles(): Promise<any> {
+function fetchRoles(): Promise<Role[]> {
   return axios.get(ENDPOINTS.roles)
+  .then(response => response.data.data);
 }
 
 // Component ||
 export default function RoleSelect({ filterString }) {
   const [data, setData] = useState<Role[] | []>([]);
-  const [selectedRole, setSelectedRole] = useState<Role>({});
+  const [selectedRole, setSelectedRole] = useState<Role>({
+    role_name: "",
+    role_desc: ""
+  });
 
+  // Fetch roles upon component mount
   useEffect(() => {
     fetchRoles()
-      .then((response) => {
-        setData(response.data.roles);
-        console.log(response.data)
+      .then((roles) => {
+        setData(roles);
+        console.table(roles)
       })
       .catch((error) => {
         console.log(error)
       })
   }, [])
 
-  // 
-  function onSelectChange(event) {
-    const selectedOption = event.target.options[event.target.selectedIndex];
+  // Ensure selectedRole changes when filterString applied
+  useEffect(() => {
+    const select = document.querySelector("#role_name") as HTMLSelectElement
+    // Update Selected Option
+    updateSelect(select);
+  }, [filterString])
+
+  function updateSelect(target) {
+    const selectedOption = target.options[target.selectedIndex];
+    
     // Set selected role state to selected option
     setSelectedRole({
-      role_name: event.target.value,
+      role_name: target.value,
       role_desc: selectedOption.getAttribute("data-desc")
     })
   }
@@ -90,10 +102,10 @@ export default function RoleSelect({ filterString }) {
         name="role_name"
         id="role_name"
         className='form-control'
-        onChange={event => { onSelectChange(event) }}
+        onChange={event => { updateSelect(event.target) }}
         defaultValue="Select Role">
 
-        <option value="Select Role" disabled></option>
+        <option value="Select Role" disabled>Select Role</option>
 
         {data && data
         // Filter by string
