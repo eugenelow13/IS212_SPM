@@ -5,15 +5,17 @@ import { useLocation } from 'react-router-dom';
 
 
 // const Listings = () => (
-  
+
 //   <ListingTable />
 
 // )
 
-export default function Listings(){
+export default function Listings() {
   const location = useLocation();
   console.log(location.state);
-  return <div>
-    <ListingTable />
-  </div>
+  return (
+    <Container>
+      <ListingTable />
+    </Container>
+  )
 }

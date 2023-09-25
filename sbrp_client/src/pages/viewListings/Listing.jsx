@@ -6,8 +6,6 @@ export const Listing = () => {
   return (
     <div>Listing {id}</div>
   );
-
-  <ListingTable />
 }
 
 export default Listing;

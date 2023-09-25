@@ -5,7 +5,11 @@ import axios from 'axios';
 // returns object with each param in validate, and boolean if test passed
 // only false if validator exists and validator failed
 
-function validateAll(params, validatorObj){
+export const ENDPOINTS = {
+    roles: "/roles"
+}
+
+export function validateAll(params, validatorObj){
 
     let areValid = {};
 
@@ -21,12 +25,6 @@ function validateAll(params, validatorObj){
         }
     }
     return areValid;
-}
-
-async function fetchData(url, params, validatorObj){
-    // validatorObj takes in 
-
-    return await axios.get(url, {params:params})
 }
 
 // TEST

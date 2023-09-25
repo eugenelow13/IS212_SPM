@@ -9,26 +9,32 @@ export default function RootLayout() {
     return (
         <>
             <header>
-                <Navbar className='bg-body-tertiary'>
+                <Navbar bg="dark" data-bs-theme="dark">
                     <Container>
                         <Navbar.Brand>
                             <Link to="/" className='navbar-brand'>SBRP</Link>
                         </Navbar.Brand>
                         <Nav className='me-auto'>
                             <NavLink to="/listings" className="nav-link">Listings</NavLink>
-                            <NavLink
+                            {/* <NavLink
                                 to="/listings/new"
                                 className={"nav-link" + (accessControl !== "HR" ? " disabled" : "")}
                             >
                                 Create Listing
-                            </NavLink>
+                            </NavLink> */}
+                            {(accessControl == "HR") &&
+                                <NavLink
+                                    to="/listings/new"
+                                    className="nav-link">
+                                    Create Listing
+                                </NavLink>}
                             <NavLink to="/help" className="nav-link">Help</NavLink>
                         </Nav>
                     </Container>
                 </Navbar>
             </header>
             <main>
-                <Container>
+                <Container className="mt-3">
                     <Outlet />
                 </Container>
             </main>

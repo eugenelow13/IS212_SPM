@@ -2,9 +2,11 @@
 import './App.css'
 
 // Page Imports
-import Home from './pages/Home';
+import Home from './pages/Login/Login';
 import Listings from './pages/viewListings/Listings';
 import Listing from './pages/viewListings/Listing';
+import ListingForm from './pages/createListing/ListingForm';
+
 import { createBrowserRouter, createRoutesFromChildren, Route, RouterProvider } from 'react-router-dom';
 
 import RootLayout from './common/RootLayout';
@@ -25,6 +27,7 @@ function App() {
         <Route
           path="/listings/new"
           // only triggers for non-get requests
+          element={<ListingForm />}
           action={createListingAction}
         />
       </Route>

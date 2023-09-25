@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { useContext } from 'react';
-import { AccessContext } from '../common/AccessProvider';
+import { AccessContext } from '../../common/AccessProvider';
 
 export default function Home() {
 
