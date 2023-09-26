@@ -1,6 +1,11 @@
 import { useState, useEffect } from 'react';
+
+import { useNavigation } from 'react-router-dom';
+
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
+
+import moment from 'moment';
 
 // Takes in two objects, one for search params, and one for validatorObj
 // returns object with each param in validate, and boolean if test passed
@@ -11,9 +16,9 @@ export const ENDPOINTS = {
     listings: "/api/listings"
 }
 
-export const mock = new MockAdapter(axios);
+export const mock = new MockAdapter(axios, {delayResponse: 1000});
 
-export function validateAll(params, validatorObj){
+export function validateAll(params, validatorObj) {
 
     let areValid = {};
 
@@ -22,7 +27,7 @@ export function validateAll(params, validatorObj){
         areValid[key] = true;
 
         // if validatorFn exists, value in areValid is based on validation
-        if (key in validatorObj){
+        if (key in validatorObj) {
             let value = params[key];
             let validatorFn = validatorObj[key]
             areValid[key] = validatorFn(value);
@@ -30,6 +35,28 @@ export function validateAll(params, validatorObj){
     }
     return areValid;
 }
+
+export function useNow() {
+    const [now, setNow] = useState(moment());
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setNow(moment())
+        }, 1000)
+        return () => {
+            clearInterval(interval)
+        }
+    }, [])
+    
+    return now;
+}
+
+export function useIsLoading() {
+    const navigation = useNavigation();
+    const isLoading = navigation.state === "submitting"
+
+    return isLoading;
+}
+
 
 // TEST
 // let params = {
