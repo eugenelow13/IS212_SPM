@@ -6,6 +6,8 @@ import { ENDPOINTS } from '../../../common/utilities';
 import axios from 'axios';
 import { mock } from '../../../common/utilities';
 
+import { Card } from 'react-bootstrap';
+
 // Type Definitions ||
 type Role = {
   role_name: string;
@@ -56,7 +58,7 @@ mock.onGet(ENDPOINTS.roles).reply(200, fakeData)
 // Data Fetching ||
 function fetchRoles(): Promise<Role[]> {
   return axios.get(ENDPOINTS.roles)
-  .then(response => response.data.data);
+    .then(response => response.data.roles);
 }
 
 // Component ||
@@ -64,7 +66,7 @@ export default function RoleSelect({ filterString }) {
   const [data, setData] = useState<Role[] | []>([]);
   const [selectedRole, setSelectedRole] = useState<Role>({
     role_name: "",
-    role_desc: ""
+    role_desc: "No role selected."
   });
 
   // Fetch roles upon component mount
@@ -88,11 +90,11 @@ export default function RoleSelect({ filterString }) {
 
   function updateSelect(target) {
     const selectedOption = target.options[target.selectedIndex];
-    
+
     // Set selected role state to selected option
     setSelectedRole({
       role_name: target.value,
-      role_desc: selectedOption.getAttribute("data-desc")
+      role_desc: selectedOption.getAttribute("data-desc") ?? "No role selected."
     })
   }
 
@@ -108,20 +110,28 @@ export default function RoleSelect({ filterString }) {
         <option value="Select Role" disabled>Select Role</option>
 
         {data && data
-        // Filter by string
-        .filter((role) => role.role_name.toLowerCase().includes(filterString))
-        // iterate filtered data
-        .map((role) => (
-          <option key={role.role_name} value={role.role_name} data-desc={role.role_desc}>
-            {role.role_name}
-          </option>
-        )
-        )}
+          // Filter by string
+          .filter((role) => role.role_name.toLowerCase().includes(filterString))
+          // iterate filtered data
+          .map((role) => (
+            <option key={role.role_name} value={role.role_name} data-desc={role.role_desc}>
+              {role.role_name}
+            </option>
+          )
+          )}
 
       </select>
 
-      <p>{selectedRole.role_desc}</p>
 
+      <Card className="my-3">
+        <Card.Header>Description</Card.Header>
+        <Card.Body>
+          <Card.Title>{selectedRole.role_name}</Card.Title>
+          <Card.Text>
+            {selectedRole.role_desc}
+          </Card.Text>
+        </Card.Body>
+      </Card>
     </>
   )
 }

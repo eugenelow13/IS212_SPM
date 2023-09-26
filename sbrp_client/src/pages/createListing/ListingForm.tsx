@@ -1,3 +1,4 @@
+import React from 'react';
 import { Form } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 
@@ -7,6 +8,12 @@ import { mock } from '../../common/utilities';
 
 import RoleSelect from './components/RoleSelect';
 
+interface IFormData {
+  role_name: string;
+
+
+}
+
 mock.onPost('/api/listings').reply(200, {
   success: true
 })
@@ -14,7 +21,14 @@ mock.onPost('/api/listings').reply(200, {
 // Form submit action
 export async function createListingAction({ request }) {
   const formData = await request.formData();
-  const body = Object.fromEntries(formData)
+
+  // copy of formData
+  let body = {...Object.fromEntries(formData)};
+  
+  // extract fields to prevent injection
+  const {role_name, } = body;
+
+  body = {role_name} as IFormData;
 
   console.table(body);
 
@@ -28,9 +42,9 @@ export async function createListingAction({ request }) {
     )
     return true;
   }
-  catch (resErr) {
-    console.log(resErr.message);
-    return resErr;
+  catch (responseErr) {
+    console.log(responseErr.message);
+    return responseErr;
   }
 
 }
@@ -58,9 +72,7 @@ export default function ListingForm() {
           filterString={filterString}
         // formData={formData}
         // setRoleName={setformData}
-        >
-        </RoleSelect>
-
+        />
         <input type="submit" className="btn btn-primary" value="Submit" />
 
       </Form>
