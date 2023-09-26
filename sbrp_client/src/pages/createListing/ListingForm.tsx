@@ -56,23 +56,25 @@ export default function ListingForm() {
   })
 
   const [filterString, setFilterString] = useState("");
+  const [selectedRole, setSelectedRole] = useState({
+    role_name: "",
+    role_desc: "No role selected."
+  }); 
 
   return (
     <>
       <h3>Create Listing</h3>
-      <input
-        type="text"
-        className='form-control my-3'
-        placeholder='Filter role...'
-        id="filterString"
-        onKeyUp={event => {setFilterString(event.target.value.toLowerCase())}}/>
 
       <Form action="/listings/new" method="post">
         <RoleSelect
-          filterString={filterString}
+          selectedRole={selectedRole}
+          setSelectedRole={setSelectedRole}
         // formData={formData}
         // setRoleName={setformData}
         />
+        
+
+
         <input type="submit" className="btn btn-primary" value="Submit" />
 
       </Form>

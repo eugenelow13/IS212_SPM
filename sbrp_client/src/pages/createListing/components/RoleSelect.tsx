@@ -1,13 +1,14 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
+import Select, {components} from 'react-select';
+// import { defaultProps } from 'react-select/dist/declarations/src/Select';
 
 import { ENDPOINTS } from '../../../common/utilities';
 
 import axios from 'axios';
 import { mock } from '../../../common/utilities';
 
-import { Card } from 'react-bootstrap';
-
+import { RoleDesc } from './RoleDesc';
 // Type Definitions ||
 type Role = {
   role_name: string;
@@ -17,7 +18,6 @@ type Role = {
 type Data = {
   roles: Role[];
 }
-
 
 // Testing Mock
 const fakeData: Data = {
@@ -62,12 +62,8 @@ function fetchRoles(): Promise<Role[]> {
 }
 
 // Component ||
-export default function RoleSelect({ filterString }) {
+export default function RoleSelect({ selectedRole, setSelectedRole }) {
   const [data, setData] = useState<Role[] | []>([]);
-  const [selectedRole, setSelectedRole] = useState<Role>({
-    role_name: "",
-    role_desc: "No role selected."
-  });
 
   // Fetch roles upon component mount
   useEffect(() => {
@@ -81,57 +77,35 @@ export default function RoleSelect({ filterString }) {
       })
   }, [])
 
-  // Ensure selectedRole changes when filterString applied
-  useEffect(() => {
-    const select = document.querySelector("#role_name") as HTMLSelectElement
-    // Update Selected Option
-    updateSelect(select);
-  }, [filterString])
-
-  function updateSelect(target) {
-    const selectedOption = target.options[target.selectedIndex];
-
-    // Set selected role state to selected option
-    setSelectedRole({
-      role_name: target.value,
-      role_desc: selectedOption.getAttribute("data-desc") ?? "No role selected."
-    })
+  const customOption = (props) => {
+    const {data, label} = props;
+    return (
+      <components.Option
+        {...props}
+        data-desc={data.role_desc}>
+        {label}
+      </components.Option>
+    )
   }
 
   return (
     <>
-      <select
+      {data &&
+        <Select
+        className="basic-single"
+        classNamePrefix="select"
+        isSearchable={true}
+        placeholder="Select Role..."
         name="role_name"
         id="role_name"
-        className='form-control'
-        onChange={event => { updateSelect(event.target) }}
-        defaultValue="Select Role">
+        options={data}
+        getOptionLabel={role => role.role_name}
+        getOptionValue={role => role.role_name}
+        components={{ Option: customOption }}
+        onChange={value => setSelectedRole(value)}
+        />}
 
-        <option value="Select Role" disabled>Select Role</option>
-
-        {data && data
-          // Filter by string
-          .filter((role) => role.role_name.toLowerCase().includes(filterString))
-          // iterate filtered data
-          .map((role) => (
-            <option key={role.role_name} value={role.role_name} data-desc={role.role_desc}>
-              {role.role_name}
-            </option>
-          )
-          )}
-
-      </select>
-
-
-      <Card className="my-3">
-        <Card.Header>Description</Card.Header>
-        <Card.Body>
-          <Card.Title>{selectedRole.role_name}</Card.Title>
-          <Card.Text>
-            {selectedRole.role_desc}
-          </Card.Text>
-        </Card.Body>
-      </Card>
+      <RoleDesc selectedRole={selectedRole} />
     </>
   )
 }
