@@ -1,10 +1,5 @@
 from src.extensions import db
-from sqlalchemy import ForeignKey, Date
-from typing import List
-from sqlalchemy.orm import Mapped, mapped_column, DeclarativeBase
-from sqlalchemy.orm import relationship
-
-
+from sqlalchemy import ForeignKey
 
 class Staff(db.Model):
     __tablename__ = 'staff'
@@ -34,7 +29,7 @@ class Staff(db.Model):
                "Country": self.country,
                "Email": self.email,
                "Access_Role": self.access_role}
-    
+
 
 class Role(db.Model):
     __tablename__ = 'role'
@@ -48,7 +43,6 @@ class Role(db.Model):
     def json(self):
         return{"Role_Name": self.role_name,
                "Role_Desc": self.role_desc}
-    
 
 
 class Skill(db.Model):
@@ -63,7 +57,6 @@ class Skill(db.Model):
     def json(self):
         return{"Skill_Name": self.skill_name,
                "Skill_Desc": self.skill_desc}
-    
 
 
 class RoleListing(db.Model):
@@ -122,6 +115,7 @@ class RoleSkill(db.Model):
     def json(self):
         return{"Role_Name": self.role_name,
                "Skill_Name": self.skill_name}
+ 
     
 class StaffSkill(db.Model):
     __tablename__ = 'staff_skill'
