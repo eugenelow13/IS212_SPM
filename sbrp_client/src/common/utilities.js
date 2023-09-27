@@ -12,11 +12,11 @@ import moment from 'moment';
 // only false if validator exists and validator failed
 
 export const ENDPOINTS = {
-    roles: "/api/roles",
+    roles: "/api/roles/",
     listings: "/api/listings"
 }
 
-export const mock = new MockAdapter(axios, {delayResponse: 1000});
+// export const mock = new MockAdapter(axios, {delayResponse: 1000});
 
 export function validateAll(params, validatorObj) {
 

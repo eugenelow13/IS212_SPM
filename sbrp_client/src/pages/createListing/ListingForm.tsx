@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 
 import axios from 'axios';
 import { ENDPOINTS, useIsLoading } from '../../common/utilities';
-import { mock } from '../../common/utilities';
+// import { mock } from '../../common/utilities';
 
 import RoleSelect from './components/RoleSelect';
 import { Button, Spinner } from 'react-bootstrap';
@@ -18,9 +18,9 @@ interface IFormData {
 
 }
 
-mock.onPost(ENDPOINTS.listings).reply(200, {
-  success: false
-})
+// mock?.onPost(ENDPOINTS.listings).reply(200, {
+//   success: false
+// });
 
 // Form submit action
 export async function createListingAction({ request }) {

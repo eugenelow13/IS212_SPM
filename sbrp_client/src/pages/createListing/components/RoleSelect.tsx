@@ -6,13 +6,14 @@ import Select, {components} from 'react-select';
 import { ENDPOINTS } from '../../../common/utilities';
 
 import axios from 'axios';
-import { mock } from '../../../common/utilities';
+// import { mock } from '../../../common/utilities';
 
 import { RoleDesc } from './RoleDesc';
 // Type Definitions ||
 type Role = {
   role_name: string;
   role_desc: string;
+  role_skills: string[]
 };
 
 type Data = {
@@ -53,10 +54,11 @@ const fakeData: Data = {
   ]
 }
 
-mock.onGet(ENDPOINTS.roles).reply(200, fakeData)
+// mock.onGet(ENDPOINTS.roles).reply(200, fakeData)
 
 // Data Fetching ||
 function fetchRoles(): Promise<Role[]> {
+  console.log(ENDPOINTS.roles)
   return axios.get(ENDPOINTS.roles)
     .then(response => response.data.roles);
 }
