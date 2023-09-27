@@ -23,13 +23,13 @@ class Staff(db.Model):
 
 
     def json(self):
-        return{"Staff_ID": self.staff_id,
-               "Staff_FName": self.staff_fname,
-               "Staff_LName": self.staff_lname,
-               "Dept": self.dept,
-               "Country": self.country,
-               "Email": self.email,
-               "Access_Role": self.access_role}
+        return{"staff_id": self.staff_id,
+               "staff_fname": self.staff_fname,
+               "staff_lname": self.staff_lname,
+               "dept": self.dept,
+               "country": self.country,
+               "email": self.email,
+               "access_role": self.access_role}
 
 
 class Role(db.Model):
@@ -59,8 +59,8 @@ class Skill(db.Model):
         self.skill_desc = skill_desc
 
     def json(self):
-        return{"Skill_Name": self.skill_name,
-               "Skill_Desc": self.skill_desc}
+        return{"skill_name": self.skill_name,
+               "skill_desc": self.skill_desc}
 
 
 class RoleListing(db.Model):
@@ -80,11 +80,11 @@ class RoleListing(db.Model):
         self.country = country
 
     def json(self):
-        return{"Role_Name": self.role_name,
-               "Start_Date": self.start_date,
-               "End_Date": self.end_date,
-               "Manager_ID": self.manager_id,
-               "Country": self.country}
+        return{"role_name": self.role_name,
+               "start_date": self.start_date,
+               "end_date": self.end_date,
+               "manager_id": self.manager_id,
+               "country": self.country}
     
 
 class Application(db.Model):
@@ -101,10 +101,10 @@ class Application(db.Model):
         self.app_date = app_date
 
     def json(self):
-        return{"ID": self.id,
-               "Staff_ID": self.staff_id,
-               "App_Desc": self.app_desc,
-               "App_Date": self.app_date}
+        return{"id": self.id,
+               "staff_id": self.staff_id,
+               "app_desc": self.app_desc,
+               "app_date": self.app_date}
     
 
 class RoleSkill(db.Model):
@@ -119,8 +119,8 @@ class RoleSkill(db.Model):
         self.skill_name = skill_name
 
     def json(self):
-        return{"Role_Name": self.role_name,
-               "Skill_Name": self.skill_name}
+        return{"role_name": self.role_name,
+               "skill_name": self.skill_name}
  
     
 class StaffSkill(db.Model):
@@ -133,5 +133,5 @@ class StaffSkill(db.Model):
         self.skill_name = skill_name
 
     def json(self):
-        return{"Staff_ID": self.staff_id,
-               "Skill_Name": self.skill_name}
+        return{"staff_id": self.staff_id,
+               "skill_name": self.skill_name}
