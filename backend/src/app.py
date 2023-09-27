@@ -4,6 +4,8 @@ import os
 from src.blueprints.listings import listings
 from src.blueprints.applications import applications
 from src.blueprints.staff import staff
+from src.blueprints.roles import roles
+
 
 app = Flask(__name__)
 
@@ -16,6 +18,7 @@ api = Blueprint("api", __name__, url_prefix="/api")
 api.register_blueprint(applications)
 api.register_blueprint(listings)
 api.register_blueprint(staff)
+api.register_blueprint(roles)
 
 # Register api blueprint in app
 app.register_blueprint(api)

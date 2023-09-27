@@ -1,5 +1,6 @@
 from src.extensions import db
 from sqlalchemy import ForeignKey
+from sqlalchemy.orm import relationship
 
 class Staff(db.Model):
     __tablename__ = 'staff'
@@ -36,13 +37,16 @@ class Role(db.Model):
     role_name = db.Column(db.String(20), primary_key=True)
     role_desc = db.Column(db.String(100), nullable=False)
 
+    role_skills = relationship("RoleSkill", back_populates="role")
+
     def __init__(self, role_name, role_desc):
         self.role_name = role_name
         self.role_desc = role_desc
 
     def json(self):
-        return{"Role_Name": self.role_name,
-               "Role_Desc": self.role_desc}
+        return{"role_name": self.role_name,
+               "role_desc": self.role_desc,
+               "role_skills": [role_skill.skill_name for role_skill in self.role_skills]}
 
 
 class Skill(db.Model):
@@ -107,6 +111,8 @@ class RoleSkill(db.Model):
     __tablename__ = 'role_skill'
     role_name = db.Column(db.String(20), ForeignKey('role.role_name'), primary_key=True)
     skill_name = db.Column(db.String(50), ForeignKey('skill.skill_name'), primary_key=True)
+
+    role = relationship("Role", back_populates="role_skills")
 
     def __init__(self, role_name, skill_name):
         self.role_name = role_name

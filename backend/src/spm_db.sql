@@ -19,6 +19,8 @@ CREATE TABLE IF NOT EXISTS `role` (
   PRIMARY KEY (`Role_Name`)
 );
 
+
+
 -- Table structure for table `skill`
 DROP TABLE IF EXISTS `skill`;
 CREATE TABLE IF NOT EXISTS `skill` (
@@ -76,3 +78,6 @@ CREATE TABLE IF NOT EXISTS `staff_skill` (
   `Skill_Name` varchar(20) NOT NULL REFERENCES skill(Skill_Name),
   PRIMARY KEY (`Staff_ID`,`Skill_Name`)
 );
+
+
+
