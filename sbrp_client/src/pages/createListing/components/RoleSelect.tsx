@@ -106,7 +106,10 @@ export default function RoleSelect({ selectedRole, setSelectedRole, roleData, se
           onChange={value => {
             setSelectedRole(value)
           }}
+          required
         />}
+
+        {/* <label className="form-text">Filter roles by typing...</label> */}
 
 
     </>
