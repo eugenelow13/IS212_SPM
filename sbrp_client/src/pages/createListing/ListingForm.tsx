@@ -7,11 +7,21 @@ import { ENDPOINTS, useIsLoading } from '../../common/utilities';
 import { mock } from '../../common/utilities';
 
 import RoleSelect from './components/RoleSelect';
+import RoleDesc from './components/RoleDesc';
+import SkillCard from './components/SkillCard';
+
 import { Button, Spinner } from 'react-bootstrap';
 import moment from 'moment';
 
 import StatusToast from '../../common/StatusToast';
 import { useNow } from '../../common/utilities';
+
+export type Role = {
+  role_name: string,
+  role_desc: string,
+  role_skills: string[]
+};
+
 interface IFormData {
   role_name: string;
 
@@ -65,12 +75,16 @@ export default function ListingForm() {
 
   })
 
-  const [selectedRole, setSelectedRole] = useState({
+  const [roleData, setRoleData] = useState<Role[] | []>([]);
+
+  const [selectedRole, setSelectedRole] = useState<Role>({
     role_name: "",
-    role_desc: "No role selected."
+    role_desc: "No role selected.",
+    role_skills: []
   });
 
-  const actionData = useActionData();
+
+  const formActionData = useActionData();
   const [showToast, setShowToast] = useState(false);
 
   // Get current time: updated every 1s
@@ -80,8 +94,8 @@ export default function ListingForm() {
 
   // if actionData
   useEffect(() => {
-    actionData && setShowToast(true);
-  }, [actionData])
+    formActionData && setShowToast(true);
+  }, [formActionData])
 
 
   return (
@@ -91,16 +105,25 @@ export default function ListingForm() {
         showToast={showToast}
         setShowToast={setShowToast}
         now={now}
-        actionData={actionData} />
+        actionData={formActionData} />
 
       <h3>Create Listing</h3>
 
       <Form action="/listings/new" method="post">
+
         <RoleSelect
           selectedRole={selectedRole}
           setSelectedRole={setSelectedRole}
+          roleData={roleData}
+          setRoleData={setRoleData}
         // formData={formData}
         // setRoleName={setformData}
+        />
+
+        <RoleDesc selectedRole={selectedRole} />
+
+        <SkillCard
+          selectedRole={selectedRole}
         />
 
         <Button variant="primary" type="submit" disabled={isLoading}>

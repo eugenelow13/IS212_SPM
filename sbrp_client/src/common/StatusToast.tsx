@@ -21,7 +21,7 @@ export default function StatusToast ({ showToast, setShowToast, now, actionData 
   useEffect(() => {
     const closeSoon = setTimeout(() => {
       setShowToast(false);
-    }, 3000)
+    }, 4000)
 
     return () => {clearTimeout(closeSoon)};
   }, [actionData])
