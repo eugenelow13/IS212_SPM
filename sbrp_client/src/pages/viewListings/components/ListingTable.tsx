@@ -11,6 +11,7 @@ import {
   getCoreRowModel,
   useReactTable,
   getFilteredRowModel,
+  getSortedRowModel,
 } from '@tanstack/react-table'
 
 type RoleListing = {
@@ -82,6 +83,7 @@ const columns = [
 function tablelist() {
   const [data, setData] = React.useState(() => [...defaultData])
   const [filtering, setFiltering] = React.useState("")
+  const [sorting, setSorting] = React.useState([])
   const rerender = React.useReducer(() => ({}), {})[1]
 
 
@@ -90,10 +92,13 @@ function tablelist() {
     columns,
     getCoreRowModel: getCoreRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
+    getSortedRowModel: getSortedRowModel(),
     state: {
+      sorting: sorting,
       globalFilter:filtering,
     },
     onGlobalFilterChange:setFiltering,
+    onSortingChange: setSorting,
   })
 
   return (
@@ -106,13 +111,17 @@ function tablelist() {
           {table.getHeaderGroups().map(headerGroup => (
             <tr key={headerGroup.id}>
               {headerGroup.headers.map(header => (
-                <th key={header.id}>
+                <th key={header.id} onClick={header.column.getToggleSortingHandler()}>
                   {header.isPlaceholder
                     ? null
                     : flexRender(
                         header.column.columnDef.header,
                         header.getContext()
-                      )}
+                      )}                      
+                      {
+                        { asc: 'ASC', desc: 'DESC'}[ header.column.getIsSorted() ?? null]
+                        }
+
                 </th>
               ))}
             </tr>
