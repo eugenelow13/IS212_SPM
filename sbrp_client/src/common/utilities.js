@@ -16,7 +16,7 @@ export const ENDPOINTS = {
     listings: "/api/listings"
 }
 
-export const mock = new MockAdapter(axios, {delayResponse: 1000});
+export const mock = new MockAdapter(axios, { delayResponse: 1000 });
 
 export function validateAll(params, validatorObj) {
 
@@ -46,7 +46,7 @@ export function useNow() {
             clearInterval(interval)
         }
     }, [])
-    
+
     return now;
 }
 
@@ -56,6 +56,21 @@ export function useIsLoading() {
 
     return isLoading;
 }
+
+// function for fetching data
+export function useFetchedData({ fetchFn, setState }) {
+    useEffect(() => {
+        fetchFn()
+            .then((data) => {
+                setState(data);
+                console.table(data)
+            })
+            .catch((error) => {
+                console.log(error)
+            })
+    }, [])
+}
+
 
 
 // TEST

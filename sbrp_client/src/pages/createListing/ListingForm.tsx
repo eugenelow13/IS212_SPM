@@ -4,13 +4,13 @@ import { useState, useEffect } from 'react';
 
 import axios from 'axios';
 import { ENDPOINTS, useIsLoading } from '../../common/utilities';
-import { mock } from '../../common/utilities';
+import { mock, useFetchedData } from '../../common/utilities';
 
 import RoleSelect from './components/RoleSelect';
 import RoleDesc from './components/RoleDesc';
 import SkillCard from './components/SkillCard';
 
-import { Button, Spinner } from 'react-bootstrap';
+import { Button, Spinner, Row, Col, Container } from 'react-bootstrap';
 import moment from 'moment';
 
 import StatusToast from '../../common/StatusToast';
@@ -41,7 +41,6 @@ export async function createListingAction({ request }) {
   // extract fields to prevent injection
   const { role_name, } = body;
   body = { role_name } as IFormData;
-
   console.table(body);
 
   const actionData = {
@@ -69,20 +68,26 @@ export async function createListingAction({ request }) {
 
 }
 
+function fetchRoles(): Promise<Role[]> {
+  return axios.get(ENDPOINTS.roles)
+    .then(response => response.data.roles);
+}
+
 export default function ListingForm() {
   const [formData, setformData] = useState({
     role_name: ""
 
   })
 
+  // create roleData state variable and get data to set roleData
   const [roleData, setRoleData] = useState<Role[] | []>([]);
+  useFetchedData({ fetchFn: fetchRoles, setState: setRoleData });
 
   const [selectedRole, setSelectedRole] = useState<Role>({
     role_name: "",
     role_desc: "No role selected.",
     role_skills: []
   });
-
 
   const formActionData = useActionData();
   const [showToast, setShowToast] = useState(false);
@@ -92,7 +97,7 @@ export default function ListingForm() {
 
   const isLoading = useIsLoading();
 
-  // if actionData
+  // if formActionData present
   useEffect(() => {
     formActionData && setShowToast(true);
   }, [formActionData])
@@ -120,11 +125,18 @@ export default function ListingForm() {
         // setRoleName={setformData}
         />
 
-        <RoleDesc selectedRole={selectedRole} />
-
-        <SkillCard
-          selectedRole={selectedRole}
-        />
+        <Container className="p-0">
+          <Row>
+            <Col sm={6}>
+              <RoleDesc selectedRole={selectedRole}/>
+            </Col>
+            <Col sm={6}>
+              <SkillCard
+                selectedRole={selectedRole}
+              />
+            </Col>
+          </Row>
+        </Container>
 
         <Button variant="primary" type="submit" disabled={isLoading}>
           {isLoading

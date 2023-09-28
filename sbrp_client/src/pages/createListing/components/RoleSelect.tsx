@@ -59,24 +59,21 @@ const fakeData: Data = {
 mock.onGet(ENDPOINTS.roles).reply(200, fakeData)
 
 // Data Fetching ||
-function fetchRoles(): Promise<Role[]> {
-  return axios.get(ENDPOINTS.roles)
-    .then(response => response.data.roles);
-}
+
 
 // Component ||
-export default function RoleSelect({ selectedRole, setSelectedRole, roleData, setRoleData }) {
+export default function RoleSelect({ selectedRole, setSelectedRole, roleData }) {
   // Fetch roles upon component mount
-  useEffect(() => {
-    fetchRoles()
-      .then((roles) => {
-        setRoleData(roles);
-        console.table(roles)
-      })
-      .catch((error) => {
-        console.log(error)
-      })
-  }, [])
+  // useEffect(() => {
+  //   fetchRoles()
+  //     .then((roles) => {
+  //       setRoleData(roles);
+  //       console.table(roles)
+  //     })
+  //     .catch((error) => {
+  //       console.log(error)
+  //     })
+  // }, [])
 
   // const customOption = (props) => {
   //   const { data, label } = props;
@@ -109,7 +106,7 @@ export default function RoleSelect({ selectedRole, setSelectedRole, roleData, se
           required
         />}
 
-        {/* <label className="form-text">Filter roles by typing...</label> */}
+      {/* <label className="form-text">Filter roles by typing...</label> */}
 
 
     </>
