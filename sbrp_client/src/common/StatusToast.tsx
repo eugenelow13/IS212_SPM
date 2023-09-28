@@ -1,5 +1,5 @@
 import moment from "moment";
-import React, {Dispatch, useEffect} from "react";
+import React, { Dispatch, useEffect } from "react";
 import { ToastContainer, Toast } from "react-bootstrap";
 
 type ActionData = {
@@ -15,15 +15,15 @@ type StatusToastProps = {
   actionData: ActionData
 }
 
-export default function StatusToast ({ showToast, setShowToast, now, actionData }: StatusToastProps) {
-  
+export default function StatusToast({ showToast, setShowToast, now, actionData }: StatusToastProps) {
+
   // Close toast if new submission
   useEffect(() => {
     const closeSoon = setTimeout(() => {
       setShowToast(false);
     }, 4000)
 
-    return () => {clearTimeout(closeSoon)};
+    return () => { clearTimeout(closeSoon) };
   }, [actionData])
 
   return (
