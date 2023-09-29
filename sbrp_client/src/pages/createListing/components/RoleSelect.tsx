@@ -62,7 +62,7 @@ mock.onGet(ENDPOINTS.roles).reply(200, fakeData)
 
 
 // Component ||
-export default function RoleSelect({ selectedRole, setSelectedRole, roleData }) {
+export default function RoleSelect({ setSelectedRole, roleData }) {
   // Fetch roles upon component mount
   // useEffect(() => {
   //   fetchRoles()

@@ -117,10 +117,8 @@ export default function ListingForm() {
       <Form action="/listings/new" method="post">
 
         <RoleSelect
-          selectedRole={selectedRole}
           setSelectedRole={setSelectedRole}
           roleData={roleData}
-          setRoleData={setRoleData}
         // formData={formData}
         // setRoleName={setformData}
         />
@@ -128,7 +126,7 @@ export default function ListingForm() {
         <Container className="p-0">
           <Row>
             <Col sm={6}>
-              <RoleDesc selectedRole={selectedRole}/>
+              <RoleDesc selectedRole={selectedRole} />
             </Col>
             <Col sm={6}>
               <SkillCard
@@ -138,17 +136,19 @@ export default function ListingForm() {
           </Row>
         </Container>
 
-        <Button variant="primary" type="submit" disabled={isLoading}>
-          {isLoading
-            ? <Spinner
-              as="span"
-              animation="border"
-              size="sm"
-              role="status"
-              aria-hidden="true" />
-            : "Submit"
-          }
-        </Button>
+        <Row>
+          <Button variant="primary" type="submit" disabled={isLoading}>
+            {isLoading
+              ? <Spinner
+                as="span"
+                animation="border"
+                size="sm"
+                role="status"
+                aria-hidden="true" />
+              : "Submit"
+            }
+          </Button>
+        </Row>
 
       </Form>
     </>

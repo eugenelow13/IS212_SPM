@@ -57,7 +57,7 @@ export function useIsLoading() {
     return isLoading;
 }
 
-// function for fetching data
+// function for fetching data and setting to State variable
 export function useFetchedData({ fetchFn, setState }) {
     useEffect(() => {
         fetchFn()
