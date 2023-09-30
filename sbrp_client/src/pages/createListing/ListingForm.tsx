@@ -16,6 +16,8 @@ import moment from 'moment';
 import StatusToast from '../../common/StatusToast';
 import { useNow } from '../../common/utilities';
 
+import DateRangePicker from './components/DateRangePicker';
+
 export type Role = {
   role_name: string,
   role_desc: string,
@@ -24,8 +26,8 @@ export type Role = {
 
 interface IFormData {
   role_name: string;
-
-
+  start_date: Date;
+  end_date: Date;
 }
 
 mock.onPost(ENDPOINTS.listings).reply(200, {
@@ -39,8 +41,12 @@ export async function createListingAction({ request }) {
   let body = { ...Object.fromEntries(formData) };
 
   // extract fields to prevent injection
-  const { role_name, } = body;
-  body = { role_name } as IFormData;
+  const { role_name, start_date, end_date } = body;
+  body = {
+    role_name,
+    start_date: moment(start_date).format("YYYY-MM-DD"),
+    end_date: moment(end_date).format("YYYY-MM-DD"),
+  } as IFormData;
   console.table(body);
 
   const actionData = {
@@ -74,10 +80,16 @@ function fetchRoles(): Promise<Role[]> {
 }
 
 export default function ListingForm() {
-  const [formData, setformData] = useState({
-    role_name: ""
 
+  const [formData, setformData] = useState({
+    role_name: "",
+    start_date: null,
+    end_date: null
   })
+
+  // start and end date should be null at the start?
+  const [startDate, setStartDate] = useState<Date | null>(null);
+  const [endDate, setEndDate] = useState<Date | null>(null);
 
   // create roleData state variable and get data to set roleData
   const [roleData, setRoleData] = useState<Role[] | []>([]);
@@ -135,6 +147,13 @@ export default function ListingForm() {
             </Col>
           </Row>
         </Container>
+
+        <DateRangePicker
+          startDate={startDate}
+          endDate={endDate}
+          setStartDate={(date) => setStartDate(new Date(date))}
+          setEndDate={(date) => setEndDate(new Date(date))}
+        />
 
         <Row>
           <Button variant="primary" type="submit" disabled={isLoading}>
