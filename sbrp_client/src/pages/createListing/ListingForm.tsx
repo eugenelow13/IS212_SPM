@@ -28,9 +28,9 @@ interface IFormData {
 
 }
 
-mock.onPost(ENDPOINTS.listings).reply(200, {
-  success: false
-})
+// mock?.onPost(ENDPOINTS.listings).reply(200, {
+//   success: false
+// });
 
 // Form submit action
 export async function createListingAction({ request }) {

@@ -12,7 +12,7 @@ import moment from 'moment';
 // only false if validator exists and validator failed
 
 export const ENDPOINTS = {
-    roles: "/api/roles",
+    roles: "/api/roles/",
     listings: "/api/listings"
 }
 

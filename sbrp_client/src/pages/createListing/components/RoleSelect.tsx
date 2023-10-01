@@ -6,7 +6,7 @@ import Select, { components } from 'react-select';
 import { ENDPOINTS } from '../../../common/utilities';
 
 import axios from 'axios';
-import { mock } from '../../../common/utilities';
+// import { mock } from '../../../common/utilities';
 
 // Type Definitions ||
 import type { Role } from '../ListingForm';
@@ -56,10 +56,9 @@ const fakeData: Data = {
   ]
 }
 
-mock.onGet(ENDPOINTS.roles).reply(200, fakeData)
+// mock.onGet(ENDPOINTS.roles).reply(200, fakeData)
 
 // Data Fetching ||
-
 
 // Component ||
 export default function RoleSelect({ setSelectedRole, roleData }) {

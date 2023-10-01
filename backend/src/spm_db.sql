@@ -19,6 +19,8 @@ CREATE TABLE IF NOT EXISTS `role` (
   PRIMARY KEY (`Role_Name`)
 );
 
+
+
 -- Table structure for table `skill`
 DROP TABLE IF EXISTS `skill`;
 CREATE TABLE IF NOT EXISTS `skill` (
@@ -43,25 +45,22 @@ CREATE TABLE IF NOT EXISTS `staff` (
 -- Table structure for table `role_listing`
 DROP TABLE IF EXISTS `role_listing`;
 CREATE TABLE IF NOT EXISTS `role_listing` (
+  `id` int NOT NULL AUTO_INCREMENT PRIMARY KEY,
   `Role_Name` varchar(20) NOT NULL REFERENCES role(Role_Name),
   `Start_Date` date NOT NULL,
   `End_Date` date NOT NULL,
   `Manager_ID` int NOT NULL REFERENCES staff(Staff_ID),
-  `Dept` varchar(50) NOT NULL,
   `Country` varchar(50) NOT NULL,
-  PRIMARY KEY (`Role_Name`,`Start_Date`,`End_Date`)
 );
 
 -- Table structure for table `application`
 DROP TABLE IF EXISTS `application`;
 CREATE TABLE IF NOT EXISTS `application` (
-  `Role_Name` varchar(20) NOT NULL REFERENCES role_listing(Role_Name),
-  `Start_Date` date NOT NULL REFERENCES role_listing(Start_Date),
-  `End_Date` date NOT NULL REFERENCES role_listing(End_Date),
+  `id` int NOT NULL REFERENCES role_listing(id),
   `Staff_ID` int NOT NULL REFERENCES staff(Staff_ID),
   `App_Desc` longtext NOT NULL,
   `App_Date` date NOT NULL,
-  PRIMARY KEY (`Role_Name`,`Staff_ID`,`Start_Date`,`End_Date`)
+  PRIMARY KEY (`id`,`Staff_ID`)
 );
 
 -- Table structure for table `role_skill`
@@ -79,3 +78,6 @@ CREATE TABLE IF NOT EXISTS `staff_skill` (
   `Skill_Name` varchar(20) NOT NULL REFERENCES skill(Skill_Name),
   PRIMARY KEY (`Staff_ID`,`Skill_Name`)
 );
+
+
+
