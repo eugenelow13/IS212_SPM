@@ -72,7 +72,8 @@ class RoleListing(db.Model):
     manager_id = db.Column(db.Integer, ForeignKey('staff.staff_id'), nullable=False)
     country = db.Column(db.String(50), nullable=False)
 
-    def __init__(self, role_name, start_date, end_date, manager_id, country):
+    def __init__(self, id, role_name, start_date, end_date, manager_id, country):
+        self.id = id
         self.role_name = role_name
         self.start_date = start_date
         self.end_date = end_date
@@ -80,9 +81,10 @@ class RoleListing(db.Model):
         self.country = country
 
     def json(self):
-        return{"role_name": self.role_name,
-               "start_date": self.start_date,
-               "end_date": self.end_date,
+        return{"id": self.id,
+               "role_name": self.role_name,
+               "start_date": self.start_date.strftime('%Y-%m-%d'),
+               "end_date": self.end_date.strftime('%Y-%m-%d'),
                "manager_id": self.manager_id,
                "country": self.country}
     
@@ -104,7 +106,7 @@ class Application(db.Model):
         return{"id": self.id,
                "staff_id": self.staff_id,
                "app_desc": self.app_desc,
-               "app_date": self.app_date}
+               "app_date": self.app_date.strftime('%Y-%m-%d')}
     
 
 class RoleSkill(db.Model):

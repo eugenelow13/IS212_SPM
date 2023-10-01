@@ -1,8 +1,7 @@
-from flask import Blueprint
-from flask import jsonify
+from flask import Blueprint, jsonify
 from src.models import Staff
 
-staff = Blueprint("staff", __name__, url_prefix="/staff")
+staff = Blueprint("staff", __name__, url_prefix="/staffs")
 
 @staff.route("/", methods=["GET"])
 def get_all():
