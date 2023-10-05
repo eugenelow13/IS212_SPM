@@ -1,10 +1,12 @@
 import * as React from 'react'
 import ReactDOM from 'react-dom/client'
 import { useState } from 'react'
+import { useEffect } from 'react'
 import './ListingTable.css'
-
-// import './index.css'
-
+import axios from 'axios'
+import { injectFakeAxios } from './FakeAxios'
+import { ENDPOINTS } from '../../../common/utilities';
+import { mock } from '../../../common/utilities';
 import {
   createColumnHelper,
   flexRender,
@@ -14,53 +16,90 @@ import {
   getSortedRowModel,
 } from '@tanstack/react-table'
 
+injectFakeAxios()
+
 type RoleListing = {
-  roleName: string
-  startDate: string
-  endDate: string
+  role_name: string
+  role_desc: string
+  role_skills: string[]
+  start_date: string
+  end_date: string
   managerID: number
   department: string
   country: string
 }
 
-const defaultData: RoleListing[] = [
+const fetchData: RoleListing[] = [
   {
-    roleName: 'Helpdesk staff',
-    startDate: '1 june 2020',
-    endDate: '1 june 2021',
-    managerID: 100,
-    department: 'HR',
+    role_name: 'Designer',
+    role_desc: 'Responsible for creating visually appealing designs.',
+    role_skills: ['Creative thinking', 'Graphic design software'],
+    start_date: '01-01-2023',
+    end_date: '31-12-2023',
+    managerID: 1,
+    department: 'IT',
     country: 'Singapore',
   },
   {
-    roleName: 'IT staff',
-    startDate: '10 june 2020',
-    endDate: '12 june 2021',
-    managerID: 40,
-    department: 'IT',
+    role_name: 'Manager',
+    role_desc: 'Oversees team activities and ensures project success.',
+    role_skills: ['Leadership', 'Project management', 'Communication'],
+    start_date: '15-02-2023',
+    end_date: '30-11-2023',
+    managerID: 2,
+    department: 'Sales',
     country: 'Malaysia',
   },
   {
-    roleName: 'Sales staff',
-    startDate: '1 june 2020',
-    endDate: '13 june 2021',
-    managerID: 20,
-    department: 'Sales',
-    country: 'Indonesia',
+    role_name: 'Analyst',
+    role_desc: 'Analyzes data to provide insights and support decision-making.',
+    role_skills: ['Data analysis', 'Statistics', 'Excel'],
+    start_date: '10-03-2023',
+    end_date: '20-10-2023',
+    managerID: 3,
+    department: 'IT',
+    country: 'Thailand',
   },
 ]
+
+function fetchFakeData(){
+  try {
+    const response = axios.get(ENDPOINTS.listings);
+    return response; // Return the data from the Axios response
+  } catch (error) {
+    throw error; // Rethrow the error for handling outside the function
+  }
+}
+
+function processData(){
+  const data = fetchFakeData();
+  try{
+    data.then((response)=>{
+      const fetchData:RoleListing[] = response.data;
+      console.log(fetchData);
+      return fetchData;
+    })
+  }catch{console.log("failed processData()")}
+}
+
+const retrievedData =  fetchFakeData();
+console.log(retrievedData);
+retrievedData.then((response)=>{
+   const fetchData:RoleListing[] = response.data;
+    console.log(fetchData);
+})
 
 const columnHelper = createColumnHelper<RoleListing>()
 
 const columns = [
   {
     header:"Role",
-    accessorKey:"roleName",
+    accessorKey:"role_name",
     footer:'Role'
   },
   {
     header:"Application Window",
-    accessorFn: row => `${row.startDate} - ${row.endDate}`,
+    accessorFn: row => `${row.start_date} - ${row.end_date}`,
     footer:'Application Window'
   },
   {
@@ -80,8 +119,39 @@ const columns = [
   },
 ]
 
+async function getListings(){
+  try{
+    await axios.get("http://localhost:3306/api/listings").then((response)=>{
+       const fetchData:RoleListing[] = response.data;
+       return fetchData;
+    })
+      
+  }
+  catch(err){
+    console.log(err);
+  }
+}
+// const fetchData = getListings();
+
+
+
 function tablelist() {
-  const [data, setData] = React.useState(() => [...defaultData])
+  // const [data, setData] = React.useState(()=>[]) 
+
+  const [data, setData] = React.useState(() => []) 
+  
+  useEffect(() => {
+    // Fetch data asynchronously
+    axios.get(ENDPOINTS.listings)
+      .then((response) => {
+        // Update the state with the fetched data
+        setData(response.data);
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      });
+  }, []);
+
   const [filtering, setFiltering] = React.useState("")
   const [sorting, setSorting] = React.useState([])
   const rerender = React.useReducer(() => ({}), {})[1]
