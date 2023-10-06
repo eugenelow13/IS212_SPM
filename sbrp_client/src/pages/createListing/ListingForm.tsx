@@ -82,7 +82,7 @@ function fetchRoles(): Promise<Role[]> {
 
 function fetchStaffs() {
   return axios.get(ENDPOINTS.staffs)
-    .then(response => response.data.staffs);
+    .then(response => response.data.staff);
 }
 
 
@@ -94,7 +94,7 @@ export default function ListingForm() {
 
   // create roleData state variable and get data to set roleData
   const [roleData, setRoleData] = useState<Role[] | []>([]);
-  const [repManagerData, setRepManagerData] = useState()
+  const [repManagerData, setRepManagerData] = useState();
 
   useFetchedData({ fetchFn: fetchRoles, setState: setRoleData });
   useFetchedData({ fetchFn: fetchStaffs, setState: setRepManagerData });

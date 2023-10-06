@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import Select, { components } from 'react-select';
+import Select, { components, createFilter } from 'react-select';
 import { Form, Row, Col } from 'react-bootstrap';
 
 
@@ -38,15 +38,14 @@ export default function ManagerSelect({ repManagerData }) {
 
     return (
         <>
-            {/* {repManagerData && 
-            } */}
+      
             <Col className="mt-3" sm={6}>
                 <Form.Label htmlFor="rep_manager_id">Reporting Manager:</Form.Label>
                 <Select
                     className="basic-single"
                     classNamePrefix="select"
                     isSearchable={true}
-                    placeholder="Select Reporting Manager..."
+                    placeholder="Search by name or staff ID..."
                     name="rep_manager_id"
                     id="rep_manager_id"
                     options={repManagerData}
@@ -54,6 +53,7 @@ export default function ManagerSelect({ repManagerData }) {
                     getOptionValue={staff => staff.staff_id}
                     components={{ Option: CustomOption, SingleValue: CustomSingleValue }}
                     onChange={value => setSelectedOption(value)}
+                    filterOption={createFilter({ ignoreAccents: false })}
                     required
                 />
             </Col>
