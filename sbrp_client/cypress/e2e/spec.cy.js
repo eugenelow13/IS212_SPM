@@ -1,16 +1,23 @@
 /// <reference types="Cypress" />
 
+import RoleSelect from '../../components/RoleSelect';
+
 describe('template spec', () => {
-  it('open select', () => {
-    cy.visit('/listings/new');
-    cy.get('.select__indicator').click();
+  // it('open select', () => {
+  //   cy.visit('/listings/new');
 
-    cy.contains("Admin").click();
-    expect(cy.get('.card-text'))
-    cy.get('.select__indicator').click();
+  //   const roles = require('../fixtures/example')
+  //   cy.get('input').type('cypress select input box');
+  //   cy.get('.card-text').should("have.text", "Admin Role");
 
-    cy.contains(".option", "Admin").click();
-    cy.get('.card-text').should("have.text", "Admin Role");
+  // })
+  const roles = require('../fixtures/role_skills');
+
+  cy.mount(<RoleSelect roles={roles} />);
+
+  it("opens select manager id and sees ", () => {
+    cy.get('input').type('manager');
+    cy.get('.card-text').should("have.text", "Manager Role");
 
   })
 })

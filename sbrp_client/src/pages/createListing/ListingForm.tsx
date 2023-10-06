@@ -1,20 +1,26 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Form, useActionData } from 'react-router-dom';
-import { useState, useEffect } from 'react';
 
 import axios from 'axios';
-import { ENDPOINTS, useIsLoading } from '../../common/utilities';
-import { mock, useFetchedData } from '../../common/utilities';
+import { ENDPOINTS, mock, useFetchedData, useIsLoading } from '../../common/utilities';
 
-import RoleSelect from './components/RoleSelect';
+import ManagerSelect from './components/ManagerSelect';
 import RoleDesc from './components/RoleDesc';
+import RoleSelect from './components/RoleSelect';
 import SkillCard from './components/SkillCard';
 
-import { Button, Spinner, Row, Col, Container } from 'react-bootstrap';
 import moment from 'moment';
+import { Button, Col, Container, Row, Spinner } from 'react-bootstrap';
 
 import StatusToast from '../../common/StatusToast';
+import { SubmitButton } from '../../common/SubmitButton';
 import { useNow } from '../../common/utilities';
+
+import fakeData from '../../../cypress/fixtures/role_skills.json';
+import repManagerData from '../../../cypress/fixtures/staffs.json'
+
+mock.onGet(ENDPOINTS.roles).reply(200, fakeData);
+mock.onGet(ENDPOINTS.staffs).reply(200, repManagerData);
 
 export type Role = {
   role_name: string,
@@ -28,6 +34,7 @@ interface IFormData {
 
 }
 
+
 // mock?.onPost(ENDPOINTS.listings).reply(200, {
 //   success: false
 // });
@@ -39,8 +46,8 @@ export async function createListingAction({ request }) {
   let body = { ...Object.fromEntries(formData) };
 
   // extract fields to prevent injection
-  const { role_name, } = body;
-  body = { role_name } as IFormData;
+  const { role_name, rep_manager_id } = body;
+  body = { role_name, rep_manager_id } as IFormData;
   console.table(body);
 
   const actionData = {
@@ -73,6 +80,12 @@ function fetchRoles(): Promise<Role[]> {
     .then(response => response.data.roles);
 }
 
+function fetchStaffs() {
+  return axios.get(ENDPOINTS.staffs)
+    .then(response => response.data.staffs);
+}
+
+
 export default function ListingForm() {
   const [formData, setformData] = useState({
     role_name: ""
@@ -81,7 +94,10 @@ export default function ListingForm() {
 
   // create roleData state variable and get data to set roleData
   const [roleData, setRoleData] = useState<Role[] | []>([]);
+  const [repManagerData, setRepManagerData] = useState()
+
   useFetchedData({ fetchFn: fetchRoles, setState: setRoleData });
+  useFetchedData({ fetchFn: fetchStaffs, setState: setRepManagerData });
 
   const [selectedRole, setSelectedRole] = useState<Role>({
     role_name: "",
@@ -112,43 +128,48 @@ export default function ListingForm() {
         now={now}
         actionData={formActionData} />
 
-      <h3>Create Listing</h3>
+      {/* <h3>Create Listing</h3> */}
 
       <Form action="/listings/new" method="post">
 
-        <RoleSelect
-          setSelectedRole={setSelectedRole}
-          roleData={roleData}
-        // formData={formData}
-        // setRoleName={setformData}
-        />
 
         <Container className="p-0">
+          <h4>Role Details</h4>
           <Row>
-            <Col sm={6}>
+            <Col>
+              <RoleSelect
+                setSelectedRole={setSelectedRole}
+                roleData={roleData}
+              // formData={formData}
+              // setRoleName={setformData}
+              />
+            </Col>
+          </Row>
+          <Row >
+            <Col sm={6} className='mt-3'>
               <RoleDesc selectedRole={selectedRole} />
             </Col>
-            <Col sm={6}>
+            <Col sm={6} className='mt-3'>
               <SkillCard
                 selectedRole={selectedRole}
               />
             </Col>
           </Row>
+
+          <Row className='mt-3'>
+            <Col>
+              <ManagerSelect repManagerData={repManagerData} />
+            </Col>
+          </Row>
+
+          <Row className='mt-3'>
+            <Col>
+              <SubmitButton isLoading={isLoading}></SubmitButton>
+            </Col>
+          </Row>
+
         </Container>
 
-        <Row>
-          <Button variant="primary" type="submit" disabled={isLoading}>
-            {isLoading
-              ? <Spinner
-                as="span"
-                animation="border"
-                size="sm"
-                role="status"
-                aria-hidden="true" />
-              : "Submit"
-            }
-          </Button>
-        </Row>
 
       </Form>
     </>

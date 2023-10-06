@@ -3,7 +3,7 @@ import { Container, Card, Badge } from 'react-bootstrap'
 
 export default function SkillCard({ selectedRole }) {
     return (
-        <Card className="mt-3">
+        <Card>
             <Card.Header>Skills</Card.Header>
             <Card.Body>
                 {selectedRole?.role_skills.length > 0

@@ -1,0 +1,49 @@
+{
+  "staffs": [
+    {
+      "staff_id": 1,
+      "staff_fname": "John",
+      "staff_lname": "Doe",
+      "dept": "IT",
+      "country": "usa",
+      "email": "john.doe@example.com",
+      "access_role": 1
+    },
+    {
+      "staff_id": 2,
+      "staff_fname": "Jane",
+      "staff_lname": "Smith",
+      "dept": "HR",
+      "country": "usa",
+      "email": "jane.smith@example.com",
+      "access_role": 2
+    },
+    {
+      "staff_id": 3,
+      "staff_fname": "Alex",
+      "staff_lname": "brown",
+      "dept": "Finance",
+      "country": "usa",
+      "email": "alex.brown@example.com",
+      "access_role": 3
+    },
+    {
+      "staff_id": 4,
+      "staff_fname": "Sarah",
+      "staff_lname": "Jones",
+      "dept": "Marketing",
+      "country": "usa",
+      "email": "sarah.jones@example.com",
+      "access_role": 4
+    },
+    {
+      "staff_id": 5,
+      "staff_fname": "michael",
+      "staff_lname": "wilson",
+      "dept": "sales",
+      "country": "usa",
+      "email": "michael.wilson@example.com",
+      "access_role": 5
+    }
+  ]
+}
