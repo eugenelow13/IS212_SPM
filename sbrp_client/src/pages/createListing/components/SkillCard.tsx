@@ -7,11 +7,11 @@ export default function SkillCard({ selectedRole }) {
             <Card.Header>Skills</Card.Header>
             <Card.Body>
                 {selectedRole?.role_skills.length > 0
-                    ? <Container className="d-flex flex-row p-0">
+                    ? <Container className="d-flex flex-wrap p-0">
                         {selectedRole.role_skills.map((skill, index) => (
                             <Badge
                                 key={index}
-                                className='mx-1'
+                                className='m-1'
                                 bg='secondary'>
                                 {skill}
                             </Badge>

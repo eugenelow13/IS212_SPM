@@ -17,7 +17,8 @@ export const ENDPOINTS = {
     staffs: "/api/staffs"
 }
 
-export const mock = new MockAdapter(axios, { delayResponse: 1000 });
+// export const mock = new MockAdapter(axios, { delayResponse: 1000 });
+export const mock = null;
 
 export function validateAll(params, validatorObj) {
 

@@ -19,8 +19,8 @@ import { useNow } from '../../common/utilities';
 import fakeData from '../../../cypress/fixtures/role_skills.json';
 import repManagerData from '../../../cypress/fixtures/staffs.json'
 
-mock.onGet(ENDPOINTS.roles).reply(200, fakeData);
-mock.onGet(ENDPOINTS.staffs).reply(200, repManagerData);
+// mock.onGet(ENDPOINTS.roles).reply(200, fakeData);
+// mock.onGet(ENDPOINTS.staffs).reply(200, repManagerData);
 
 export type Role = {
   role_name: string,
