@@ -1,4 +1,5 @@
 import React from 'react';
+import { Form } from 'react-bootstrap';
 import Select, { components } from 'react-select';
 
 // Type Definitions ||
@@ -12,8 +13,8 @@ type Data = {
 export default function RoleSelect({ setSelectedRole, roleData }) {
   return (
     <>
-      {/* {roleData &&
-      } */}
+      <Form.Label htmlFor="role_name">Role Name:</Form.Label>
+
       <Select
         className="basic-single"
         classNamePrefix="select"

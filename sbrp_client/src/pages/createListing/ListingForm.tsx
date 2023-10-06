@@ -157,9 +157,7 @@ export default function ListingForm() {
           </Row>
 
           <Row className='mt-3'>
-            <Col>
               <ManagerSelect repManagerData={repManagerData} />
-            </Col>
           </Row>
 
           <Row className='mt-3'>
