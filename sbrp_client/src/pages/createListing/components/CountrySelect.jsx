@@ -3,7 +3,7 @@ import Select, { components, createFilter } from 'react-select';
 import { Form, Row, Col } from 'react-bootstrap';
 
 
-export default function ManagerSelect({ repManagerData }) {
+export default function CountrySelect({ repManagerData }) {
 
     const [selectedOption, setSelectedOption] = useState({});
 
@@ -38,9 +38,8 @@ export default function ManagerSelect({ repManagerData }) {
 
     return (
         <>
-
             <Col sm={6} md={4}>
-                <Form.Label htmlFor="rep_manager_id">Reporting Manager:</Form.Label>
+                <Form.Label htmlFor="rep_manager_id">Country:</Form.Label>
                 <Select
                     className="basic-single"
                     classNamePrefix="select"
@@ -57,19 +56,6 @@ export default function ManagerSelect({ repManagerData }) {
                     required
                 />
             </Col>
-            <Col sm={6} md={4}>
-                <Form.Label htmlFor="dept">Department: </Form.Label>
-                <Form.Control
-                    placeholder={selectedOption.dept}
-                    id="dept"
-                    type="text"
-                    disabled
-                    readOnly
-                >
-
-                </Form.Control>
-            </Col>
-
         </>
     );
 }

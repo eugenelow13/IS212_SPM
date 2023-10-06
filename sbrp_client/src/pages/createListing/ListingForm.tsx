@@ -8,6 +8,7 @@ import ManagerSelect from './components/ManagerSelect';
 import RoleDesc from './components/RoleDesc';
 import RoleSelect from './components/RoleSelect';
 import SkillCard from './components/SkillCard';
+import CountrySelect from './components/CountrySelect';
 
 import moment from 'moment';
 import { Button, Col, Container, Row, Spinner } from 'react-bootstrap';
@@ -134,7 +135,7 @@ export default function ListingForm() {
 
 
         <Container className="p-0">
-          <h4>Role Details</h4>
+          <h4 className='my-4'>Role Details</h4>
           <Row>
             <Col>
               <RoleSelect
@@ -156,8 +157,11 @@ export default function ListingForm() {
             </Col>
           </Row>
 
-          <Row className='mt-3'>
-              <ManagerSelect repManagerData={repManagerData} />
+         <h4 className='my-4'>Listing Details</h4> 
+
+          <Row>
+            <ManagerSelect repManagerData={repManagerData} />
+            <CountrySelect />
           </Row>
 
           <Row className='mt-3'>
@@ -173,6 +177,7 @@ export default function ListingForm() {
     </>
   )
 }
+
 
 
 
