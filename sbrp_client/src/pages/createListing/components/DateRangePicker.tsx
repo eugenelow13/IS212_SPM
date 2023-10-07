@@ -14,10 +14,34 @@ interface DateRangePickerProps {
 const DateRangePicker = ({ startDate, endDate, setStartDate, setEndDate }: DateRangePickerProps) => {
 
   const handleStartDateChange = (date: Date) => {
+    // Don't allow the user to select a start date that is before the current date and alert them
+    if (date < new Date()){
+      alert('Start date cannot be before the current date.');
+      return;
+    }
+
+    // Don't allow the user to select a start date that is after the end date if the end date is already selected and alert them
+    if (endDate && date > endDate){
+      alert('Start date cannot be after the end date.');
+      return;
+    }
+
     setStartDate(date);
   };
 
   const handleEndDateChange = (date: Date) => {
+    // Don't allow the user to select an end date that is before the current date and alert them
+    if (date < new Date()){
+      alert('End date cannot be before the current date.');
+      return;
+    }
+
+    // Don't allow the user to select an end date that is before the start date if the start date is already selected and alert them
+    if (startDate && date < startDate){
+      alert('End date cannot be before the start date.');
+      return;
+    }
+
     setEndDate(date);
   };
 

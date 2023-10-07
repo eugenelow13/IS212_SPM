@@ -19,8 +19,6 @@ CREATE TABLE IF NOT EXISTS `role` (
   PRIMARY KEY (`Role_Name`)
 );
 
-
-
 -- Table structure for table `skill`
 DROP TABLE IF EXISTS `skill`;
 CREATE TABLE IF NOT EXISTS `skill` (
@@ -39,7 +37,7 @@ CREATE TABLE IF NOT EXISTS `staff` (
   `Country` varchar(50) NOT NULL,
   `Email` varchar(50) NOT NULL,
   `Role` int NOT NULL,
-  PRIMARY KEY (`Staff_ID`),
+  PRIMARY KEY (`Staff_ID`)
 );
 
 -- Table structure for table `role_listing`
@@ -50,7 +48,7 @@ CREATE TABLE IF NOT EXISTS `role_listing` (
   `Start_Date` date NOT NULL,
   `End_Date` date NOT NULL,
   `Manager_ID` int NOT NULL REFERENCES staff(Staff_ID),
-  `Country` varchar(50) NOT NULL,
+  `Country` varchar(50) NOT NULL
 );
 
 -- Table structure for table `application`
@@ -79,5 +77,22 @@ CREATE TABLE IF NOT EXISTS `staff_skill` (
   PRIMARY KEY (`Staff_ID`,`Skill_Name`)
 );
 
+INSERT INTO role (Role_Name, Role_Desc) VALUES ('Admin', 'Administrator role');
+INSERT INTO role (Role_Name, Role_Desc) VALUES ('User', 'User role');
+INSERT INTO role (Role_Name, Role_Desc) VALUES ('Manager', 'Manager role');
 
+INSERT INTO skill (skill_name, skill_desc) VALUES ('Skill1', 'Description of Skill1');
+INSERT INTO skill (skill_name, skill_desc) VALUES ('Skill2', 'Description of Skill2');
+INSERT INTO skill (skill_name, skill_desc) VALUES ('Skill3', 'Description of Skill3');
 
+INSERT INTO staff (Staff_FName, Staff_LName, Dept, Country, Email, Role) VALUES ('John', 'Doe', 'Human Resources', 'United States', 'john.doe@example.com', 1);
+INSERT INTO staff (Staff_FName, Staff_LName, Dept, Country, Email, Role) VALUES ('Jane', 'Smith', 'Finance', 'Canada', 'jane.smith@example.com', 2);
+INSERT INTO staff (Staff_FName, Staff_LName, Dept, Country, Email, Role) VALUES ('Alice', 'Johnson', 'Marketing', 'United Kingdom', 'alice.johnson@example.com', 3);
+
+INSERT INTO role_skill (Role_Name, Skill_Name) VALUES ('Admin', 'Skill1');
+INSERT INTO role_skill (Role_Name, Skill_Name) VALUES ('Admin', 'Skill2');
+INSERT INTO role_skill (Role_Name, Skill_Name) VALUES ('Admin', 'Skill3');
+
+INSERT INTO role_listing (Role_Name, Start_Date, End_Date, Manager_ID, Country) VALUES ('Admin', '2023-01-01', '2023-12-31', 1, 'United States');
+INSERT INTO role_listing (Role_Name, Start_Date, End_Date, Manager_ID, Country) VALUES ('User', '2023-02-01', '2023-11-30', 2, 'Canada');
+INSERT INTO role_listing (Role_Name, Start_Date, End_Date, Manager_ID, Country) VALUES ('Manager', '2023-03-01', '2023-10-31', 3, 'United Kingdom');
