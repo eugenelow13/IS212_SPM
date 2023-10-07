@@ -43,7 +43,9 @@ export default function CountrySelect() {
 
     return (
         <Col sm={6} md={4}>
-            <Form.Label htmlFor="country">Country:</Form.Label>
+            <Form.Label htmlFor="country">
+                Country <span className='text-danger'>*</span> 
+            </Form.Label>
             <Select
                 className="basic-single"
                 classNamePrefix="select"

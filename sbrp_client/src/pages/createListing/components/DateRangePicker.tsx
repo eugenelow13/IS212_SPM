@@ -30,7 +30,9 @@ const DateRangePicker = ({ startDate, endDate, setStartDate, setEndDate }: DateR
   return (
     <>
       <Col>
-        <Form.Label htmlFor="start_date" style={{ display: "block" }}>Start Date:</Form.Label>
+        <Form.Label htmlFor="start_date" style={{ display: "block" }}>
+          Start Date <span className='text-danger'>*</span>
+        </Form.Label>
         <DatePicker
           id="start_date"
           name="start_date"
@@ -43,10 +45,13 @@ const DateRangePicker = ({ startDate, endDate, setStartDate, setEndDate }: DateR
           required
           className="form-control"
           wrapperClassName="w-100"
+          autoComplete="off"
         />
       </Col>
       <Col>
-        <Form.Label htmlFor="end_date" style={{ display: "block" }}>End Date:</Form.Label>
+        <Form.Label htmlFor="end_date" style={{ display: "block" }}>
+          End Date <span className='text-danger'>*</span>
+        </Form.Label>
         <DatePicker
           id="end_date"
           name="end_date"
@@ -59,6 +64,7 @@ const DateRangePicker = ({ startDate, endDate, setStartDate, setEndDate }: DateR
           required
           className="form-control"
           wrapperClassName="w-100"
+          autoComplete="off"
         />
       </Col>
     </>

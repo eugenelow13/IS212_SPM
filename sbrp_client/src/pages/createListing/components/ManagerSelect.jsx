@@ -38,9 +38,11 @@ export default function ManagerSelect({ repManagerData }) {
 
     return (
         <>
-      
+
             <Col sm={6} md={4}>
-                <Form.Label htmlFor="rep_manager_id">Reporting Manager:</Form.Label>
+                <Form.Label htmlFor="rep_manager_id">
+                    Reporting Manager <span className='text-danger'>*</span>
+                </Form.Label>
                 <Select
                     className="basic-single"
                     classNamePrefix="select"
@@ -58,7 +60,7 @@ export default function ManagerSelect({ repManagerData }) {
                 />
             </Col>
             <Col sm={6} md={4}>
-                <Form.Label htmlFor="dept">Department: </Form.Label>
+                <Form.Label htmlFor="dept">Department </Form.Label>
                 <Form.Control
                     placeholder={selectedOption.dept}
                     id="dept"

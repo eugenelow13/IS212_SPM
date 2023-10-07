@@ -13,7 +13,9 @@ type Data = {
 export default function RoleSelect({ setSelectedRole, roleData }) {
   return (
     <>
-      <Form.Label htmlFor="role_name">Role Name:</Form.Label>
+      <Form.Label htmlFor="role_name">
+        Role Name <span className='text-danger'>*</span> 
+      </Form.Label>
 
       <Select
         className="basic-single"
