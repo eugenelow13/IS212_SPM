@@ -39,7 +39,7 @@ const DateRangePicker = ({ startDate, endDate, setStartDate, setEndDate }: DateR
           selectsStart
           startDate={startDate}
           endDate={endDate}
-          dateFormat="dd/MM/yyyy"
+          dateFormat="yyyy/MM/dd"
           required
           className="form-control"
           wrapperClassName="w-100"
@@ -55,7 +55,7 @@ const DateRangePicker = ({ startDate, endDate, setStartDate, setEndDate }: DateR
           selectsEnd
           startDate={startDate}
           endDate={endDate}
-          dateFormat="dd/MM/yyyy"
+          dateFormat="yyyy/MM/dd"
           required
           className="form-control"
           wrapperClassName="w-100"
