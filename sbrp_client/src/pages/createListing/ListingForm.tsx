@@ -17,11 +17,7 @@ import StatusToast from '../../common/StatusToast';
 import { SubmitButton } from '../../common/SubmitButton';
 import { useNow } from '../../common/utilities';
 
-import fakeData from '../../../cypress/fixtures/role_skills.json';
-import repManagerData from '../../../cypress/fixtures/staffs.json'
-
-mock.onGet(ENDPOINTS.roles).reply(200, fakeData);
-mock.onGet(ENDPOINTS.staffs).reply(200, repManagerData);
+import DateRangePicker from './components/DateRangePicker';
 
 export type Role = {
   role_name: string,
@@ -31,8 +27,8 @@ export type Role = {
 
 interface IFormData {
   role_name: string;
-
-
+  start_date: Date;
+  end_date: Date;
 }
 
 
@@ -47,8 +43,13 @@ export async function createListingAction({ request }) {
   let body = { ...Object.fromEntries(formData) };
 
   // extract fields to prevent injection
-  const { role_name, rep_manager_id } = body;
-  body = { role_name, rep_manager_id } as IFormData;
+  const { role_name, start_date, end_date, rep_manager_id} = body;
+  body = {
+    role_name,
+    rep_manager_id
+    start_date: moment(start_date).format("YYYY-MM-DD"),
+    end_date: moment(end_date).format("YYYY-MM-DD"),
+  } as IFormData;
   console.table(body);
 
   const actionData = {
@@ -88,10 +89,16 @@ function fetchStaffs() {
 
 
 export default function ListingForm() {
-  const [formData, setformData] = useState({
-    role_name: ""
 
+  const [formData, setformData] = useState({
+    role_name: "",
+    start_date: null,
+    end_date: null
   })
+
+  // start and end date should be null at the start?
+  const [startDate, setStartDate] = useState<Date | null>(null);
+  const [endDate, setEndDate] = useState<Date | null>(null);
 
   // create roleData state variable and get data to set roleData
   const [roleData, setRoleData] = useState<Role[] | []>([]);
@@ -172,6 +179,14 @@ export default function ListingForm() {
 
         </Container>
 
+        <Row>
+        <DateRangePicker
+          startDate={startDate}
+          endDate={endDate}
+          setStartDate={(date) => setStartDate(new Date(date))}
+          setEndDate={(date) => setEndDate(new Date(date))}
+        />
+        </Row>
 
       </Form>
     </>
