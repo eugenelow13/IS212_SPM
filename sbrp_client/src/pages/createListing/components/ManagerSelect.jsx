@@ -13,7 +13,7 @@ export default function ManagerSelect({ repManagerData }) {
             fontSize: "0.9rem",
             marginLeft: "0.4rem"
         }}>
-            {` Staff ID: ${props.data.staff_id} Dept: ${props.data.dept}`}
+            {`Staff ID: ${props.data.staff_id} Dept: ${props.data.dept}`}
         </span>);
     }
 
@@ -38,7 +38,7 @@ export default function ManagerSelect({ repManagerData }) {
 
     return (
         <>
-
+      
             <Col sm={6} md={4}>
                 <Form.Label htmlFor="rep_manager_id">Reporting Manager:</Form.Label>
                 <Select
