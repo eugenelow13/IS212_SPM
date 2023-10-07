@@ -27,8 +27,10 @@ export type Role = {
 
 interface IFormData {
   role_name: string;
-  start_date: Date;
-  end_date: Date;
+  start_date: string;
+  end_date: string;
+  rep_manager_id: number;
+  country: string
 }
 
 
@@ -43,13 +45,16 @@ export async function createListingAction({ request }) {
   let body = { ...Object.fromEntries(formData) };
 
   // extract fields to prevent injection
-  const { role_name, start_date, end_date, rep_manager_id} = body;
+  const { role_name, start_date, end_date, country, rep_manager_id } = body;
   body = {
     role_name,
-    rep_manager_id
+    rep_manager_id,
+    country,
     start_date: moment(start_date).format("YYYY-MM-DD"),
     end_date: moment(end_date).format("YYYY-MM-DD"),
+
   } as IFormData;
+
   console.table(body);
 
   const actionData = {
@@ -90,11 +95,11 @@ function fetchStaffs() {
 
 export default function ListingForm() {
 
-  const [formData, setformData] = useState({
-    role_name: "",
-    start_date: null,
-    end_date: null
-  })
+  // const [formData, setformData] = useState({
+  //   role_name: "",
+  //   start_date: null,
+  //   end_date: null
+  // })
 
   // start and end date should be null at the start?
   const [startDate, setStartDate] = useState<Date | null>(null);
@@ -164,11 +169,20 @@ export default function ListingForm() {
             </Col>
           </Row>
 
-         <h4 className='my-4'>Listing Details</h4> 
+          <h4 className='my-4'>Listing Details</h4>
 
           <Row>
             <ManagerSelect repManagerData={repManagerData} />
             <CountrySelect />
+          </Row>
+
+          <Row className='mt-3'>
+            <DateRangePicker
+              startDate={startDate}
+              endDate={endDate}
+              setStartDate={(date) => setStartDate(new Date(date))}
+              setEndDate={(date) => setEndDate(new Date(date))}
+            />
           </Row>
 
           <Row className='mt-3'>
@@ -179,14 +193,6 @@ export default function ListingForm() {
 
         </Container>
 
-        <Row>
-        <DateRangePicker
-          startDate={startDate}
-          endDate={endDate}
-          setStartDate={(date) => setStartDate(new Date(date))}
-          setEndDate={(date) => setEndDate(new Date(date))}
-        />
-        </Row>
 
       </Form>
     </>
