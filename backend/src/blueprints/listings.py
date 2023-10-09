@@ -17,3 +17,4 @@ def get_listing():
 @listings.route("/", methods=["POST"])
 def create_listing():
     pass
+    return

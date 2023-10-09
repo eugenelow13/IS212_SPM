@@ -39,8 +39,9 @@ interface IFormData {
 // });
 
 // Form submit action
-export async function createListingAction({ request }) {
+export async function createListingAction({ request, method="post" }) {
   const formData = await request.formData();
+
   // copy of formData
   let body = { ...Object.fromEntries(formData) };
 
@@ -64,18 +65,18 @@ export async function createListingAction({ request }) {
   }
   // Post form response to axios
   try {
-    const createListingResponse = await axios.post(
+    const createListingResponse = await axios(
       ENDPOINTS.listings,
-      body,
+      {method, ...body},
     )
     actionData.success = true;
-    actionData.message = `Submission of ${body.role_name} successful!`;
+    actionData.message = `${method == "post" ? "Submission": "Edit"} of ${body.role_name} successful!`;
 
     return actionData;
   }
   catch (responseErr) {
     console.log(responseErr.message);
-    actionData.message = `Submission of ${body.role_name} failed: ${responseErr.message}!`;
+    actionData.message = `${method == "post" ? "Submission": "Edit"} of ${body.role_name} failed: ${responseErr.message}!`;
 
     return actionData;
   }
