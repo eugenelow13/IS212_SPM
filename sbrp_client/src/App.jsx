@@ -5,7 +5,7 @@ import './App.css'
 import Home from './pages/Login/Login';
 import Listings from './pages/viewListings/Listings';
 import Listing from './pages/viewListings/Listing';
-import ListingForm from './pages/createListing/ListingForm';
+import ListingFormWithStatusToast, { ListingForm } from './pages/createListing/ListingForm';
 
 import { createBrowserRouter, createRoutesFromChildren, Route, RouterProvider } from 'react-router-dom';
 
@@ -29,14 +29,14 @@ function App() {
           <Route
             path="edit"
             loader={loadListingToEdit}
-            element={<ListingForm />}
+            element={<ListingFormWithStatusToast />}
           ></Route>
         </Route>
 
         <Route
           path="/listings/new"
           // only triggers for non-get requests
-          element={<ListingForm />}
+          element={<ListingFormWithStatusToast />}
           action={createListingAction}
         />
       </Route>

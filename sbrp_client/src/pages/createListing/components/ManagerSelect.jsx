@@ -8,7 +8,7 @@ export default function ManagerSelect({ repManagers, listingToEdit }) {
     const [selectedRepManager, setSelectedRepManager] = useState('');
 
     useEffect(() => {
-        const filteredManager = repManagers?.filter(repManager => repManager.staff_id === listingToEdit.manager_id)[0];
+        const filteredManager = repManagers?.filter(repManager => repManager.staff_id === listingToEdit?.manager_id)[0];
         filteredManager && setSelectedRepManager(filteredManager);
 
     }, [repManagers])
