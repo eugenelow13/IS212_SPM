@@ -1,18 +1,14 @@
 import { useEffect, useState } from 'react';
 import Select, { components, createFilter } from 'react-select';
 import { Form, Row, Col } from 'react-bootstrap';
+import { useFoundValue } from '../createListingUtilities';
 
 
 export default function ManagerSelect({ repManagers, listingToEdit }) {
 
     const [selectedRepManager, setSelectedRepManager] = useState('');
 
-    useEffect(() => {
-        const filteredManager = repManagers?.filter(repManager => repManager.staff_id === listingToEdit?.manager_id)[0];
-        filteredManager && setSelectedRepManager(filteredManager);
-
-    }, [repManagers])
-
+    useFoundValue(setSelectedRepManager, repManagers, "staff_id", listingToEdit?.manager_id)
 
     const RepManagerData = (props) => {
         return (<span style={{

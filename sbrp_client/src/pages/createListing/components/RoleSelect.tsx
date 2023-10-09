@@ -1,16 +1,20 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Form } from 'react-bootstrap';
 import Select, { components } from 'react-select';
 
 // Type Definitions ||
 import type { Role } from '../ListingForm';
+import { useFoundValue } from '../createListingUtilities';
 
 type Data = {
   roles: Role[];
 }
 
 // Component ||
-export default function RoleSelect({ setSelectedRole, roles, listingToEdit }) {
+export default function RoleSelect({ selectedRole, setSelectedRole, roles, listingToEdit }) {
+
+  useFoundValue(setSelectedRole, roles, "role_name", listingToEdit?.role_name)
+
   return (
     <>
       <Form.Label htmlFor="role_name">
@@ -18,8 +22,8 @@ export default function RoleSelect({ setSelectedRole, roles, listingToEdit }) {
       </Form.Label>
 
       <Select
-        isDisabled={listingToEdit ? true: false}
-        defaultValue={listingToEdit}
+        isDisabled={listingToEdit ? true : false}
+        value={selectedRole}
         className="basic-single"
         classNamePrefix="select"
         isSearchable={true}
@@ -36,7 +40,9 @@ export default function RoleSelect({ setSelectedRole, roles, listingToEdit }) {
         required
       />
 
-      {/* <label className="form-text">Filter roles by typing...</label> */}
+      {listingToEdit
+        && <input type="hidden" name="role_name" value={selectedRole?.role_name} />}
+
     </>
   )
 }

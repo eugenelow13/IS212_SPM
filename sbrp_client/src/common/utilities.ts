@@ -65,7 +65,7 @@ export function useFetchedData({ fetchFn, setState }) {
         fetchFn()
             .then((data) => {
                 setState(data);
-                console.table(data)
+                // console.table(data)
             })
             .catch((error) => {
                 console.log(error)

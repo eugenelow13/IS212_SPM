@@ -11,6 +11,7 @@ import { createBrowserRouter, createRoutesFromChildren, Route, RouterProvider } 
 
 import RootLayout from './common/RootLayout';
 import { createListingAction } from './pages/createListing/createListingUtilities';
+
 import { AccessProvider } from './common/AccessProvider';
 
 import { loadListingToEdit } from './pages/createListing/createListingUtilities';
@@ -30,6 +31,7 @@ function App() {
             path="edit"
             loader={loadListingToEdit}
             element={<ListingFormWithStatusToast />}
+            action={({ params, request }) => createListingAction({ params, request, method: "put" })}
           ></Route>
         </Route>
 

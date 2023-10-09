@@ -3,6 +3,7 @@ import { ENDPOINTS } from '../../common/utilities';
 import moment from 'moment';
 import { IFormData } from './ListingForm';
 import Listing from '../viewListings/Listing';
+import { useEffect } from 'react';
 
 // mock?.onPost(ENDPOINTS.listings).reply(200, {
 //   success: false
@@ -10,7 +11,7 @@ import Listing from '../viewListings/Listing';
 // Form submit action
 
 
-export async function createListingAction({ request, method = "post" }) {
+export async function createListingAction({ params, request, method = "post" }) {
   const formData = await request.formData();
 
   // copy of formData
@@ -26,7 +27,8 @@ export async function createListingAction({ request, method = "post" }) {
     end_date: moment(end_date).format("YYYY-MM-DD"),
   } as IFormData;
 
-  console.table(body);
+  if (method === "put")
+    body.id = params.id
 
   const actionData = {
     time: moment(),
@@ -34,6 +36,9 @@ export async function createListingAction({ request, method = "post" }) {
     message: ""
   };
   // Post form response to axios
+
+  console.table(body)
+
   try {
     const createListingResponse = await axios(
       ENDPOINTS.listings,
@@ -53,7 +58,6 @@ export async function createListingAction({ request, method = "post" }) {
 
 }
 
-
 export async function loadListingToEdit({ params }) {
   const id = params.id;
 
@@ -64,7 +68,7 @@ export async function loadListingToEdit({ params }) {
 
   const listingToEdit = {
     "id": 1,
-    "role_name": "Database Administrator",
+    "role_name": "Developer",
     "start_date": "2023-09-23",
     "end_date": "2023-10-23",
     "manager_id": 130002, // keep both name and id, id needed for other page
@@ -76,4 +80,30 @@ export async function loadListingToEdit({ params }) {
   }
 
   return listingToEdit;
+}
+
+
+export function findValueInSelect(options, key, queryVal) {
+  let value;
+
+  try {
+    value = options.find(option => option[key] === queryVal);
+    console.log("Found", value)
+    return value;
+  }
+  catch {
+    return value;
+  }
+}
+
+export function useFoundValue(setState, options, key, queryVal) {
+  useEffect(() => {
+
+    if (options && queryVal) {
+      const foundValue = findValueInSelect(options, key, queryVal)
+      foundValue && setState(foundValue)
+    }
+
+  }, [options])
+
 }

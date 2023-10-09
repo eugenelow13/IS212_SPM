@@ -71,18 +71,17 @@ export function ListingForm() {
   useFetchedData({ fetchFn: fetchStaffs, setState: setRepManagers });
 
 
-  const [selectedRole, setSelectedRole] = useState(listingToEdit ?? {
-    role_name: "",
-    role_desc: "No role selected.",
-    role_skills: []
-  });
+  const [selectedRole, setSelectedRole] = useState();
 
   const isLoading = useIsLoading();
 
   return (
     <>
 
-      <Form action="/listings/new" method="post">
+      <Form
+        action={listingToEdit ? `/listings/${listingToEdit?.id}/edit` : "/listings/new"}
+        method="post"
+      >
 
 
         <Container className="p-0">
@@ -90,6 +89,7 @@ export function ListingForm() {
           <Row>
             <Col>
               <RoleSelect
+                selectedRole={selectedRole}
                 setSelectedRole={setSelectedRole}
                 roles={roles}
                 listingToEdit={listingToEdit ?? null}
@@ -114,7 +114,9 @@ export function ListingForm() {
           <Row>
             <ManagerSelect
               repManagers={repManagers}
-              listingToEdit={listingToEdit} />
+              listingToEdit={listingToEdit}
+            />
+
             <CountrySelect listingToEdit={listingToEdit} />
           </Row>
 
@@ -129,7 +131,7 @@ export function ListingForm() {
 
           <Row className='mt-3'>
             <Col>
-              <SubmitButton isLoading={isLoading} text={listingToEdit ? "Edit": "Submit"}></SubmitButton>
+              <SubmitButton isLoading={isLoading} text={listingToEdit ? "Edit" : "Submit"}></SubmitButton>
             </Col>
           </Row>
 
