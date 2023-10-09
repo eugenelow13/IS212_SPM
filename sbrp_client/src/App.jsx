@@ -23,7 +23,13 @@ function App() {
         <Route
           path="/listings/:id"
           element={<Listing />}
-        />
+        >
+          <Route
+            path="edit"
+            element={<ListingForm />}
+          ></Route>
+        </Route>
+
         <Route
           path="/listings/new"
           // only triggers for non-get requests
