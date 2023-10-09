@@ -18,7 +18,6 @@ export default function RoleSelect({ setSelectedRole, roleData }) {
       </Form.Label>
 
       <Select
-        // isDisabled={true}
         className="basic-single"
         classNamePrefix="select"
         isSearchable={true}
