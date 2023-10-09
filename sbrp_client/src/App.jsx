@@ -10,8 +10,10 @@ import ListingForm from './pages/createListing/ListingForm';
 import { createBrowserRouter, createRoutesFromChildren, Route, RouterProvider } from 'react-router-dom';
 
 import RootLayout from './common/RootLayout';
-import { createListingAction } from './pages/createListing/ListingForm';
+import { createListingAction } from './pages/createListing/createListingUtilities';
 import { AccessProvider } from './common/AccessProvider';
+
+import { loadListingToEdit } from './pages/createListing/createListingUtilities';
 
 function App() {
 
@@ -26,6 +28,7 @@ function App() {
         >
           <Route
             path="edit"
+            loader={loadListingToEdit}
             element={<ListingForm />}
           ></Route>
         </Route>

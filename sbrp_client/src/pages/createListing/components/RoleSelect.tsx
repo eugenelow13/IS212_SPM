@@ -10,22 +10,23 @@ type Data = {
 }
 
 // Component ||
-export default function RoleSelect({ setSelectedRole, roleData }) {
+export default function RoleSelect({ setSelectedRole, roles, listingToEdit }) {
   return (
     <>
       <Form.Label htmlFor="role_name">
-        Role Name <span className='text-danger'>*</span> 
+        Role Name <span className='text-danger'>*</span>
       </Form.Label>
 
       <Select
-        // isDisabled={true}
+        isDisabled={listingToEdit ? true: false}
+        defaultValue={listingToEdit}
         className="basic-single"
         classNamePrefix="select"
         isSearchable={true}
         placeholder="Select Role..."
         name="role_name"
         id="role_name"
-        options={roleData}
+        options={roles}
         getOptionLabel={role => role.role_name}
         getOptionValue={role => role.role_name}
         // components={{ Option: customOption }}

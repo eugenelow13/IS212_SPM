@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Form, useActionData } from 'react-router-dom';
+import { Form, useActionData, useLoaderData } from 'react-router-dom';
 
 import axios from 'axios';
 import { ENDPOINTS, mock, useFetchedData, useIsLoading } from '../../common/utilities';
@@ -10,7 +10,6 @@ import RoleSelect from './components/RoleSelect';
 import SkillCard from './components/SkillCard';
 import CountrySelect from './components/CountrySelect';
 
-import moment from 'moment';
 import { Button, Col, Container, Row, Spinner } from 'react-bootstrap';
 
 import StatusToast from '../../common/StatusToast';
@@ -25,7 +24,7 @@ export type Role = {
   role_skills: string[]
 };
 
-interface IFormData {
+export interface IFormData {
   role_name: string;
   start_date: string;
   end_date: string;
@@ -33,55 +32,6 @@ interface IFormData {
   country: string
 }
 
-
-// mock?.onPost(ENDPOINTS.listings).reply(200, {
-//   success: false
-// });
-
-// Form submit action
-export async function createListingAction({ request, method="post" }) {
-  const formData = await request.formData();
-
-  // copy of formData
-  let body = { ...Object.fromEntries(formData) };
-
-  // extract fields to prevent injection
-  const { role_name, start_date, end_date, country, rep_manager_id } = body;
-  body = {
-    role_name,
-    rep_manager_id,
-    country,
-    start_date: moment(start_date).format("YYYY-MM-DD"),
-    end_date: moment(end_date).format("YYYY-MM-DD"),
-
-  } as IFormData;
-
-  console.table(body);
-
-  const actionData = {
-    time: moment(),
-    success: false,
-    message: ""
-  }
-  // Post form response to axios
-  try {
-    const createListingResponse = await axios(
-      ENDPOINTS.listings,
-      {method, ...body},
-    )
-    actionData.success = true;
-    actionData.message = `${method == "post" ? "Submission": "Edit"} of ${body.role_name} successful!`;
-
-    return actionData;
-  }
-  catch (responseErr) {
-    console.log(responseErr.message);
-    actionData.message = `${method == "post" ? "Submission": "Edit"} of ${body.role_name} failed: ${responseErr.message}!`;
-
-    return actionData;
-  }
-
-}
 
 function fetchRoles(): Promise<Role[]> {
   return axios.get(ENDPOINTS.roles)
@@ -101,19 +51,22 @@ export default function ListingForm() {
   //   start_date: null,
   //   end_date: null
   // })
+  const listingToEdit = useLoaderData();
+
 
   // start and end date should be null at the start?
-  const [startDate, setStartDate] = useState<Date | null>(null);
-  const [endDate, setEndDate] = useState<Date | null>(null);
+  const [startDate, setStartDate] = useState<Date | null>(new Date(listingToEdit?.start_date) ?? null);
+  const [endDate, setEndDate] = useState<Date | null>(new Date(listingToEdit?.end_date) ?? null);
 
   // create roleData state variable and get data to set roleData
-  const [roleData, setRoleData] = useState<Role[] | []>([]);
-  const [repManagerData, setRepManagerData] = useState();
+  const [roles, setRoles] = useState<Role[] | []>([]);
+  const [repManagers, setRepManagers] = useState();
 
-  useFetchedData({ fetchFn: fetchRoles, setState: setRoleData });
-  useFetchedData({ fetchFn: fetchStaffs, setState: setRepManagerData });
+  useFetchedData({ fetchFn: fetchRoles, setState: setRoles });
+  useFetchedData({ fetchFn: fetchStaffs, setState: setRepManagers });
 
-  const [selectedRole, setSelectedRole] = useState<Role>({
+
+  const [selectedRole, setSelectedRole] = useState(listingToEdit ?? {
     role_name: "",
     role_desc: "No role selected.",
     role_skills: []
@@ -153,7 +106,8 @@ export default function ListingForm() {
             <Col>
               <RoleSelect
                 setSelectedRole={setSelectedRole}
-                roleData={roleData}
+                roles={roles}
+                listingToEdit={listingToEdit ?? null}
               // formData={formData}
               // setRoleName={setformData}
               />
@@ -173,8 +127,10 @@ export default function ListingForm() {
           <h4 className='my-4'>Listing Details</h4>
 
           <Row>
-            <ManagerSelect repManagerData={repManagerData} />
-            <CountrySelect />
+            <ManagerSelect
+              repManagers={repManagers}
+              listingToEdit={listingToEdit} />
+            <CountrySelect listingToEdit={listingToEdit}/>
           </Row>
 
           <Row className='mt-3'>
