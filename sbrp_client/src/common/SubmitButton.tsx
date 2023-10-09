@@ -10,8 +10,7 @@ export function SubmitButton(props) {
         >
             {props.isLoading
                 ? <Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true" />
-                : "Submit"}
+                : props.text}
 
         </Button>);
 }
-

@@ -82,8 +82,6 @@ export function ListingForm() {
   return (
     <>
 
-      {/* <h3>Create Listing</h3> */}
-
       <Form action="/listings/new" method="post">
 
 
@@ -131,7 +129,7 @@ export function ListingForm() {
 
           <Row className='mt-3'>
             <Col>
-              <SubmitButton isLoading={isLoading}></SubmitButton>
+              <SubmitButton isLoading={isLoading} text={listingToEdit ? "Edit": "Submit"}></SubmitButton>
             </Col>
           </Row>
 
