@@ -48,7 +48,9 @@ CREATE TABLE IF NOT EXISTS `role_listing` (
   `Start_Date` date NOT NULL,
   `End_Date` date NOT NULL,
   `Manager_ID` int NOT NULL REFERENCES staff(Staff_ID),
-  `Country` varchar(50) NOT NULL
+  `Country` varchar(50) NOT NULL,
+
+  CONSTRAINT unique_combination_constraint UNIQUE (role_name, start_date, end_date, manager_id, country)
 );
 
 -- Table structure for table `application`

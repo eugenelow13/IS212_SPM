@@ -29,7 +29,7 @@ interface IFormData {
   role_name: string;
   start_date: string;
   end_date: string;
-  rep_manager_id: number;
+  manager_id: number;
   country: string
 }
 
@@ -45,10 +45,10 @@ export async function createListingAction({ request }) {
   let body = { ...Object.fromEntries(formData) };
 
   // extract fields to prevent injection
-  const { role_name, start_date, end_date, country, rep_manager_id } = body;
+  const { role_name, start_date, end_date, country, manager_id } = body;
   body = {
     role_name,
-    rep_manager_id,
+    manager_id,
     country,
     start_date: moment(start_date).format("YYYY-MM-DD"),
     end_date: moment(end_date).format("YYYY-MM-DD"),

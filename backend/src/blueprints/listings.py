@@ -48,7 +48,7 @@ def create_listing():
         return jsonify(
             {
                 "code": 500,
-                "message": "An error occurred creating the role listing"
+                "message": "An error occurred while creating the role listing"
             }
         ), 500
 
