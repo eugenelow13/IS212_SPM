@@ -40,7 +40,7 @@ export default function ManagerSelect({ repManagerData }) {
         <>
 
             <Col sm={6} md={4}>
-                <Form.Label htmlFor="manager_id">
+                <Form.Label htmlFor="rep_manager_id">
                     Reporting Manager <span className='text-danger'>*</span>
                 </Form.Label>
                 <Select
@@ -48,8 +48,8 @@ export default function ManagerSelect({ repManagerData }) {
                     classNamePrefix="select"
                     isSearchable={true}
                     placeholder="Search by name or staff ID..."
-                    name="manager_id"
-                    id="manager_id"
+                    name="rep_manager_id"
+                    id="rep_manager_id"
                     options={repManagerData}
                     getOptionLabel={staff => `${staff.staff_fname} ${staff.staff_lname}`}
                     getOptionValue={staff => staff.staff_id}

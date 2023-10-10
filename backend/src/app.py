@@ -6,11 +6,10 @@ from src.blueprints.applications import applications
 from src.blueprints.staff import staff
 from src.blueprints.roles import roles
 
-
+from flask_cors import CORS
 
 app = Flask(__name__)
-
-
+CORS(app)
 
 # mysql+mysqlconnector://<user>:<password>@<host>[:<port>]/<dbname>
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get("SQLALCHEMY_DATABASE_URI")
