@@ -1,5 +1,5 @@
 from flask import Blueprint
-# from src.models import Application
+from src.models import Application
 
 applications = Blueprint("applications", __name__, url_prefix="/applications")
 
