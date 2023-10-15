@@ -1,22 +1,47 @@
 // src/DateRangePicker.js
-import { React } from 'react';
 import DatePicker from 'react-datepicker';
+import React from 'react';
+import { Form, Col } from 'react-bootstrap';
 import 'react-datepicker/dist/react-datepicker.css';
 
 interface DateRangePickerProps {
   startDate: any;
   endDate: any;
-  setStartDate: (date : Date) => void;
-  setEndDate: (date : Date) => void;
+  setStartDate: (date: Date) => void;
+  setEndDate: (date: Date) => void;
 }
 
-const DateRangePicker = ({startDate, endDate, setStartDate, setEndDate} : DateRangePickerProps) => {
+const DateRangePicker = ({ startDate, endDate, setStartDate, setEndDate }: DateRangePickerProps) => {
 
-  const handleStartDateChange = (date : Date) => {
+  const handleStartDateChange = (date: Date) => {
+    // Don't allow the user to select a start date that is before the current date and alert them, date can be current date but not before
+    if (date < new Date(new Date().setDate(new Date().getDate() - 1))){   // here, the date needs to minus 1 day so that the current day can be selected
+      alert('Start date cannot be before the current date.');
+      return;
+    }
+
+    // Don't allow the user to select a start date that is after the end date if the end date is already selected and alert them
+    if (endDate && date > endDate){
+      alert('Start date cannot be after the end date.');
+      return;
+    }
+
     setStartDate(date);
   };
 
-  const handleEndDateChange = (date : Date) => {
+  const handleEndDateChange = (date: Date) => {
+    // Don't allow the user to select an end date that is before the current date and alert them, date can be current date but not before
+    if (date < new Date(new Date().setDate(new Date().getDate() - 1))){   // here, the date needs to minus 1 day so that the current day can be selected
+      alert('End date cannot be before the current date.');
+      return;
+    }
+
+    // Don't allow the user to select an end date that is before the start date if the start date is already selected and alert them
+    if (startDate && date < startDate){
+      alert('End date cannot be before the start date.');
+      return;
+    }
+
     setEndDate(date);
   };
 
@@ -28,35 +53,44 @@ const DateRangePicker = ({startDate, endDate, setStartDate, setEndDate} : DateRa
 
   return (
     <>
-      <div className="row">
-        <div className="col-md-6">
-          <label>Start Date:</label>
-          <DatePicker
-            selected={startDate}
-            onChange={handleStartDateChange}
-            selectsStart
-            startDate={startDate}
-            endDate={endDate}
-            dateFormat="dd/MM/yyyy"
-            required
-            className="form-control"
-          />
-        </div>
-        <div className="col-md-6">
-          <label>End Date:</label>
-          <DatePicker
-            selected={endDate}
-            onChange={handleEndDateChange}
-            selectsEnd
-            startDate={startDate}
-            endDate={endDate}
-            dateFormat="dd/MM/yyyy"
-            required
-            className="form-control"
-          />
-        </div>
-      </div>
-
+      <Col>
+        <Form.Label htmlFor="start_date" style={{ display: "block" }}>
+          Start Date <span className='text-danger'>*</span>
+        </Form.Label>
+        <DatePicker
+          id="start_date"
+          name="start_date"
+          selected={startDate}
+          onChange={handleStartDateChange}
+          selectsStart
+          startDate={startDate}
+          endDate={endDate}
+          dateFormat="yyyy/MM/dd"
+          required
+          className="form-control"
+          wrapperClassName="w-100"
+          autoComplete="off"
+        />
+      </Col>
+      <Col>
+        <Form.Label htmlFor="end_date" style={{ display: "block" }}>
+          End Date <span className='text-danger'>*</span>
+        </Form.Label>
+        <DatePicker
+          id="end_date"
+          name="end_date"
+          selected={endDate}
+          onChange={handleEndDateChange}
+          selectsEnd
+          startDate={startDate}
+          endDate={endDate}
+          dateFormat="yyyy/MM/dd"
+          required
+          className="form-control"
+          wrapperClassName="w-100"
+          autoComplete="off"
+        />
+      </Col>
     </>
   );
 };

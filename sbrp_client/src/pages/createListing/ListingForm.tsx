@@ -1,19 +1,20 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Form, useActionData } from 'react-router-dom';
-import { useState, useEffect } from 'react';
 
 import axios from 'axios';
-import { ENDPOINTS, useIsLoading } from '../../common/utilities';
-import { mock, useFetchedData } from '../../common/utilities';
+import { ENDPOINTS, mock, useFetchedData, useIsLoading } from '../../common/utilities';
 
-import RoleSelect from './components/RoleSelect';
+import ManagerSelect from './components/ManagerSelect';
 import RoleDesc from './components/RoleDesc';
+import RoleSelect from './components/RoleSelect';
 import SkillCard from './components/SkillCard';
+import CountrySelect from './components/CountrySelect';
 
-import { Button, Spinner, Row, Col, Container } from 'react-bootstrap';
 import moment from 'moment';
+import { Button, Col, Container, Row, Spinner } from 'react-bootstrap';
 
 import StatusToast from '../../common/StatusToast';
+import { SubmitButton } from '../../common/SubmitButton';
 import { useNow } from '../../common/utilities';
 
 import DateRangePicker from './components/DateRangePicker';
@@ -26,13 +27,16 @@ export type Role = {
 
 interface IFormData {
   role_name: string;
-  start_date: Date;
-  end_date: Date;
+  start_date: string;
+  end_date: string;
+  manager_id: number;
+  country: string
 }
 
-mock.onPost(ENDPOINTS.listings).reply(200, {
-  success: false
-})
+
+// mock?.onPost(ENDPOINTS.listings).reply(200, {
+//   success: false
+// });
 
 // Form submit action
 export async function createListingAction({ request }) {
@@ -41,12 +45,16 @@ export async function createListingAction({ request }) {
   let body = { ...Object.fromEntries(formData) };
 
   // extract fields to prevent injection
-  const { role_name, start_date, end_date } = body;
+  const { role_name, start_date, end_date, country, manager_id } = body;
   body = {
     role_name,
+    manager_id,
+    country,
     start_date: moment(start_date).format("YYYY-MM-DD"),
     end_date: moment(end_date).format("YYYY-MM-DD"),
+
   } as IFormData;
+
   console.table(body);
 
   const actionData = {
@@ -79,13 +87,19 @@ function fetchRoles(): Promise<Role[]> {
     .then(response => response.data.roles);
 }
 
+function fetchStaffs() {
+  return axios.get(ENDPOINTS.staffs)
+    .then(response => response.data.staff);
+}
+
+
 export default function ListingForm() {
 
-  const [formData, setformData] = useState({
-    role_name: "",
-    start_date: null,
-    end_date: null
-  })
+  // const [formData, setformData] = useState({
+  //   role_name: "",
+  //   start_date: null,
+  //   end_date: null
+  // })
 
   // start and end date should be null at the start?
   const [startDate, setStartDate] = useState<Date | null>(null);
@@ -93,7 +107,10 @@ export default function ListingForm() {
 
   // create roleData state variable and get data to set roleData
   const [roleData, setRoleData] = useState<Role[] | []>([]);
+  const [repManagerData, setRepManagerData] = useState();
+
   useFetchedData({ fetchFn: fetchRoles, setState: setRoleData });
+  useFetchedData({ fetchFn: fetchStaffs, setState: setRepManagerData });
 
   const [selectedRole, setSelectedRole] = useState<Role>({
     role_name: "",
@@ -124,55 +141,64 @@ export default function ListingForm() {
         now={now}
         actionData={formActionData} />
 
-      <h3>Create Listing</h3>
+      {/* <h3>Create Listing</h3> */}
 
       <Form action="/listings/new" method="post">
 
-        <RoleSelect
-          setSelectedRole={setSelectedRole}
-          roleData={roleData}
-        // formData={formData}
-        // setRoleName={setformData}
-        />
 
         <Container className="p-0">
+          <h4 className='my-4'>Role Details</h4>
           <Row>
-            <Col sm={6}>
+            <Col>
+              <RoleSelect
+                setSelectedRole={setSelectedRole}
+                roleData={roleData}
+              // formData={formData}
+              // setRoleName={setformData}
+              />
+            </Col>
+          </Row>
+          <Row >
+            <Col sm={6} className='mt-3'>
               <RoleDesc selectedRole={selectedRole} />
             </Col>
-            <Col sm={6}>
+            <Col sm={6} className='mt-3'>
               <SkillCard
                 selectedRole={selectedRole}
               />
             </Col>
           </Row>
+
+          <h4 className='my-4'>Listing Details</h4>
+
+          <Row>
+            <ManagerSelect repManagerData={repManagerData} />
+            <CountrySelect />
+          </Row>
+
+          <Row className='mt-3'>
+            <DateRangePicker
+              startDate={startDate}
+              endDate={endDate}
+              setStartDate={(date) => setStartDate(new Date(date))}
+              setEndDate={(date) => setEndDate(new Date(date))}
+            />
+          </Row>
+
+          <Row className='mt-3'>
+            <Col>
+              <SubmitButton isLoading={isLoading}></SubmitButton>
+            </Col>
+          </Row>
+
         </Container>
 
-        <DateRangePicker
-          startDate={startDate}
-          endDate={endDate}
-          setStartDate={(date) => setStartDate(new Date(date))}
-          setEndDate={(date) => setEndDate(new Date(date))}
-        />
-
-        <Row>
-          <Button variant="primary" type="submit" disabled={isLoading}>
-            {isLoading
-              ? <Spinner
-                as="span"
-                animation="border"
-                size="sm"
-                role="status"
-                aria-hidden="true" />
-              : "Submit"
-            }
-          </Button>
-        </Row>
 
       </Form>
     </>
   )
 }
+
 
 
 

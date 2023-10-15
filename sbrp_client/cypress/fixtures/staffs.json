@@ -1,0 +1,58 @@
+{
+    "staff": [
+        {
+            "country": "Singapore",
+            "dept": "Engineering",
+            "email": "Eva.Goh@allinone.com.sg",
+            "role": 2,
+            "staff_fname": "Eva",
+            "staff_id": 150348,
+            "staff_lname": "Goh"
+        },
+        {
+            "country": "Singapore",
+            "dept": "Engineering",
+            "email": "Sophia.Chan@allinone.com.sg",
+            "role": 2,
+            "staff_fname": "Sophia",
+            "staff_id": 150355,
+            "staff_lname": "Chan"
+        },
+        {
+            "country": "Singapore",
+            "dept": "Engineering",
+            "email": "James.Wong@allinone.com.sg",
+            "role": 2,
+            "staff_fname": "James",
+            "staff_id": 150356,
+            "staff_lname": "Wong"
+        },
+        {
+            "country": "Singapore",
+            "dept": "Engineering",
+            "email": "John.Ong@allinone.com.sg",
+            "role": 2,
+            "staff_fname": "John",
+            "staff_id": 150398,
+            "staff_lname": "Ong"
+        },
+        {
+            "country": "Singapore",
+            "dept": "Engineering",
+            "email": "Jack.Yong@allinone.com.sg",
+            "role": 2,
+            "staff_fname": "Jack",
+            "staff_id": 150422,
+            "staff_lname": "Yong"
+        },
+        {
+            "country": "Singapore",
+            "dept": "Engineering",
+            "email": "Derek.Toh@allinone.com.sg",
+            "role": 2,
+            "staff_fname": "Derek",
+            "staff_id": 150423,
+            "staff_lname": "Toh"
+        }
+    ]
+}

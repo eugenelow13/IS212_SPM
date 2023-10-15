@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import { useNavigation } from 'react-router-dom';
 
 import axios from 'axios';
-import MockAdapter from 'axios-mock-adapter';
+// import MockAdapter from 'axios-mock-adapter';
 
 import moment from 'moment';
 
@@ -12,11 +12,13 @@ import moment from 'moment';
 // only false if validator exists and validator failed
 
 export const ENDPOINTS = {
-    roles: "/api/roles",
-    listings: "/api/listings"
+    roles: "/api/roles/",
+    listings: "/api/listings",
+    staffs: "/api/staffs"
 }
 
-export const mock = new MockAdapter(axios, { delayResponse: 1000 });
+// export const mock = new MockAdapter(axios, { delayResponse: 1000 });
+// export const mock = null;
 
 export function validateAll(params, validatorObj) {
 
