@@ -71,16 +71,6 @@ function fetchFakeData(){
   }
 }
 
-function processData(){
-  const data = fetchFakeData();
-  try{
-    data.then((response)=>{
-      const fetchData:RoleListing[] = response.data;
-      console.log(fetchData);
-      return fetchData;
-    })
-  }catch{console.log("failed processData()")}
-}
 
 const retrievedData =  fetchFakeData();
 console.log(retrievedData);
@@ -119,19 +109,7 @@ const columns = [
   },
 ]
 
-async function getListings(){
-  try{
-    await axios.get("http://localhost:3306/api/listings").then((response)=>{
-       const fetchData:RoleListing[] = response.data;
-       return fetchData;
-    })
-      
-  }
-  catch(err){
-    console.log(err);
-  }
-}
-// const fetchData = getListings();
+const skills=["data management","Python","ReactJS"];
 
 
 
@@ -145,7 +123,12 @@ function tablelist() {
     axios.get(ENDPOINTS.listings)
       .then((response) => {
         // Update the state with the fetched data
-        setData(response.data);
+        const fetchedListings = response.data;
+        for(var listing of fetchedListings){
+          console.log("listing:",listing);
+          listing.skillsMatch = 0;
+        }
+        setData(fetchedListings);
       })
       .catch((error) => {
         console.error('Error:', error);
