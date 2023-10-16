@@ -30,17 +30,21 @@ def create_listing():
     body = request.get_json()
 
     # Parse start_date and end_date into datetime objects using YYYY-MM-dd format
-    start_date = datetime.datetime.strptime(body["start_date"], "%Y-%m-%d").date()
-    end_date = datetime.datetime.strptime(body["end_date"], "%Y-%m-%d").date()
+    try:
+        start_date = datetime.datetime.strptime(body["start_date"], "%Y-%m-%d").date()
+        end_date = datetime.datetime.strptime(body["end_date"], "%Y-%m-%d").date()
+
+    except ValueError:
+        return {"message": "Invalid date input"} 
 
     # Validate start date and end date, making sure start date is on today or later, and end date is after start date
     # If not, return error status
     
     if start_date < datetime.date.today():
-        return {"message": "Start date must be today or later."}, 400
+        return {"message": "Start date must be today or later"}, 400
     
     if end_date < start_date:
-        return {"message": "End date must be after start date."}, 400
+        return {"message": "End date must be after start date"}, 400
 
     # Create new listing
     role_listing = RoleListing(role_name=body["role_name"], start_date=start_date, end_date=end_date, manager_id=body["manager_id"], country=body["country"])
@@ -50,7 +54,7 @@ def create_listing():
         db.session.commit()
 
     except IntegrityError:
-        return {"message": "Duplicate listing info provided."}, 400
+        return {"message": "Duplicate listing info provided"}, 400
 
     except:
         return jsonify(
@@ -74,17 +78,20 @@ def edit_listing(listing_id):
     body = request.get_json()
 
     # Parse start_date and end_date into datetime objects using YYYY-MM-dd format
-    start_date = datetime.datetime.strptime(body["start_date"], "%Y-%m-%d").date()
-    end_date = datetime.datetime.strptime(body["end_date"], "%Y-%m-%d").date()
+    try:
+        start_date = datetime.datetime.strptime(body["start_date"], "%Y-%m-%d").date()
+        end_date = datetime.datetime.strptime(body["end_date"], "%Y-%m-%d").date()
 
+    except ValueError:
+        return {"message": "Invalid date input"} 
     # Validate start date and end date, making sure start date is on today or later, and end date is after start date
     # If not, return error status
     
     if start_date < datetime.date.today():
-        return {"message": "Start date must be today or later."}, 400
+        return {"message": "Start date must be today or later"}, 400
     
     if end_date < start_date:
-        return {"message": "End date must be after start date."}, 400
+        return {"message": "End date must be after start date"}, 400
 
     try:
         print(body)
@@ -100,7 +107,7 @@ def edit_listing(listing_id):
         db.session.commit()
 
     except IntegrityError:
-        return {"message": "Duplicate listing info provided."}, 400
+        return {"message": "Duplicate listing info provided"}, 400
 
     except:
         return jsonify(
