@@ -75,7 +75,7 @@ export async function createListingAction({ request }) {
   }
   catch (responseErr) {
     console.log(responseErr.message);
-    actionData.message = `Submission of ${body.role_name} failed: ${responseErr.message}!`;
+    actionData.message = `Submission of ${body.role_name} failed: ${responseErr.response?.data?.message || responseErr.message}!`;
 
     return actionData;
   }
