@@ -5,13 +5,16 @@ import './App.css'
 import Home from './pages/Login/Login';
 import Listings from './pages/viewListings/Listings';
 import Listing from './pages/viewListings/Listing';
-import ListingForm from './pages/createListing/ListingForm';
+import ListingFormWithStatusToast, { ListingForm } from './pages/createListing/ListingForm';
 
 import { createBrowserRouter, createRoutesFromChildren, Route, RouterProvider } from 'react-router-dom';
 
 import RootLayout from './common/RootLayout';
-import { createListingAction } from './pages/createListing/ListingForm';
+import { createListingAction } from './pages/createListing/createListingUtilities';
+
 import { AccessProvider } from './common/AccessProvider';
+
+import { loadListingToEdit } from './pages/createListing/createListingUtilities';
 
 function App() {
 
@@ -23,11 +26,19 @@ function App() {
         <Route
           path="/listings/:id"
           element={<Listing />}
-        />
+        >
+          <Route
+            path="edit"
+            loader={loadListingToEdit}
+            element={<ListingFormWithStatusToast />}
+            action={({ params, request }) => createListingAction({ params, request, method: "put" })}
+          ></Route>
+        </Route>
+
         <Route
           path="/listings/new"
           // only triggers for non-get requests
-          element={<ListingForm />}
+          element={<ListingFormWithStatusToast />}
           action={createListingAction}
         />
       </Route>

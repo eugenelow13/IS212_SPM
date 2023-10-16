@@ -1,10 +1,13 @@
-import { useParams } from "react-router-dom";
+import { Outlet, useParams } from "react-router-dom";
 import ListingTable from './components/ListingTable'
 
 export const Listing = () => {
   const { id } = useParams() || 'No ID';
   return (
-    <div>Listing {id}</div>
+    <>
+      <h3>Listing {id}</h3>
+      {<Outlet />}
+    </>
   );
 }
 
