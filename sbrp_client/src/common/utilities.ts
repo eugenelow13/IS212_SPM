@@ -32,7 +32,7 @@ export function validateAll(params, validatorObj) {
         if (key in validatorObj) {
             let value = params[key];
             let validatorFn = validatorObj[key]
-            areValid[key] = validatorFn(value);
+            areValid[key] = validatorFn(value);o
         }
     }
     return areValid;
