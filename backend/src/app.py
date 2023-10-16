@@ -17,7 +17,9 @@ app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get("SQLALCHEMY_DATABASE_URI"
 # Register applications, listings, and staff blueprints under api (nest all)
 api = Blueprint("api", __name__, url_prefix="/api")
 
-api.register_blueprint(applications)
+# Path prefixed by /listings/<listing_id>/applications
+listings.register_blueprint(applications)
+
 api.register_blueprint(listings)
 api.register_blueprint(staff)
 api.register_blueprint(roles)

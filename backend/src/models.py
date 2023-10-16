@@ -76,8 +76,7 @@ class RoleListing(db.Model):
     staff = relationship("Staff", back_populates="role_listing")
     role = relationship("Role", back_populates="role_listing")
 
-    def __init__(self, id, role_name, start_date, end_date, manager_id, country):
-        self.id = id
+    def __init__(self, role_name, start_date, end_date, manager_id, country):
         self.role_name = role_name
         self.start_date = start_date
         self.end_date = end_date

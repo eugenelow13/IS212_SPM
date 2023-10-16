@@ -43,7 +43,7 @@ export default function ManagerSelect({ repManagers, listingToEdit }) {
         <>
 
             <Col sm={6} md={4}>
-                <Form.Label htmlFor="rep_manager_id">
+                <Form.Label htmlFor="manager_id">
                     Reporting Manager <span className='text-danger'>*</span>
                 </Form.Label>
                 <Select
