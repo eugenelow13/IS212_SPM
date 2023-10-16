@@ -2,6 +2,7 @@ from flask import Blueprint, request, jsonify
 from src.models import RoleListing
 import datetime
 from src.extensions import db
+from sqlalchemy.exc import IntegrityError
 
 # from src.models import Role
 
@@ -32,10 +33,10 @@ def create_listing():
     # If not, return error status
     
     if start_date < datetime.date.today():
-        return {"error": "Start date must be today or later."}, 400
+        return {"message": "Start date must be today or later."}, 400
     
     if end_date < start_date:
-        return {"error": "End date must be after start date."}, 400
+        return {"message": "End date must be after start date."}, 400
 
     # Create new listing
     role_listing = RoleListing(role_name=body["role_name"], start_date=start_date, end_date=end_date, manager_id=body["manager_id"], country=body["country"])
@@ -43,6 +44,9 @@ def create_listing():
     try:
         db.session.add(role_listing)
         db.session.commit()
+
+    except IntegrityError:
+        return {"message": "Duplicate listing info provided."}, 401
 
     except:
         return jsonify(
