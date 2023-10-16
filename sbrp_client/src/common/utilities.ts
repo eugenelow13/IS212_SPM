@@ -17,8 +17,8 @@ export const ENDPOINTS = {
     staffs: "/api/staffs"
 }
 
-export const mock = new MockAdapter(axios, { delayResponse: 1000 });
-// export const mock = null;
+// export const mock = new MockAdapter(axios, { delayResponse: 1000 });
+export const mock = null;
 
 export function validateAll(params, validatorObj) {
 
@@ -65,7 +65,7 @@ export function useFetchedData({ fetchFn, setState }) {
         fetchFn()
             .then((data) => {
                 setState(data);
-                console.table(data)
+                // console.table(data)
             })
             .catch((error) => {
                 console.log(error)

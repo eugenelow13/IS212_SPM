@@ -1,11 +1,14 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Select, { components, createFilter } from 'react-select';
 import { Form, Row, Col } from 'react-bootstrap';
+import { useFoundValue } from '../createListingUtilities';
 
 
-export default function ManagerSelect({ repManagerData }) {
+export default function ManagerSelect({ repManagers, listingToEdit }) {
 
-    const [selectedOption, setSelectedOption] = useState({});
+    const [selectedRepManager, setSelectedRepManager] = useState('');
+
+    useFoundValue(setSelectedRepManager, repManagers, "staff_id", listingToEdit?.manager_id)
 
     const RepManagerData = (props) => {
         return (<span style={{
@@ -44,17 +47,18 @@ export default function ManagerSelect({ repManagerData }) {
                     Reporting Manager <span className='text-danger'>*</span>
                 </Form.Label>
                 <Select
+                    value={selectedRepManager}
                     className="basic-single"
                     classNamePrefix="select"
                     isSearchable={true}
                     placeholder="Search by name or staff ID..."
                     name="manager_id"
                     id="manager_id"
-                    options={repManagerData}
+                    options={repManagers}
                     getOptionLabel={staff => `${staff.staff_fname} ${staff.staff_lname}`}
                     getOptionValue={staff => staff.staff_id}
                     components={{ Option: CustomOption, SingleValue: CustomSingleValue }}
-                    onChange={value => setSelectedOption(value)}
+                    onChange={value => setSelectedRepManager(value)}
                     filterOption={createFilter({ ignoreAccents: false })}
                     required
                 />
@@ -62,7 +66,7 @@ export default function ManagerSelect({ repManagerData }) {
             <Col sm={6} md={4}>
                 <Form.Label htmlFor="dept">Department </Form.Label>
                 <Form.Control
-                    placeholder={selectedOption.dept}
+                    placeholder={selectedRepManager.dept}
                     id="dept"
                     type="text"
                     disabled

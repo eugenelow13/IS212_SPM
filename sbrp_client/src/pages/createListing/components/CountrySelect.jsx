@@ -3,14 +3,14 @@ import Select, { components, createFilter } from 'react-select';
 import { Form, Row, Col } from 'react-bootstrap';
 
 const countries = [
-    { name: 'Singapore', iso_code: 'SG' },
-    { name: 'Malaysia', iso_code: 'MY' },
-    { name: 'Indonesia', iso_code: 'ID' },
-    { name: 'Vietnam', iso_code: 'VN' },
-    { name: 'Hong Kong', iso_code: 'HK' }
+    { value: 'Singapore', label: 'Singapore' },
+    { value: 'Malaysia', label: 'Malaysia' },
+    { value: 'Indonesia', label: 'Indonesia' },
+    { value: 'Vietnam', label: 'Vietnam' },
+    { value: 'Hong Kong', label: 'Hong Kong' }
 ]
 
-export default function CountrySelect() {
+export default function CountrySelect({ listingToEdit }) {
 
     // const RepManagerData = (props) => {
     //     return (<span style={{
@@ -41,12 +41,15 @@ export default function CountrySelect() {
     //     )
     // }
 
+    const [selectedCountry, setselectedCountry] = useState({value: listingToEdit?.country, label: listingToEdit?.country})
+
     return (
         <Col sm={6} md={4}>
             <Form.Label htmlFor="country">
-                Country <span className='text-danger'>*</span> 
+                Country <span className='text-danger'>*</span>
             </Form.Label>
             <Select
+                value={selectedCountry}
                 className="basic-single"
                 classNamePrefix="select"
                 // isSearchable={true}
@@ -54,11 +57,10 @@ export default function CountrySelect() {
                 name="country"
                 id="country"
                 options={countries}
-                getOptionLabel={country => country.name}
-                getOptionValue={country => country.name}
-                // components={{ Option: CustomOption, SingleValue: CustomSingleValue }}
-                // filterOption={createFilter({ ignoreAccents: false })}
-                onChange={value => console.log(value)}
+                getOptionLabel={country => country.label}
+                getOptionValue={country => country.value}
+                filterOption={createFilter({ ignoreAccents: false })}
+                onChange={country => setselectedCountry(country)}
                 required
             />
         </Col>

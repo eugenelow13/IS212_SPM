@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Form, useActionData } from 'react-router-dom';
+import { Form, useLoaderData } from 'react-router-dom';
 
 import axios from 'axios';
 import { ENDPOINTS, mock, useFetchedData, useIsLoading } from '../../common/utilities';
@@ -10,14 +10,12 @@ import RoleSelect from './components/RoleSelect';
 import SkillCard from './components/SkillCard';
 import CountrySelect from './components/CountrySelect';
 
-import moment from 'moment';
 import { Button, Col, Container, Row, Spinner } from 'react-bootstrap';
 
-import StatusToast from '../../common/StatusToast';
 import { SubmitButton } from '../../common/SubmitButton';
-import { useNow } from '../../common/utilities';
 
 import DateRangePicker from './components/DateRangePicker';
+import { WithStatusToast } from '../../common/WithStatusToast';
 
 export type Role = {
   role_name: string,
@@ -25,7 +23,7 @@ export type Role = {
   role_skills: string[]
 };
 
-interface IFormData {
+export interface IFormData {
   role_name: string;
   start_date: string;
   end_date: string;
@@ -39,48 +37,7 @@ interface IFormData {
 // });
 
 // Form submit action
-export async function createListingAction({ request }) {
-  const formData = await request.formData();
-  // copy of formData
-  let body = { ...Object.fromEntries(formData) };
 
-  // extract fields to prevent injection
-  const { role_name, start_date, end_date, country, manager_id } = body;
-  body = {
-    role_name,
-    manager_id,
-    country,
-    start_date: moment(start_date).format("YYYY-MM-DD"),
-    end_date: moment(end_date).format("YYYY-MM-DD"),
-
-  } as IFormData;
-
-  console.table(body);
-
-  const actionData = {
-    time: moment(),
-    success: false,
-    message: ""
-  }
-  // Post form response to axios
-  try {
-    const createListingResponse = await axios.post(
-      ENDPOINTS.listings,
-      body,
-    )
-    actionData.success = true;
-    actionData.message = `Submission of ${body.role_name} successful!`;
-
-    return actionData;
-  }
-  catch (responseErr) {
-    console.log(responseErr.message);
-    actionData.message = `Submission of ${body.role_name} failed: ${responseErr.response?.data?.message || responseErr.message}!`;
-
-    return actionData;
-  }
-
-}
 
 function fetchRoles(): Promise<Role[]> {
   return axios.get(ENDPOINTS.roles)
@@ -93,57 +50,45 @@ function fetchStaffs() {
 }
 
 
-export default function ListingForm() {
+const ListingFormWithStatusToast = WithStatusToast(ListingForm);
+export default ListingFormWithStatusToast;
 
-  // const [formData, setformData] = useState({
-  //   role_name: "",
-  //   start_date: null,
-  //   end_date: null
-  // })
+
+export function ListingForm() {
+
+  const listingToEdit = useLoaderData();
 
   // start and end date should be null at the start?
   const [startDate, setStartDate] = useState<Date | null>(null);
   const [endDate, setEndDate] = useState<Date | null>(null);
 
+  useEffect(() => {
+    if (listingToEdit) {
+      setStartDate(new Date(listingToEdit?.start_date))
+      setEndDate(new Date(listingToEdit?.end_date))
+    }
+  }, [])
+
+
   // create roleData state variable and get data to set roleData
-  const [roleData, setRoleData] = useState<Role[] | []>([]);
-  const [repManagerData, setRepManagerData] = useState();
+  const [roles, setRoles] = useState<Role[] | []>([]);
+  const [repManagers, setRepManagers] = useState();
 
-  useFetchedData({ fetchFn: fetchRoles, setState: setRoleData });
-  useFetchedData({ fetchFn: fetchStaffs, setState: setRepManagerData });
+  useFetchedData({ fetchFn: fetchRoles, setState: setRoles });
+  useFetchedData({ fetchFn: fetchStaffs, setState: setRepManagers });
 
-  const [selectedRole, setSelectedRole] = useState<Role>({
-    role_name: "",
-    role_desc: "No role selected.",
-    role_skills: []
-  });
 
-  const formActionData = useActionData();
-  const [showToast, setShowToast] = useState(false);
-
-  // Get current time: updated every 1s
-  const now = useNow();
+  const [selectedRole, setSelectedRole] = useState();
 
   const isLoading = useIsLoading();
-
-  // if formActionData present
-  useEffect(() => {
-    formActionData && setShowToast(true);
-  }, [formActionData])
-
 
   return (
     <>
 
-      <StatusToast
-        showToast={showToast}
-        setShowToast={setShowToast}
-        now={now}
-        actionData={formActionData} />
-
-      {/* <h3>Create Listing</h3> */}
-
-      <Form action="/listings/new" method="post">
+      <Form
+        action={listingToEdit ? `/listings/${listingToEdit?.id}/edit` : "/listings/new"}
+        method="post"
+      >
 
 
         <Container className="p-0">
@@ -151,8 +96,10 @@ export default function ListingForm() {
           <Row>
             <Col>
               <RoleSelect
+                selectedRole={selectedRole}
                 setSelectedRole={setSelectedRole}
-                roleData={roleData}
+                roles={roles}
+                listingToEdit={listingToEdit ?? null}
               // formData={formData}
               // setRoleName={setformData}
               />
@@ -169,11 +116,15 @@ export default function ListingForm() {
             </Col>
           </Row>
 
-          <h4 className='my-4'>Listing Details</h4>
+          <h4 className='my-4'>{listingToEdit && "Edit "}Listing Details</h4>
 
           <Row>
-            <ManagerSelect repManagerData={repManagerData} />
-            <CountrySelect />
+            <ManagerSelect
+              repManagers={repManagers}
+              listingToEdit={listingToEdit}
+            />
+
+            <CountrySelect listingToEdit={listingToEdit} />
           </Row>
 
           <Row className='mt-3'>
@@ -187,7 +138,7 @@ export default function ListingForm() {
 
           <Row className='mt-3'>
             <Col>
-              <SubmitButton isLoading={isLoading}></SubmitButton>
+              <SubmitButton isLoading={isLoading} text={listingToEdit ? "Edit" : "Submit"}></SubmitButton>
             </Col>
           </Row>
 
