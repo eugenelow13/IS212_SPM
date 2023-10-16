@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import { useNavigation } from 'react-router-dom';
 
 import axios from 'axios';
-// import MockAdapter from 'axios-mock-adapter';
+import MockAdapter from 'axios-mock-adapter';
 
 import moment from 'moment';
 
@@ -17,7 +17,7 @@ export const ENDPOINTS = {
     staffs: "/api/staffs"
 }
 
-// export const mock = new MockAdapter(axios, { delayResponse: 1000 });
+export const mock = new MockAdapter(axios, { delayResponse: 1000 });
 // export const mock = null;
 
 export function validateAll(params, validatorObj) {
