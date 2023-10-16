@@ -18,17 +18,19 @@ export async function createListingAction({ params, request, method = "post" }) 
   let body = { ...Object.fromEntries(formData) };
 
   // extract fields to prevent injection
-  const { role_name, start_date, end_date, country, rep_manager_id } = body;
+  const { role_name, start_date, end_date, country, manager_id } = body;
   body = {
     role_name,
-    rep_manager_id,
+    manager_id,
     country,
     start_date: moment(start_date).format("YYYY-MM-DD"),
     end_date: moment(end_date).format("YYYY-MM-DD"),
   } as IFormData;
 
-  if (method === "put")
+  if (method === "put") {
     body.id = params.id
+
+  }
 
   const actionData = {
     time: moment(),
@@ -40,10 +42,21 @@ export async function createListingAction({ params, request, method = "post" }) 
   console.table(body)
 
   try {
-    const createListingResponse = await axios(
-      ENDPOINTS.listings,
-      { method, ...body }
-    );
+
+    let idParam;
+
+    if (method == "put") {
+      idParam = "/" + body.id;
+    } else {
+      idParam = ""
+    }
+
+    const createListingResponse = await axios({
+      url: ENDPOINTS.listings + idParam,
+      method,
+      data: body
+    });
+
     actionData.success = true;
     actionData.message = `${method == "post" ? "Submission" : "Edit"} of ${body.role_name} successful!`;
 
@@ -51,7 +64,7 @@ export async function createListingAction({ params, request, method = "post" }) 
   }
   catch (responseErr) {
     console.log(responseErr.message);
-    actionData.message = `${method == "post" ? "Submission" : "Edit"} of ${body.role_name} failed: ${responseErr.message}!`;
+    actionData.message = `Submission of ${body.role_name} failed: ${responseErr.response?.data?.message || responseErr.message}!`;
 
     return actionData;
   }
@@ -61,23 +74,23 @@ export async function createListingAction({ params, request, method = "post" }) 
 export async function loadListingToEdit({ params }) {
   const id = params.id;
 
-  // const response = await axios.get(ENDPOINTS.listings + "/" + id);
+  const response = await axios.get(ENDPOINTS.listings + "/" + id);
   console.log(id)
 
-  // const listingToEdit = await response.data;
+  const listingToEdit = await response.data;
 
-  const listingToEdit = {
-    "id": 1,
-    "role_name": "Developer",
-    "start_date": "2023-09-23",
-    "end_date": "2023-10-23",
-    "manager_id": 130002, // keep both name and id, id needed for other page
-    "manager_name": "Arnold Tan",
-    "dept": "HR",
-    "country": "Vietnam",
-    "role_desc": "Administers Database",
-    "role_skills": ["SQL", "E-R diagramming"]
-  }
+  // const listingToEdit = {
+  //   "id": 1,
+  //   "role_name": "Developer",
+  //   "start_date": "2023-09-23",
+  //   "end_date": "2023-10-23",
+  //   "manager_id": 130002, // keep both name and id, id needed for other page
+  //   "manager_name": "Arnold Tan",
+  //   "dept": "HR",
+  //   "country": "Vietnam",
+  //   "role_desc": "Administers Database",
+  //   "role_skills": ["SQL", "E-R diagramming"]
+  // }
 
   return listingToEdit;
 }

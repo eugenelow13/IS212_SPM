@@ -37,48 +37,7 @@ export interface IFormData {
 // });
 
 // Form submit action
-export async function createListingAction({ request }) {
-  const formData = await request.formData();
-  // copy of formData
-  let body = { ...Object.fromEntries(formData) };
 
-  // extract fields to prevent injection
-  const { role_name, start_date, end_date, country, manager_id } = body;
-  body = {
-    role_name,
-    manager_id,
-    country,
-    start_date: moment(start_date).format("YYYY-MM-DD"),
-    end_date: moment(end_date).format("YYYY-MM-DD"),
-
-  } as IFormData;
-
-  console.table(body);
-
-  const actionData = {
-    time: moment(),
-    success: false,
-    message: ""
-  }
-  // Post form response to axios
-  try {
-    const createListingResponse = await axios.post(
-      ENDPOINTS.listings,
-      body,
-    )
-    actionData.success = true;
-    actionData.message = `Submission of ${body.role_name} successful!`;
-
-    return actionData;
-  }
-  catch (responseErr) {
-    console.log(responseErr.message);
-    actionData.message = `Submission of ${body.role_name} failed: ${responseErr.response?.data?.message || responseErr.message}!`;
-
-    return actionData;
-  }
-
-}
 
 function fetchRoles(): Promise<Role[]> {
   return axios.get(ENDPOINTS.roles)

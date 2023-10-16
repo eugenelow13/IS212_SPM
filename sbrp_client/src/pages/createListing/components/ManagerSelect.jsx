@@ -52,8 +52,8 @@ export default function ManagerSelect({ repManagers, listingToEdit }) {
                     classNamePrefix="select"
                     isSearchable={true}
                     placeholder="Search by name or staff ID..."
-                    name="rep_manager_id"
-                    id="rep_manager_id"
+                    name="manager_id"
+                    id="manager_id"
                     options={repManagers}
                     getOptionLabel={staff => `${staff.staff_fname} ${staff.staff_lname}`}
                     getOptionValue={staff => staff.staff_id}
