@@ -1,12 +1,10 @@
-import * as React from 'react'
-import ReactDOM from 'react-dom/client'
-import { useState } from 'react'
-import { useEffect } from 'react'
-import './ListingTable.css'
+import * as React from 'react';
+import ReactDOM from 'react-dom/client';
+import { useState } from 'react';
+import { useEffect } from 'react';
+// import './ListingTable.css';
 import axios from 'axios'
-import { injectFakeAxios } from './FakeAxios'
 import { ENDPOINTS } from '../../../common/utilities';
-import { mock } from '../../../common/utilities';
 import {
   createColumnHelper,
   flexRender,
@@ -14,9 +12,13 @@ import {
   useReactTable,
   getFilteredRowModel,
   getSortedRowModel,
-} from '@tanstack/react-table'
+} from '@tanstack/react-table';
 
-injectFakeAxios()
+
+import Button from 'react-bootstrap/Button';
+import Modal from 'react-bootstrap/Modal';
+import ModalJob from './Modal';
+
 
 type RoleListing = {
   role_name: string
@@ -62,23 +64,6 @@ const fetchData: RoleListing[] = [
   },
 ]
 
-function fetchFakeData(){
-  try {
-    const response = axios.get(ENDPOINTS.listings);
-    return response; // Return the data from the Axios response
-  } catch (error) {
-    throw error; // Rethrow the error for handling outside the function
-  }
-}
-
-
-const retrievedData =  fetchFakeData();
-console.log(retrievedData);
-retrievedData.then((response)=>{
-   const fetchData:RoleListing[] = response.data;
-    console.log(fetchData);
-})
-
 const columnHelper = createColumnHelper<RoleListing>()
 
 const columns = [
@@ -94,12 +79,12 @@ const columns = [
   },
   {
     header:"Manager's ID",
-    accessorKey:"managerID",
+    accessorKey:"manager_id",
     footer:"Manager's ID"
   },
   {
     header:"Department",
-    accessorKey:"department",
+    accessorKey:"dept",
     footer:"Department"
   },
   {
@@ -107,38 +92,54 @@ const columns = [
     accessorKey:"country",
     footer:"Country"
   },
+  {
+    header:"skill match",
+    accessorKey:"skillmatch",
+    footer:"skillmatch"
+  },
 ]
-
-const skills=["data management","Python","ReactJS"];
 
 
 
 function tablelist() {
   // const [data, setData] = React.useState(()=>[]) 
+  const user ="Adam";
+  const skills = ['Account Management', 'Budgeting','Database Administration', 'Problem Management', 'Problem Solving','Configuration Tracking', 'People and Performance Management', 'Communication']
 
   const [data, setData] = React.useState(() => []) 
+  const [modal,setModal] = React.useState(false);
+  const [filtering, setFiltering] = React.useState("")
+  const [sorting, setSorting] = React.useState([])
+
+  const toggleModal = (props,visible)=>{
+    console.log(props.role_name,visible,modal);
+    window.sessionStorage.setItem("roledata",JSON.stringify(props));
+    const view = !visible;
+    setModal(view);
+  }
   
-  useEffect(() => {
+  
+  useEffect(() => { 
     // Fetch data asynchronously
     axios.get(ENDPOINTS.listings)
       .then((response) => {
         // Update the state with the fetched data
-        const fetchedListings = response.data;
-        for(var listing of fetchedListings){
-          console.log("listing:",listing);
-          listing.skillsMatch = 0;
+
+        const fetchedListings = response.data.role_listings;
+        for(var item of fetchedListings){
+          console.log("ITEM:",item);
+          const skillsMatched = skills.filter(skillName => item.role_skills.includes(skillName));
+          console.log("skillsMatched:",skillsMatched);
+          item.skillmatch = ((skillsMatched.length/item.role_skills.length)*100).toFixed(0)+"%";
+
         }
+
         setData(fetchedListings);
       })
       .catch((error) => {
         console.error('Error:', error);
       });
-  }, []);
-
-  const [filtering, setFiltering] = React.useState("")
-  const [sorting, setSorting] = React.useState([])
-  const rerender = React.useReducer(() => ({}), {})[1]
-
+  }, []); //FETCHDATA
 
   const table = useReactTable({
     data,
@@ -154,8 +155,12 @@ function tablelist() {
     onSortingChange: setSorting,
   })
 
+
   return (
+    <div>
     <div className="p-2">
+      {modal &&(<ModalJob/>)}
+      <p>your skills</p><p>{skills.join(', ')}</p>
       <input type="text" 
             value={filtering} 
             onChange ={(e)=> setFiltering(e.target.value)} ></input>
@@ -182,7 +187,10 @@ function tablelist() {
         </thead>
         <tbody>
           {table.getRowModel().rows.map(row => (
-            <tr key={row.id}>
+            <tr key={row.id} onClick={()=>{
+              var show = false;
+              console.log("here",row.original)
+              toggleModal(row.original,show);}}>
               {row.getVisibleCells().map(cell => (
                 <td key={cell.id}>
                   {flexRender(cell.column.columnDef.cell, cell.getContext())}
@@ -208,10 +216,7 @@ function tablelist() {
           ))}
         </tfoot> */}
       </table>
-      <div className="h-4" />
-      <button onClick={() => rerender()} className="border p-2">
-        Rerender
-      </button>
+    </div>
     </div>
   )
 }
