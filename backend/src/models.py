@@ -12,7 +12,7 @@ class Staff(db.Model):
     email = db.Column(db.String(50), nullable=False)
     role = db.Column(db.Integer, nullable=False)
 
-    role_listing = relationship("RoleListing", back_populates="staff")
+    role_listing = relationship("RoleListing", back_populates="manager")
 
     def __init__(self, staff_fname, staff_lname, dept, country, email, role):
         self.staff_fname = staff_fname
@@ -73,7 +73,7 @@ class RoleListing(db.Model):
     manager_id = db.Column(db.Integer, ForeignKey('staff.staff_id'), nullable=False)
     country = db.Column(db.String(50), nullable=False)
 
-    staff = relationship("Staff", back_populates="role_listing")
+    manager = relationship("Staff", back_populates="role_listing")
     role = relationship("Role", back_populates="role_listing")
 
     def __init__(self, role_name, start_date, end_date, manager_id, country):
@@ -89,8 +89,9 @@ class RoleListing(db.Model):
                "start_date": self.start_date.strftime('%Y-%m-%d'),
                "end_date": self.end_date.strftime('%Y-%m-%d'),
                "manager_id": self.manager_id,
+               "manager_name": self.manager.staff_fname + " " + self.manager.staff_lname,
                "country": self.country,
-               "dept": self.staff.dept,
+               "dept": self.manager.dept,
                "role_skills": [role_skill.skill_name for role_skill in self.role.role_skills]
                }
     
