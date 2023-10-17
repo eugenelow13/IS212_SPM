@@ -15,7 +15,7 @@ import { createListingAction } from './pages/createListing/createListingUtilitie
 
 import { AccessProvider } from './common/AccessProvider';
 import { loadListing } from './pages/createListing/createListingUtilities';
-// import applyToListing from './pages/viewListings/applyToListingUtilities';
+import applyToListing from './pages/viewListings/applyToListingUtilities';
 
 function App() {
 
@@ -24,7 +24,7 @@ function App() {
       <Route path='/' element={<RootLayout />}>
         <Route index element={<Home />} />
         <Route
-          // action={applyToListing}
+          action={applyToListing}
           path="/listings"
           element={<Listings />}
           >

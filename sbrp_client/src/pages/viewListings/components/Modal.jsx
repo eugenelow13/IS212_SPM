@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
-import { Container, Card, Badge, Form } from 'react-bootstrap'
-import { useLoaderData, useNavigate, Form as ReactForm } from 'react-router-dom';
+import { Container, Card, Badge, Form as BSForm } from 'react-bootstrap'
+import { useLoaderData, useNavigate, Form } from 'react-router-dom';
 import axios from 'axios';
 import { ENDPOINTS } from '../../../common/utilities';
 
@@ -82,10 +82,10 @@ function ModalJob() {
         <Modal.Header closeButton>
           <Modal.Title>{roleInfo.role_name}</Modal.Title>
         </Modal.Header>
-        {/* <ReactForm
+        <Form
           action="/listings"
           method="post"
-        > */}
+        >
           <Modal.Body>
             <p> <strong>Country | Department: </strong>{roleInfo.country} | {roleInfo.dept} </p>
             <p> <strong>Skills Required: </strong> <br></br></p>
@@ -114,12 +114,13 @@ function ModalJob() {
             }
             <p><strong>Skills Matched:</strong> {roleInfo.skillmatch} %</p>
 
-            {/* <input type="hidden" name="id" value={roleInfo.id} /> */}
+            <input type="hidden" name="staff_id" value={staff_id} />
+            <input type="hidden" name="id" value={roleInfo.id} />
 
-            <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
-              <Form.Label>Self-description (optional)</Form.Label>
-              <Form.Control name="app_desc" as="textarea" rows={3} value={appDesc} onChange={e => setAppDesc(e.target.value)} />
-            </Form.Group>
+            <BSForm.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
+              <BSForm.Label>Self-description (optional)</BSForm.Label>
+              <BSForm.Control name="app_desc" as="textarea" rows={3} value={appDesc} onChange={e => setAppDesc(e.target.value)} />
+            </BSForm.Group>
           </Modal.Body>
           <Modal.Footer>
             <Button variant="secondary" onClick={handleClose}>
@@ -127,15 +128,11 @@ function ModalJob() {
             </Button>
             <Button variant="primary"
               type="submit"
-              onClick={() => {
-                applyToListing(roleInfo.id, staff_id, appDesc);
-                navigate("/listings");
-              }}
             >
               Apply
             </Button>
           </Modal.Footer>
-        {/* </ReactForm > */}
+        </Form >
       </Modal >
     </>
   );
