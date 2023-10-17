@@ -13,7 +13,7 @@ import {
   getFilteredRowModel,
   getSortedRowModel,
 } from '@tanstack/react-table';
-import { Outlet } from 'react-router-dom';
+import { Outlet, useNavigate } from 'react-router-dom';
 
 
 import Button from 'react-bootstrap/Button';
@@ -104,7 +104,8 @@ const columns = [
 
 function tablelist() {
   // const [data, setData] = React.useState(()=>[]) 
-  const user ="Adam";
+  const navigate = useNavigate();
+  const user =140001;
   const skills = ['Account Management', 'Budgeting','Database Administration', 'Problem Management', 'Problem Solving','Configuration Tracking', 'People and Performance Management', 'Communication']
   window.sessionStorage.setItem("user",user);
   window.sessionStorage.setItem("skills",JSON.stringify(skills));
@@ -115,9 +116,11 @@ function tablelist() {
   const [sorting, setSorting] = React.useState([])
 
   const toggleModal = (props,visible)=>{
-    console.log(props.role_name,visible,modal);
-    window.sessionStorage.setItem("roledata",JSON.stringify(props));
-    setModal(!modal);
+    // console.log(props.role_name,visible,modal);
+    // window.sessionStorage.setItem("roledata",JSON.stringify(props));
+    // setModal(!modal);
+    console.log("try navigating")
+    navigate("/listings/" + props.id)
   }
   
   

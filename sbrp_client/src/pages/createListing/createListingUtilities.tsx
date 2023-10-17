@@ -71,13 +71,13 @@ export async function createListingAction({ params, request, method = "post" }) 
 
 }
 
-export async function loadListingToEdit({ params }) {
+export async function loadListing({ params }) {
   const id = params.id;
 
   const response = await axios.get(ENDPOINTS.listings + "/" + id);
-  console.log(id)
+  console.log("I AM WORKING!")
 
-  const listingToEdit = await response.data;
+  const listing = await response.data;
 
   // const listingToEdit = {
   //   "id": 1,
@@ -92,7 +92,7 @@ export async function loadListingToEdit({ params }) {
   //   "role_skills": ["SQL", "E-R diagramming"]
   // }
 
-  return listingToEdit;
+  return listing;
 }
 
 
