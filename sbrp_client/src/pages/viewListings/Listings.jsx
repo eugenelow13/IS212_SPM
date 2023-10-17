@@ -1,7 +1,7 @@
 import { Container } from 'react-bootstrap';
 import ListingTable from './components/ListingTable';
-import { Link } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
+import ModalJob from './components/Modal';
 
 
 // const Listings = () => (

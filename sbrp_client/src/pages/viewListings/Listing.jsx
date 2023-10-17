@@ -1,3 +1,4 @@
+
 import { Outlet, useParams } from "react-router-dom";
 import ListingTable from './components/ListingTable'
 

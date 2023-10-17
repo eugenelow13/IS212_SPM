@@ -1,10 +1,10 @@
-import * as React from 'react'
-import ReactDOM from 'react-dom/client'
-import { useState } from 'react'
-import './ListingTable.css'
-
-// import './index.css'
-
+import * as React from 'react';
+import ReactDOM from 'react-dom/client';
+import { useState } from 'react';
+import { useEffect } from 'react';
+// import './ListingTable.css';
+import axios from 'axios'
+import { ENDPOINTS } from '../../../common/utilities';
 import {
   createColumnHelper,
   flexRender,
@@ -12,41 +12,56 @@ import {
   useReactTable,
   getFilteredRowModel,
   getSortedRowModel,
-} from '@tanstack/react-table'
+} from '@tanstack/react-table';
+import { Outlet, useNavigate } from 'react-router-dom';
+
+
+import Button from 'react-bootstrap/Button';
+import Modal from 'react-bootstrap/Modal';
+import ModalJob from './Modal';
+
 
 type RoleListing = {
-  roleName: string
-  startDate: string
-  endDate: string
+  role_name: string
+  role_desc: string
+  role_skills: string[]
+  start_date: string
+  end_date: string
   managerID: number
   department: string
   country: string
 }
 
-const defaultData: RoleListing[] = [
+const fetchData: RoleListing[] = [
   {
-    roleName: 'Helpdesk staff',
-    startDate: '1 june 2020',
-    endDate: '1 june 2021',
-    managerID: 100,
-    department: 'HR',
+    role_name: 'Designer',
+    role_desc: 'Responsible for creating visually appealing designs.',
+    role_skills: ['Creative thinking', 'Graphic design software'],
+    start_date: '01-01-2023',
+    end_date: '31-12-2023',
+    managerID: 1,
+    department: 'IT',
     country: 'Singapore',
   },
   {
-    roleName: 'IT staff',
-    startDate: '10 june 2020',
-    endDate: '12 june 2021',
-    managerID: 40,
-    department: 'IT',
+    role_name: 'Manager',
+    role_desc: 'Oversees team activities and ensures project success.',
+    role_skills: ['Leadership', 'Project management', 'Communication'],
+    start_date: '15-02-2023',
+    end_date: '30-11-2023',
+    managerID: 2,
+    department: 'Sales',
     country: 'Malaysia',
   },
   {
-    roleName: 'Sales staff',
-    startDate: '1 june 2020',
-    endDate: '13 june 2021',
-    managerID: 20,
-    department: 'Sales',
-    country: 'Indonesia',
+    role_name: 'Analyst',
+    role_desc: 'Analyzes data to provide insights and support decision-making.',
+    role_skills: ['Data analysis', 'Statistics', 'Excel'],
+    start_date: '10-03-2023',
+    end_date: '20-10-2023',
+    managerID: 3,
+    department: 'IT',
+    country: 'Thailand',
   },
 ]
 
@@ -55,22 +70,22 @@ const columnHelper = createColumnHelper<RoleListing>()
 const columns = [
   {
     header:"Role",
-    accessorKey:"roleName",
+    accessorKey:"role_name",
     footer:'Role'
   },
   {
     header:"Application Window",
-    accessorFn: row => `${row.startDate} - ${row.endDate}`,
+    accessorFn: row => `${row.start_date} - ${row.end_date}`,
     footer:'Application Window'
   },
   {
     header:"Manager's ID",
-    accessorKey:"managerID",
+    accessorKey:"manager_id",
     footer:"Manager's ID"
   },
   {
     header:"Department",
-    accessorKey:"department",
+    accessorKey:"dept",
     footer:"Department"
   },
   {
@@ -78,14 +93,58 @@ const columns = [
     accessorKey:"country",
     footer:"Country"
   },
+  {
+    header:"skill match",
+    accessorKey:"skillmatch",
+    footer:"skillmatch"
+  },
 ]
 
+
+
 function tablelist() {
-  const [data, setData] = React.useState(() => [...defaultData])
+  // const [data, setData] = React.useState(()=>[]) 
+  const navigate = useNavigate();
+  const user =140001;
+  const skills = ['Account Management', 'Budgeting','Database Administration', 'Problem Management', 'Problem Solving','Configuration Tracking', 'People and Performance Management', 'Communication']
+  window.sessionStorage.setItem("user",user);
+  window.sessionStorage.setItem("skills",JSON.stringify(skills));
+
+  const [data, setData] = React.useState(() => []) 
+  const [modal,setModal] = React.useState(false);
   const [filtering, setFiltering] = React.useState("")
   const [sorting, setSorting] = React.useState([])
-  const rerender = React.useReducer(() => ({}), {})[1]
 
+  const toggleModal = (props,visible)=>{
+    // console.log(props.role_name,visible,modal);
+    // window.sessionStorage.setItem("roledata",JSON.stringify(props));
+    // setModal(!modal);
+    console.log("try navigating")
+    navigate("/listings/" + props.id)
+  }
+  
+  
+  useEffect(() => { 
+    // Fetch data asynchronously
+    axios.get(ENDPOINTS.listings)
+      .then((response) => {
+        // Update the state with the fetched data
+
+        const fetchedListings = response.data.role_listings;
+        for(var item of fetchedListings){
+          console.log("ITEM:",item);
+          const skillsMatched = skills.filter(skillName => item.role_skills.includes(skillName));
+          console.log("skillsMatched:",skillsMatched);
+          item.skillmatch = ((skillsMatched.length/item.role_skills.length)*100).toFixed(0)+"%";
+
+        }
+
+        setData(fetchedListings);
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      });
+  }, []); //FETCHDATA
 
   const table = useReactTable({
     data,
@@ -101,8 +160,12 @@ function tablelist() {
     onSortingChange: setSorting,
   })
 
+
   return (
+    <div>
     <div className="p-2">
+
+      <p>your skills</p><p>{skills.join(', ')}</p>
       <input type="text" 
             value={filtering} 
             onChange ={(e)=> setFiltering(e.target.value)} ></input>
@@ -129,7 +192,10 @@ function tablelist() {
         </thead>
         <tbody>
           {table.getRowModel().rows.map(row => (
-            <tr key={row.id}>
+            <tr key={row.id} onClick={()=>{
+              var show = false;
+              console.log("here",row.original)
+              toggleModal(row.original,show);}}>
               {row.getVisibleCells().map(cell => (
                 <td key={cell.id}>
                   {flexRender(cell.column.columnDef.cell, cell.getContext())}
@@ -155,10 +221,8 @@ function tablelist() {
           ))}
         </tfoot> */}
       </table>
-      <div className="h-4" />
-      <button onClick={() => rerender()} className="border p-2">
-        Rerender
-      </button>
+      {(<Outlet/>)}
+    </div>
     </div>
   )
 }
