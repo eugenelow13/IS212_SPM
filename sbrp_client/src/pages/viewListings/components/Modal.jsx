@@ -3,36 +3,6 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import { Container, Card, Badge, Form as BSForm } from 'react-bootstrap'
 import { useLoaderData, useNavigate, Form } from 'react-router-dom';
-import axios from 'axios';
-import { ENDPOINTS } from '../../../common/utilities';
-
-async function applyToListing(id, staff_id, appDesc) {
-  let actionData = {};
-
-  let body = {
-    id,
-    staff_id,
-    app_desc: appDesc
-  }
-
-  try {
-    await axios({
-      url: ENDPOINTS.listings + `/${id}` + "/applications",
-      method: "post",
-      data: body
-    });
-
-    actionData.success = true;
-    actionData.message = `Submission of application for ${body.id} successful!`;
-    return actionData;
-  }
-  catch (responseErr) {
-    console.log(responseErr.message);
-    actionData.message = `Submission of ${body.id} failed: ${responseErr.response?.data?.message || responseErr.message}!`;
-
-    return actionData;
-  }
-}
 
 function ModalJob() {
   const [show, setShow] = useState(true);
