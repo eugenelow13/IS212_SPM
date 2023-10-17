@@ -8,15 +8,14 @@ import Listing from './pages/viewListings/Listing';
 import ListingFormWithStatusToast, { ListingForm } from './pages/createListing/ListingForm';
 import ModalJob from './pages/viewListings/components/Modal';
 
-
 import { createBrowserRouter, createRoutesFromChildren, Route, RouterProvider } from 'react-router-dom';
 
 import RootLayout from './common/RootLayout';
 import { createListingAction } from './pages/createListing/createListingUtilities';
 
 import { AccessProvider } from './common/AccessProvider';
-
 import { loadListing } from './pages/createListing/createListingUtilities';
+// import applyToListing from './pages/viewListings/applyToListingUtilities';
 
 function App() {
 
@@ -24,13 +23,17 @@ function App() {
     createRoutesFromChildren(
       <Route path='/' element={<RootLayout />}>
         <Route index element={<Home />} />
-        <Route path="/listings" element={<Listings />} >
+        <Route
+          // action={applyToListing}
+          path="/listings"
+          element={<Listings />}
+          >
           <Route
             loader={loadListing}
             path=":id"
             element={<ModalJob />}
           >
-        </Route>
+          </Route>
           <Route
             path="edit"
             loader={loadListing}

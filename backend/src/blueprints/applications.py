@@ -8,10 +8,10 @@ applications = Blueprint("applications", __name__, url_prefix="/<int:listing_id>
 
 @applications.route("/", methods=["GET"])
 def see_applications(listing_id):
-    pass
-
-    print(Application.query.all())
-    return "see applications"
+    applications = Application.query.all()
+    if(len(applications)):
+        return jsonify({"applications": [application.json() for application in applications]})
+    return jsonify({"message": "No role listings found."}), 404
 
 @applications.route("/<int:staff_id>", methods=["GET"])
 def see_application(staff_id):

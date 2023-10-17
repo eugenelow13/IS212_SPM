@@ -1,11 +1,43 @@
 import { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
-import { Container, Card, Badge } from 'react-bootstrap'
-import { useLoaderData, useNavigate } from 'react-router-dom';
+import { Container, Card, Badge, Form } from 'react-bootstrap'
+import { useLoaderData, useNavigate, Form as ReactForm } from 'react-router-dom';
+import axios from 'axios';
+import { ENDPOINTS } from '../../../common/utilities';
+
+async function applyToListing(id, staff_id, appDesc) {
+  let actionData = {};
+
+  let body = {
+    id,
+    staff_id,
+    app_desc: appDesc
+  }
+
+  try {
+    await axios({
+      url: ENDPOINTS.listings + `/${id}` + "/applications",
+      method: "post",
+      data: body
+    });
+
+    actionData.success = true;
+    actionData.message = `Submission of application for ${body.id} successful!`;
+    return actionData;
+  }
+  catch (responseErr) {
+    console.log(responseErr.message);
+    actionData.message = `Submission of ${body.id} failed: ${responseErr.response?.data?.message || responseErr.message}!`;
+
+    return actionData;
+  }
+}
 
 function ModalJob() {
   const [show, setShow] = useState(true);
+  const [appDesc, setAppDesc] = useState("");
+
   const navigate = useNavigate();
   const roleInfo = useLoaderData()
 
@@ -19,13 +51,14 @@ function ModalJob() {
   // const roleinfo = window.sessionStorage.getItem("roledata");
   // console.log(JSON.parse(sessionStorage.roledata));
   // var roleInfo = JSON.parse(sessionStorage.roledata);
+  const staff_id = sessionStorage.getItem("user");
   const skills = JSON.parse(sessionStorage.skills);
 
-  const acquiredskills = roleInfo.role_skills.filter((skill)=>skills.includes(skill));
-  const lackingskills = roleInfo.role_skills.filter((skill)=>!skills.includes(skill));
-  console.log("lackingskills",lackingskills);
-  console.log("acquiredskills",acquiredskills);
-  console.log("skills",skills);
+  const acquiredskills = roleInfo.role_skills.filter((skill) => skills.includes(skill));
+  const lackingskills = roleInfo.role_skills.filter((skill) => !skills.includes(skill));
+  console.log("lackingskills", lackingskills);
+  console.log("acquiredskills", acquiredskills);
+  console.log("skills", skills);
   console.log(roleInfo.role_name);
   // console.log("roleinfo.skillmatch",roleInfo.skillmatch)
 
@@ -47,44 +80,63 @@ function ModalJob() {
         keyboard={false}
       >
         <Modal.Header closeButton>
-        <Modal.Title>{roleInfo.role_name}</Modal.Title>
+          <Modal.Title>{roleInfo.role_name}</Modal.Title>
         </Modal.Header>
-        <Modal.Body>
-         <p> <strong>Country | Department: </strong>{roleInfo.country} | {roleInfo.dept} </p>
-         <p> <strong>Skills Required: </strong> <br></br>{roleInfo?.role_skills.length > 0
-                    ? <Container className="d-flex flex-wrap p-0">
-                        {acquiredskills.map((skill, index) => (
-                          
-                            <Badge
-                                key={index}
-                                className='m-1'
-                                bg='success'>
-                                {skill}
-                            </Badge>
-                        ))}
-                        {lackingskills.map((skill, index) => (
-                          
-                          <Badge
-                              key={index}
-                              className='m-1'
-                              bg='secondary'>
-                              {skill}
-                          </Badge>
-                      ))}
-                    </Container>
-                    : <Card.Text>No role selected.</Card.Text>
-                }</p>
-         <p><strong>Skills Matched:</strong> {roleInfo.skillmatch} %</p>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
-            Close
-          </Button>
-          <Button variant="primary" onClick={()=>{
-            alert("API CALL HERE")
-          }}>Apply</Button>
-        </Modal.Footer>
-      </Modal>
+        {/* <ReactForm
+          action="/listings"
+          method="post"
+        > */}
+          <Modal.Body>
+            <p> <strong>Country | Department: </strong>{roleInfo.country} | {roleInfo.dept} </p>
+            <p> <strong>Skills Required: </strong> <br></br></p>
+            {roleInfo?.role_skills.length > 0
+              ? <Container className="d-flex flex-wrap p-0 mb-3">
+                {acquiredskills.map((skill, index) => (
+
+                  <Badge
+                    key={index}
+                    className='m-1'
+                    bg='success'>
+                    {skill}
+                  </Badge>
+                ))}
+                {lackingskills.map((skill, index) => (
+
+                  <Badge
+                    key={index}
+                    className='m-1'
+                    bg='secondary'>
+                    {skill}
+                  </Badge>
+                ))}
+              </Container>
+              : <Card.Text>No role selected.</Card.Text>
+            }
+            <p><strong>Skills Matched:</strong> {roleInfo.skillmatch} %</p>
+
+            {/* <input type="hidden" name="id" value={roleInfo.id} /> */}
+
+            <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
+              <Form.Label>Self-description (optional)</Form.Label>
+              <Form.Control name="app_desc" as="textarea" rows={3} value={appDesc} onChange={e => setAppDesc(e.target.value)} />
+            </Form.Group>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={handleClose}>
+              Close
+            </Button>
+            <Button variant="primary"
+              type="submit"
+              onClick={() => {
+                applyToListing(roleInfo.id, staff_id, appDesc);
+                navigate("/listings");
+              }}
+            >
+              Apply
+            </Button>
+          </Modal.Footer>
+        {/* </ReactForm > */}
+      </Modal >
     </>
   );
 }
