@@ -6,6 +6,8 @@ import Home from './pages/Login/Login';
 import Listings from './pages/viewListings/Listings';
 import Listing from './pages/viewListings/Listing';
 import ListingFormWithStatusToast, { ListingForm } from './pages/createListing/ListingForm';
+import ModalJob from './pages/viewListings/components/Modal';
+
 
 import { createBrowserRouter, createRoutesFromChildren, Route, RouterProvider } from 'react-router-dom';
 
@@ -22,11 +24,12 @@ function App() {
     createRoutesFromChildren(
       <Route path='/' element={<RootLayout />}>
         <Route index element={<Home />} />
-        <Route path="/listings" element={<Listings />} />
-        <Route
-          path="/listings/:id"
-          element={<Listing />}
-        >
+        <Route path="/listings" element={<Listings />} >
+          <Route
+            path=":id"
+            element={<ModalJob />}
+          >
+        </Route>
           <Route
             path="edit"
             loader={loadListingToEdit}

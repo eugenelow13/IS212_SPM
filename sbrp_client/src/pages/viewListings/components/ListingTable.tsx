@@ -13,6 +13,7 @@ import {
   getFilteredRowModel,
   getSortedRowModel,
 } from '@tanstack/react-table';
+import { Outlet } from 'react-router-dom';
 
 
 import Button from 'react-bootstrap/Button';
@@ -105,6 +106,8 @@ function tablelist() {
   // const [data, setData] = React.useState(()=>[]) 
   const user ="Adam";
   const skills = ['Account Management', 'Budgeting','Database Administration', 'Problem Management', 'Problem Solving','Configuration Tracking', 'People and Performance Management', 'Communication']
+  window.sessionStorage.setItem("user",user);
+  window.sessionStorage.setItem("skills",JSON.stringify(skills));
 
   const [data, setData] = React.useState(() => []) 
   const [modal,setModal] = React.useState(false);
@@ -114,8 +117,7 @@ function tablelist() {
   const toggleModal = (props,visible)=>{
     console.log(props.role_name,visible,modal);
     window.sessionStorage.setItem("roledata",JSON.stringify(props));
-    const view = !visible;
-    setModal(view);
+    setModal(!modal);
   }
   
   
@@ -159,7 +161,7 @@ function tablelist() {
   return (
     <div>
     <div className="p-2">
-      {modal &&(<ModalJob/>)}
+
       <p>your skills</p><p>{skills.join(', ')}</p>
       <input type="text" 
             value={filtering} 
@@ -216,6 +218,7 @@ function tablelist() {
           ))}
         </tfoot> */}
       </table>
+      {(<Outlet/>)}
     </div>
     </div>
   )
