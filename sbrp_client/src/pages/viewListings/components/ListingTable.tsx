@@ -13,11 +13,9 @@ import {
   getFilteredRowModel,
   getSortedRowModel,
 } from '@tanstack/react-table';
+import { Outlet, useNavigate } from 'react-router-dom';
 
-
-import Button from 'react-bootstrap/Button';
-import Modal from 'react-bootstrap/Modal';
-import ModalJob from './Modal';
+import Table from 'react-bootstrap/Table';
 
 
 type RoleListing = {
@@ -74,13 +72,13 @@ const columns = [
   },
   {
     header:"Application Window",
-    accessorFn: row => `${row.start_date} - ${row.end_date}`,
+    accessorFn: row => `${row.start_date_simple} - ${row.end_date_simple}`,
     footer:'Application Window'
   },
   {
-    header:"Manager's ID",
-    accessorKey:"manager_id",
-    footer:"Manager's ID"
+    header:"Manager",
+    accessorKey:"manager_name",
+    footer:"Manager"
   },
   {
     header:"Department",
@@ -93,7 +91,7 @@ const columns = [
     footer:"Country"
   },
   {
-    header:"skill match",
+    header:"Skill Match",
     accessorKey:"skillmatch",
     footer:"skillmatch"
   },
@@ -103,8 +101,11 @@ const columns = [
 
 function tablelist() {
   // const [data, setData] = React.useState(()=>[]) 
-  const user ="Adam";
+  const navigate = useNavigate();
+  const user =140001;
   const skills = ['Account Management', 'Budgeting','Database Administration', 'Problem Management', 'Problem Solving','Configuration Tracking', 'People and Performance Management', 'Communication']
+  window.sessionStorage.setItem("user",user);
+  window.sessionStorage.setItem("skills",JSON.stringify(skills));
 
   const [data, setData] = React.useState(() => []) 
   const [modal,setModal] = React.useState(false);
@@ -112,10 +113,11 @@ function tablelist() {
   const [sorting, setSorting] = React.useState([])
 
   const toggleModal = (props,visible)=>{
-    console.log(props.role_name,visible,modal);
-    window.sessionStorage.setItem("roledata",JSON.stringify(props));
-    const view = !visible;
-    setModal(view);
+    // console.log(props.role_name,visible,modal);
+    // window.sessionStorage.setItem("roledata",JSON.stringify(props));
+    // setModal(!modal);
+    console.log("try navigating")
+    navigate("/listings/" + props.id)
   }
   
   
@@ -128,6 +130,8 @@ function tablelist() {
         const fetchedListings = response.data.role_listings;
         for(var item of fetchedListings){
           console.log("ITEM:",item);
+          item.start_date_simple = new Date(item.start_date).toDateString().split(" ").splice(1).join(" ");
+          item.end_date_simple = new Date(item.end_date).toDateString().split(" ").splice(1).join(" ");
           const skillsMatched = skills.filter(skillName => item.role_skills.includes(skillName));
           console.log("skillsMatched:",skillsMatched);
           item.skillmatch = ((skillsMatched.length/item.role_skills.length)*100).toFixed(0)+"%";
@@ -159,12 +163,14 @@ function tablelist() {
   return (
     <div>
     <div className="p-2">
-      {modal &&(<ModalJob/>)}
-      <p>your skills</p><p>{skills.join(', ')}</p>
+
+      {/* <p>your skills</p><p>{skills.join(', ')}</p> */}
       <input type="text" 
             value={filtering} 
+            placeholder="Search for a role!"
+            style={{width:"30%"}}
             onChange ={(e)=> setFiltering(e.target.value)} ></input>
-      <table>
+      <Table className="text-center" hover>
         <thead>
           {table.getHeaderGroups().map(headerGroup => (
             <tr key={headerGroup.id}>
@@ -215,7 +221,8 @@ function tablelist() {
             </tr>
           ))}
         </tfoot> */}
-      </table>
+      </Table>
+      {(<Outlet/>)}
     </div>
     </div>
   )

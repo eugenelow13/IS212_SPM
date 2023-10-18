@@ -6,6 +6,7 @@ import Home from './pages/Login/Login';
 import Listings from './pages/viewListings/Listings';
 import Listing from './pages/viewListings/Listing';
 import ListingFormWithStatusToast, { ListingForm } from './pages/createListing/ListingForm';
+import ModalJob from './pages/viewListings/components/Modal';
 
 import { createBrowserRouter, createRoutesFromChildren, Route, RouterProvider } from 'react-router-dom';
 
@@ -13,8 +14,8 @@ import RootLayout from './common/RootLayout';
 import { createListingAction } from './pages/createListing/createListingUtilities';
 
 import { AccessProvider } from './common/AccessProvider';
-
-import { loadListingToEdit } from './pages/createListing/createListingUtilities';
+import { loadListing } from './pages/createListing/createListingUtilities';
+import applyToListing from './pages/viewListings/applyToListingUtilities';
 
 function App() {
 
@@ -22,14 +23,20 @@ function App() {
     createRoutesFromChildren(
       <Route path='/' element={<RootLayout />}>
         <Route index element={<Home />} />
-        <Route path="/listings" element={<Listings />} />
         <Route
-          path="/listings/:id"
-          element={<Listing />}
-        >
+          action={applyToListing}
+          path="/listings"
+          element={<Listings />}
+          >
+          <Route
+            loader={loadListing}
+            path=":id"
+            element={<ModalJob />}
+          >
+          </Route>
           <Route
             path="edit"
-            loader={loadListingToEdit}
+            loader={loadListing}
             element={<ListingFormWithStatusToast />}
             action={({ params, request }) => createListingAction({ params, request, method: "put" })}
           ></Route>

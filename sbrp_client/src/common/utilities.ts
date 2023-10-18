@@ -14,7 +14,8 @@ import moment from 'moment';
 export const ENDPOINTS = {
     roles: "/api/roles/",
     listings: "/api/listings",
-    staffs: "/api/staffs"
+    staffs: "/api/staffs",
+    applications: "/api/applications"
 }
 
 // export const mock = new MockAdapter(axios, { delayResponse: 1000 });
@@ -63,6 +64,19 @@ export function useIsLoading() {
 export function useFetchedData({ fetchFn, setState }) {
     useEffect(() => {
         fetchFn()
+            .then((data) => {
+                setState(data);
+                // console.table(data)
+            })
+            .catch((error) => {
+                console.log(error)
+            })
+    }, [])
+}
+
+export function useFetchedDataWithParams({ fetchFn, setState, params }) {
+    useEffect(() => {
+        fetchFn(params)
             .then((data) => {
                 setState(data);
                 // console.table(data)

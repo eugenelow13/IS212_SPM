@@ -12,6 +12,7 @@ class Staff(db.Model):
     email = db.Column(db.String(50), nullable=False)
     role = db.Column(db.Integer, nullable=False)
 
+    applications = relationship("Application", back_populates="applicant")
     role_listing = relationship("RoleListing", back_populates="manager")
 
     def __init__(self, staff_fname, staff_lname, dept, country, email, role):
@@ -87,6 +88,7 @@ class RoleListing(db.Model):
     def json(self):
         return{"id": self.id,
                "role_name": self.role_name,
+               "role_desc": self.role.role_desc,
                "start_date": self.start_date.strftime('%Y-%m-%d'),
                "end_date": self.end_date.strftime('%Y-%m-%d'),
                "manager_id": self.manager_id,
@@ -103,6 +105,8 @@ class Application(db.Model):
     staff_id = db.Column(db.Integer, ForeignKey('staff.staff_id'), primary_key=True)
     app_desc = db.Column(db.String(100), nullable=False)
     app_date = db.Column(db.Date, nullable=False)
+
+    applicant = relationship("Staff", back_populates="applications")
 
     def __init__(self, id, staff_id, app_desc, app_date):
         self.id = id
