@@ -63,8 +63,7 @@ function ModalJob() {
           <Modal.Body>
             <p> <strong>Country | Department: </strong>{roleInfo.country} | {roleInfo.dept} </p>
             <p> <strong>Skills Required: </strong> <br></br></p>
-            {roleInfo?.role_skills.length > 0
-              ? <Container className="d-flex flex-wrap p-0 mb-3">
+              <Container className="d-flex flex-wrap p-0 mb-3">
                 {acquiredskills.map((skill, index) => (
 
                   <Badge
@@ -83,8 +82,6 @@ function ModalJob() {
                   </Badge>
                 ))}
               </Container>
-              : <Card.Text>No role selected.</Card.Text>
-            }
             <p><strong>Skills Matched:</strong> {roleInfo.skillmatch} %</p>
 
             <input type="hidden" name="staff_id" value={staff_id} />
