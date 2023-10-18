@@ -87,6 +87,7 @@ class RoleListing(db.Model):
     def json(self):
         return{"id": self.id,
                "role_name": self.role_name,
+               "role_desc": self.role.role_desc,
                "start_date": self.start_date.strftime('%Y-%m-%d'),
                "end_date": self.end_date.strftime('%Y-%m-%d'),
                "manager_id": self.manager_id,
