@@ -65,7 +65,6 @@ function ModalJob() {
             <p> <strong>Skills Required: </strong> <br></br></p>
               <Container className="d-flex flex-wrap p-0 mb-3">
                 {acquiredskills.map((skill, index) => (
-
                   <Badge
                     key={index}
                     className='m-1'
@@ -87,10 +86,12 @@ function ModalJob() {
             <input type="hidden" name="staff_id" value={staff_id} />
             <input type="hidden" name="id" value={roleInfo.id} />
 
-            <BSForm.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
-              <BSForm.Label>Self-description (optional)</BSForm.Label>
+            {allowApply() ? (
+              <BSForm.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
+              <BSForm.Label >Self-description (optional)</BSForm.Label>
               <BSForm.Control name="app_desc" as="textarea" rows={3} value={appDesc} onChange={e => setAppDesc(e.target.value)} />
-            </BSForm.Group>
+              </BSForm.Group>
+            ):(<p>This role is not currently open for application. Please refer to the date window for application</p>)}
           </Modal.Body>
           <Modal.Footer>
             <Button variant="secondary" onClick={handleClose}>
