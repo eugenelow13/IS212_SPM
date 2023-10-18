@@ -74,6 +74,19 @@ export function useFetchedData({ fetchFn, setState }) {
     }, [])
 }
 
+export function useFetchedDataWithParams({ fetchFn, setState, params }) {
+    useEffect(() => {
+        fetchFn(params)
+            .then((data) => {
+                setState(data);
+                // console.table(data)
+            })
+            .catch((error) => {
+                console.log(error)
+            })
+    }, [])
+}
+
 
 
 // TEST

@@ -1,12 +1,12 @@
 import axios from "axios";
-import { ENDPOINTS } from "../../common/utilities";
+import { ENDPOINTS, useFetchedDataWithParams } from "../../common/utilities";
 
 
 export default async function applyToListing({ params, request }) {
-    
+
     const formData = await request.formData();
 
-    const body = {...Object.fromEntries(formData)}
+    const body = { ...Object.fromEntries(formData) }
 
     let actionData = {};
 
@@ -29,7 +29,24 @@ export default async function applyToListing({ params, request }) {
     }
 }
 
-export async function fetchStaffApplications(staff_id, id) {
-    // id is listing_id
-    // const axios.get(ENDPOINTS.)
+export async function fetchStaffApplications({ staff_id, id }) {
+    // array of staff applications
+    const response = await axios.get(ENDPOINTS.staffs + "/" + staff_id + "/applications");
+    const applications = response.data.applications;
+
+    // console.log("Applied for", applications);
+
+    if (applications.find((application) => application.id === id) !== undefined) {
+        return true;
+    }
+
+    return false;
+
 }
+
+// useFetchedDataWithParams({ fetchFn: fetchStaffApplications, setState: setHasApplied, params: { staff_id, id }})
+
+// export function fetchStaffApplicationsFactory(staff_id, id) {
+//     return () => fetchStaffApplications(staff_id, id);
+// }
+

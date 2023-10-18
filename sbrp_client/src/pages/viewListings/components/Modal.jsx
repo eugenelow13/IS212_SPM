@@ -3,10 +3,13 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import { Container, Card, Badge, Form as BSForm } from 'react-bootstrap'
 import { useLoaderData, useNavigate, Form } from 'react-router-dom';
+import { useFetchedDataWithParams } from '../../../common/utilities';
+import { fetchStaffApplications } from '../applyToListingUtilities';
 
 function ModalJob() {
   const [show, setShow] = useState(true);
   const [appDesc, setAppDesc] = useState("");
+  const [alreadyApplied, setAlreadyApplied]  = useState(false)
 
   const navigate = useNavigate();
   const roleInfo = useLoaderData()
@@ -28,6 +31,8 @@ function ModalJob() {
   const staff_id = sessionStorage.getItem("user");
   const skills = JSON.parse(sessionStorage.skills);
 
+  useFetchedDataWithParams({ fetchFn: fetchStaffApplications, setState: setAlreadyApplied, params: { staff_id, id: roleInfo.id }})
+
   const acquiredskills = roleInfo.role_skills.filter((skill) => skills.includes(skill));
   const lackingskills = roleInfo.role_skills.filter((skill) => !skills.includes(skill));
   console.log("lackingskills", lackingskills);
@@ -43,6 +48,7 @@ function ModalJob() {
 
   return (
     <>
+    {console.log(alreadyApplied)}
       {/* <Button variant="primary" onClick={handleShow}>
         Launch static backdrop modal
       </Button> */}
