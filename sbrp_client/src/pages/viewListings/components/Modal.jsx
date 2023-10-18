@@ -16,11 +16,15 @@ function ModalJob() {
     navigate("/listings");
 
   }
-  // const handleShow = () => setShow(true);
-  // console.log("in Modal:",window.sessionStorage.getItem("roledata"));
-  // const roleinfo = window.sessionStorage.getItem("roledata");
-  // console.log(JSON.parse(sessionStorage.roledata));
-  // var roleInfo = JSON.parse(sessionStorage.roledata);
+  const allowApply = () => {
+    let startDate = new Date(roleInfo.start_date);
+    let endDate = new Date(roleInfo.end_date);
+    let dateNow = new Date();
+    if (dateNow >= startDate && dateNow <= endDate) {
+      return true;
+    }else{return false;}
+  }
+
   const staff_id = sessionStorage.getItem("user");
   const skills = JSON.parse(sessionStorage.skills);
 
@@ -71,7 +75,6 @@ function ModalJob() {
                   </Badge>
                 ))}
                 {lackingskills.map((skill, index) => (
-
                   <Badge
                     key={index}
                     className='m-1'
@@ -98,6 +101,7 @@ function ModalJob() {
             </Button>
             <Button variant="primary"
               type="submit"
+              disabled={allowApply() ? false : true}
             >
               Apply
             </Button>
