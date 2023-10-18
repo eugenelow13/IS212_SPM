@@ -15,7 +15,6 @@ def get_all():
         return jsonify({"role_listings": [listing.json() for listing in listing_list]})
     return jsonify({"message": "No role listings found."}), 404
 
-<<<<<<< Updated upstream
 @listings.route("/<int:listing_id>", methods=["GET"])
 def get_listing(listing_id):
     listing = RoleListing.query.get(listing_id)
@@ -23,25 +22,6 @@ def get_listing(listing_id):
         return listing.json()
     
     return {"message": "No role listings found."}, 404
-=======
-@listings.route("/<int:id>", methods=["GET"])
-def get_listing(id):
-    listing_list = RoleListing.query.filter_by(id=id).all()
-    if(len(listing_list)):
-        return jsonify({"role_listing": [listing.json() for listing in listing_list]})
-    return jsonify({"message": "No role listings found."}), 404
-
-import datetime
-from sqlalchemy import func
-
-@listings.route("/openlistings", methods=["GET"])
-def get_open_listings():
-    today = datetime.date.today()
-    listing_list = RoleListing.query.filter(RoleListing.end_date > func.date(today)).all()
-    if(len(listing_list)):
-        return jsonify({"role_listings": [listing.json() for listing in listing_list]})
-    return jsonify({"message": "No role listings found."}), 404
->>>>>>> Stashed changes
 
 @listings.route("/", methods=["POST"])
 def create_listing():
