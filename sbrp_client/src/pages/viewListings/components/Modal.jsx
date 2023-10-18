@@ -66,7 +66,6 @@ function ModalJob() {
           method="post"
         >
           <Modal.Body>
-            <Table></Table>
             <p> <strong>Country | Reporting Manager | Department: </strong>{roleInfo.country} | {roleInfo.manager_name} | {roleInfo.dept} </p>
             <p><strong>Description:</strong><br/>
             <div style={{height:'200px',overflowY: 'scroll',
