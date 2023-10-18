@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
-import { Container, Card, Badge, Form as BSForm } from 'react-bootstrap'
+import { Container, Card, Badge, Alert, Form as BSForm } from 'react-bootstrap'
 import { useLoaderData, useNavigate, Form } from 'react-router-dom';
 import { useFetchedDataWithParams } from '../../../common/utilities';
 import { fetchStaffApplications } from '../applyToListingUtilities';
@@ -49,15 +49,14 @@ function ModalJob() {
   return (
     <>
     {console.log(alreadyApplied)}
-      {/* <Button variant="primary" onClick={handleShow}>
-        Launch static backdrop modal
-      </Button> */}
+    {console.log(roleInfo)}
 
       <Modal
         show={show}
         onHide={handleClose}
         backdrop="static"
         keyboard={false}
+        size="lg"
       >
         <Modal.Header closeButton>
           <Modal.Title>{roleInfo.role_name}</Modal.Title>
@@ -67,8 +66,15 @@ function ModalJob() {
           method="post"
         >
           <Modal.Body>
-            <p> <strong>Country | Department: </strong>{roleInfo.country} | {roleInfo.dept} </p>
-            <p> <strong>Skills Required: </strong> <br></br></p>
+            <Table></Table>
+            <p> <strong>Country | Reporting Manager | Department: </strong>{roleInfo.country} | {roleInfo.manager_name} | {roleInfo.dept} </p>
+            <p><strong>Description:</strong><br/>
+            <div style={{height:'200px',overflowY: 'scroll',
+                        border:'1px lightgrey solid', borderRadius:"5px",
+                        padding:"5px"}}>
+                {roleInfo.role_desc}
+            </div></p>
+            <p> <strong>Skills Required: </strong><br/></p>
               <Container className="d-flex flex-wrap p-0 mb-3">
                 {acquiredskills.map((skill, index) => (
                   <Badge
@@ -92,12 +98,16 @@ function ModalJob() {
             <input type="hidden" name="staff_id" value={staff_id} />
             <input type="hidden" name="id" value={roleInfo.id} />
 
-            {allowApply() ? (
+            {(allowApply() && !alreadyApplied) ? (
               <BSForm.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
               <BSForm.Label >Self-description (optional)</BSForm.Label>
               <BSForm.Control name="app_desc" as="textarea" rows={3} value={appDesc} onChange={e => setAppDesc(e.target.value)} />
               </BSForm.Group>
-            ):(<p>This role is not currently open for application. Please refer to the date window for application</p>)}
+            ):(
+              <>
+              {alreadyApplied ? (<Alert variant="danger">You have already applied for this role!</Alert>):(<Alert variant="danger">This role is not currently open for application. Please refer to the date window for application</Alert>)}
+              </>
+            )}
           </Modal.Body>
           <Modal.Footer>
             <Button variant="secondary" onClick={handleClose}>
@@ -105,7 +115,7 @@ function ModalJob() {
             </Button>
             <Button variant="primary"
               type="submit"
-              disabled={allowApply() ? false : true}
+              disabled={(allowApply() && !alreadyApplied) ? false : true}
             >
               Apply
             </Button>
