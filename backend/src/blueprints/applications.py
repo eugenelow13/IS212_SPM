@@ -4,20 +4,22 @@ from src.extensions import db
 from sqlalchemy.exc import IntegrityError
 import datetime 
 
-applications = Blueprint("applications", __name__, url_prefix="/<int:listing_id>/applications")
+applications = Blueprint("applications", __name__, url_prefix="/applications")
 
 @applications.route("/", methods=["GET"])
-def see_applications(listing_id):
+def see_applications():
     applications = Application.query.all()
     if(len(applications)):
         return jsonify({"applications": [application.json() for application in applications]})
     return jsonify({"message": "No role listings found."}), 404
 
-@applications.route("/<int:staff_id>", methods=["GET"])
-def see_application(staff_id):
-    pass
 
-@applications.route("/", methods=["POST"])
+# @applications.route("/<int:staff_id>", methods=["GET"])
+# def see_application(staff_id):
+#     pass
+
+# @applications.route("/", methods=["POST"])
+@applications.route("/<int:listing_id>", methods=["POST"])
 def create_application(listing_id):
 
     body = request.get_json()
@@ -58,7 +60,8 @@ def create_application(listing_id):
         }, 500
 
     return jsonify({
-        "message": f"Application for {staff_id} has been created for {role_listing.role_name} role."
+        "message": f"Application for {staff_id} has been created for {role_listing.role_name} role.",
+        "data": application.json()
     }), 200
 
 

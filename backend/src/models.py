@@ -13,6 +13,7 @@ class Staff(db.Model):
     role = db.Column(db.Integer, nullable=False)
 
     role_listing = relationship("RoleListing", back_populates="staff")
+    applications = relationship("Application", back_populates="applicant")
 
     def __init__(self, staff_fname, staff_lname, dept, country, email, role):
         self.staff_fname = staff_fname
@@ -101,6 +102,8 @@ class Application(db.Model):
     staff_id = db.Column(db.Integer, ForeignKey('staff.staff_id'), primary_key=True)
     app_desc = db.Column(db.String(100), nullable=False)
     app_date = db.Column(db.Date, nullable=False)
+
+    applicant = relationship("Staff", back_populates="applications")
 
     def __init__(self, id, staff_id, app_desc, app_date):
         self.id = id

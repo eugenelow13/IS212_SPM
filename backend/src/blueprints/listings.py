@@ -118,6 +118,7 @@ def edit_listing(listing_id):
 
     return jsonify(
         {
+            "message": f"Role Listing for {role_listing.id} creation succcesful",
             "data": role_listing.json()
         }
     ), 201

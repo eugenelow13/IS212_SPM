@@ -14,7 +14,8 @@ import moment from 'moment';
 export const ENDPOINTS = {
     roles: "/api/roles/",
     listings: "/api/listings",
-    staffs: "/api/staffs"
+    staffs: "/api/staffs",
+    applications: "/api/applications"
 }
 
 // export const mock = new MockAdapter(axios, { delayResponse: 1000 });

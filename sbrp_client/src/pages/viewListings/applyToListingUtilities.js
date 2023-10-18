@@ -12,7 +12,7 @@ export default async function applyToListing({ params, request }) {
 
     try {
         await axios({
-            url: ENDPOINTS.listings + `/${body.id}` + "/applications",
+            url: ENDPOINTS.applications + `/${body.id}`,
             method: "post",
             data: body
         });
@@ -29,3 +29,7 @@ export default async function applyToListing({ params, request }) {
     }
 }
 
+export async function fetchStaffApplications(staff_id, id) {
+    // id is listing_id
+    // const axios.get(ENDPOINTS.)
+}

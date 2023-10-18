@@ -19,6 +19,14 @@ def get_staff_by_role(role):
     return jsonify({"message": "No staff found with role {}.".format(role)}), 404
 
 
+@staff.route("/<int:staff_id>/applications", methods=["GET"])
+def get_staff_applications(staff_id):
+    staff = Staff.query.get(staff_id)
+    if staff:
+        staff_applications = staff.applications
+        if staff_applications:
+            return {"applications": [application.json() for application in staff_applications]}, 200
+    return {"message": "No applications found"}, 404
     
 
 
