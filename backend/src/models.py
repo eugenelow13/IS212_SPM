@@ -12,8 +12,8 @@ class Staff(db.Model):
     email = db.Column(db.String(50), nullable=False)
     role = db.Column(db.Integer, nullable=False)
 
-    role_listing = relationship("RoleListing", back_populates="staff")
     applications = relationship("Application", back_populates="applicant")
+    role_listing = relationship("RoleListing", back_populates="manager")
 
     def __init__(self, staff_fname, staff_lname, dept, country, email, role):
         self.staff_fname = staff_fname
@@ -24,7 +24,7 @@ class Staff(db.Model):
         self.role = role
 
     def json(self):
-        return{"staff_id": self.staff_id,
+        return{
                "staff_fname": self.staff_fname,
                "staff_lname": self.staff_lname,
                "dept": self.dept,
@@ -48,7 +48,7 @@ class Role(db.Model):
     def json(self):
         return{"role_name": self.role_name,
                "role_desc": self.role_desc,
-               "role_skills": [role_skill.skill_name for role_skill in self.role_skills]}
+               }
 
 
 class Skill(db.Model):
@@ -74,7 +74,7 @@ class RoleListing(db.Model):
     manager_id = db.Column(db.Integer, ForeignKey('staff.staff_id'), nullable=False)
     country = db.Column(db.String(50), nullable=False)
 
-    staff = relationship("Staff", back_populates="role_listing")
+    manager = relationship("Staff", back_populates="role_listing")
     role = relationship("Role", back_populates="role_listing")
 
     def __init__(self, role_name, start_date, end_date, manager_id, country):
@@ -90,8 +90,9 @@ class RoleListing(db.Model):
                "start_date": self.start_date.strftime('%Y-%m-%d'),
                "end_date": self.end_date.strftime('%Y-%m-%d'),
                "manager_id": self.manager_id,
+               "manager_name": self.manager.staff_fname + " " + self.manager.staff_lname,
                "country": self.country,
-               "dept": self.staff.dept,
+               "dept": self.manager.dept,
                "role_skills": [role_skill.skill_name for role_skill in self.role.role_skills]
                }
     
