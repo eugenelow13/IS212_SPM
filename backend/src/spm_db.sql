@@ -57,7 +57,7 @@ DROP TABLE IF EXISTS `application`;
 CREATE TABLE IF NOT EXISTS `application` (
   `id` int NOT NULL REFERENCES role_listing(id),
   `Staff_ID` int NOT NULL REFERENCES staff(Staff_ID),
-  `App_Desc` longtext NOT NULL,
+  `App_Desc` longtext,
   `App_Date` date NOT NULL,
   PRIMARY KEY (`id`,`Staff_ID`)
 );

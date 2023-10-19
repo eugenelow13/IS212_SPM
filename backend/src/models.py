@@ -1,6 +1,7 @@
 from src.extensions import db
 from sqlalchemy import ForeignKey
 from sqlalchemy.orm import relationship
+from sqlalchemy.dialects.mysql import LONGTEXT
 
 class Staff(db.Model):
     __tablename__ = 'staff'
@@ -24,8 +25,7 @@ class Staff(db.Model):
         self.role = role
 
     def json(self):
-        return{
-                "staff_id": self.staff_id,
+        return{"staff_id": self.staff_id,
                "staff_fname": self.staff_fname,
                "staff_lname": self.staff_lname,
                "dept": self.dept,
@@ -103,7 +103,7 @@ class Application(db.Model):
     __tablename__ = 'application'
     id = db.Column(db.Integer, ForeignKey('role_listing.id'), primary_key=True)
     staff_id = db.Column(db.Integer, ForeignKey('staff.staff_id'), primary_key=True)
-    app_desc = db.Column(db.String(100), nullable=False)
+    app_desc = db.Column(LONGTEXT, nullable=True)
     app_date = db.Column(db.Date, nullable=False)
 
     applicant = relationship("Staff", back_populates="applications")
