@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Form, useLoaderData } from 'react-router-dom';
+import { Form, Link, useLoaderData } from 'react-router-dom';
 
 import axios from 'axios';
 import { ENDPOINTS, mock, useFetchedData, useIsLoading } from '../../common/utilities';
@@ -139,6 +139,18 @@ export function ListingForm() {
           <Row className='mt-3'>
             <Col>
               <SubmitButton isLoading={isLoading} text={listingToEdit ? "Edit" : "Submit"}></SubmitButton>
+              {listingToEdit &&
+                <Link
+                  to=".."
+                  relative="path"
+                >
+                  <Button
+                    variant="outline-primary ms-1"  
+                  >
+                    Back to Listing
+                  </Button>
+                </Link>
+              }
             </Col>
           </Row>
 

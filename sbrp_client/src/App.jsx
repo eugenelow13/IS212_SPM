@@ -33,13 +33,13 @@ function App() {
             element={<ModalJob />}
           >
           </Route>
+        </Route>
           <Route
-            path="edit"
+            path="listings/:id/edit"
             loader={loadListing}
             element={<ListingFormWithStatusToast />}
             action={({ params, request }) => createListingAction({ params, request, method: "put" })}
           ></Route>
-        </Route>
 
         <Route
           path="/listings/new"
