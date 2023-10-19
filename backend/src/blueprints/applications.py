@@ -39,13 +39,13 @@ def create_application(listing_id):
 
     if app_date < start_date:
         return {"message": "Role listing has not opened yet"}, 401
-    
+
     if app_date > end_date:
         return {"message": "Role listing has expired"}, 401
 
     if int(staff_id) == int(role_listing.manager_id):
         return {"message": "Cannot apply for self-posted role"}, 401
-    
+
     try:
         application = Application(listing_id, staff_id, app_desc, app_date)
         db.session.add(application)
