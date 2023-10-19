@@ -1,6 +1,9 @@
 from flask import Flask, Blueprint
 from src.extensions import db
 import os
+# For testing
+from src.models import Staff, Role, Skill, StaffSkill, RoleSkill
+
 from src.blueprints.listings import listings
 from src.blueprints.applications import applications
 from src.blueprints.staff import staff

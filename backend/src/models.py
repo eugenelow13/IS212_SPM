@@ -13,6 +13,7 @@ class Staff(db.Model):
     email = db.Column(db.String(50), nullable=False)
     role = db.Column(db.Integer, nullable=False)
 
+    staff_skills = relationship("StaffSkill", back_populates="staff")
     applications = relationship("Application", back_populates="applicant")
     role_listing = relationship("RoleListing", back_populates="manager")
 
@@ -31,7 +32,9 @@ class Staff(db.Model):
                "dept": self.dept,
                "country": self.country,
                "email": self.email,
-               "role": self.role}
+               "role": self.role,
+               "staff_skills": [skill.skill_name for skill in self.staff_skills]
+               }
 
 
 class Role(db.Model):
@@ -141,6 +144,8 @@ class StaffSkill(db.Model):
     __tablename__ = 'staff_skill'
     staff_id = db.Column(db.Integer, ForeignKey('staff.staff_id'), primary_key=True)
     skill_name = db.Column(db.String(50), ForeignKey('skill.skill_name'), primary_key=True)
+
+    staff = relationship("Staff", back_populates="staff_skills")
 
     def __init__(self, staff_id, skill_name):
         self.staff_id = staff_id

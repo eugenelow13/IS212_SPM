@@ -46,7 +46,7 @@ function fetchRoles(): Promise<Role[]> {
 
 function fetchStaffs() {
   return axios.get(ENDPOINTS.staffs)
-    .then(response => response.data.staff);
+    .then(response => response.data.staffs);
 }
 
 

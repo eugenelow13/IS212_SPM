@@ -12,14 +12,14 @@ listings = Blueprint("listings", __name__, url_prefix="/listings")
 def get_all():
     listing_list = RoleListing.query.all()
     if(len(listing_list)):
-        return jsonify({"role_listings": [listing.json() for listing in listing_list]})
+        return jsonify({"role_listings": [listing.json() for listing in listing_list]}), 200
     return jsonify({"message": "No role listings found."}), 404
 
 @listings.route("/<int:listing_id>", methods=["GET"])
 def get_listing(listing_id):
     listing = RoleListing.query.get(listing_id)
     if listing:
-        return listing.json()
+        return listing.json(), 200
     
     return {"message": "No role listings found."}, 404
 
