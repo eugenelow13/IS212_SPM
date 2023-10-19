@@ -1,6 +1,4 @@
 import * as React from 'react';
-import ReactDOM from 'react-dom/client';
-import { useState } from 'react';
 import { useEffect } from 'react';
 // import './ListingTable.css';
 import axios from 'axios'
@@ -183,7 +181,7 @@ function tablelist() {
                         header.getContext()
                       )}                      
                       {
-                        { asc: 'ASC', desc: 'DESC'}[ header.column.getIsSorted() ?? null]
+                        { asc: ' ASC', desc: ' DESC'}[ header.column.getIsSorted() ?? null]
                         }
 
                 </th>

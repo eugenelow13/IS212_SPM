@@ -1,7 +1,7 @@
 import { Container } from 'react-bootstrap';
 import ListingTable from './components/ListingTable';
 import { useLocation } from 'react-router-dom';
-import ModalJob from './components/Modal';
+import { WithStatusToast } from '../../common/WithStatusToast';
 
 
 // const Listings = () => (
@@ -10,7 +10,9 @@ import ModalJob from './components/Modal';
 
 // )
 
-export default function Listings() {
+const ListingsWithStatusToast = WithStatusToast(Listings);
+
+function Listings() {
   const location = useLocation();
   console.log(location.state);
   return (
@@ -19,3 +21,4 @@ export default function Listings() {
     </Container>
   )
 }
+export default ListingsWithStatusToast;
