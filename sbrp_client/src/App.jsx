@@ -3,8 +3,6 @@ import './App.css'
 
 // Page Imports
 import Home from './pages/Login/Login';
-import Listings from './pages/viewListings/Listings';
-import Listing from './pages/viewListings/Listing';
 import ListingFormWithStatusToast, { ListingForm } from './pages/createListing/ListingForm';
 import ModalJob from './pages/viewListings/components/Modal';
 
@@ -16,6 +14,7 @@ import { createListingAction } from './pages/createListing/createListingUtilitie
 import { AccessProvider } from './common/AccessProvider';
 import { loadListing } from './pages/createListing/createListingUtilities';
 import applyToListing from './pages/viewListings/applyToListingUtilities';
+import ListingsWithStatusToast from './pages/viewListings/Listings';
 
 function App() {
 
@@ -26,7 +25,7 @@ function App() {
         <Route
           action={applyToListing}
           path="/listings"
-          element={<Listings />}
+          element={<ListingsWithStatusToast />}
           >
           <Route
             loader={loadListing}
@@ -34,13 +33,13 @@ function App() {
             element={<ModalJob />}
           >
           </Route>
+        </Route>
           <Route
-            path="edit"
+            path="listings/:id/edit"
             loader={loadListing}
             element={<ListingFormWithStatusToast />}
             action={({ params, request }) => createListingAction({ params, request, method: "put" })}
           ></Route>
-        </Route>
 
         <Route
           path="/listings/new"

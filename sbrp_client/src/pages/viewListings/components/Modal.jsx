@@ -1,18 +1,20 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import { Container, Card, Badge, Alert, Form as BSForm } from 'react-bootstrap'
-import { useLoaderData, useNavigate, Form } from 'react-router-dom';
+import { useLoaderData, useNavigate, Form, Link } from 'react-router-dom';
 import { useFetchedDataWithParams } from '../../../common/utilities';
 import { fetchStaffApplications } from '../applyToListingUtilities';
+import { AccessContext } from '../../../common/AccessProvider';
 
 function ModalJob() {
   const [show, setShow] = useState(true);
   const [appDesc, setAppDesc] = useState("");
-  const [alreadyApplied, setAlreadyApplied]  = useState(false)
+  const [alreadyApplied, setAlreadyApplied] = useState(false)
 
   const navigate = useNavigate();
   const roleInfo = useLoaderData()
+  const { accessControl } = useContext(AccessContext)
 
   const handleClose = () => {
     setShow(false);
@@ -25,13 +27,13 @@ function ModalJob() {
     let dateNow = new Date();
     if (dateNow >= startDate && dateNow <= endDate) {
       return true;
-    }else{return false;}
+    } else { return false; }
   }
 
   const staff_id = sessionStorage.getItem("user");
   const skills = JSON.parse(sessionStorage.skills);
 
-  useFetchedDataWithParams({ fetchFn: fetchStaffApplications, setState: setAlreadyApplied, params: { staff_id, id: roleInfo.id }})
+  useFetchedDataWithParams({ fetchFn: fetchStaffApplications, setState: setAlreadyApplied, params: { staff_id, id: roleInfo.id } })
 
   const acquiredskills = roleInfo.role_skills.filter((skill) => skills.includes(skill));
   const lackingskills = roleInfo.role_skills.filter((skill) => !skills.includes(skill));
@@ -48,8 +50,8 @@ function ModalJob() {
 
   return (
     <>
-    {console.log(alreadyApplied)}
-    {console.log(roleInfo)}
+      {console.log(alreadyApplied)}
+      {console.log(roleInfo)}
 
       <Modal
         show={show}
@@ -60,6 +62,18 @@ function ModalJob() {
       >
         <Modal.Header closeButton>
           <Modal.Title>{roleInfo.role_name}</Modal.Title>
+          {accessControl == "HR" &&
+            <Link
+              to="edit"
+            >
+              <Button
+                variant="outline-primary"
+                className="ms-2"
+              >
+                Edit
+              </Button>
+            </Link>
+          }
         </Modal.Header>
         <Form
           action="/listings"
@@ -67,31 +81,33 @@ function ModalJob() {
         >
           <Modal.Body>
             <p> <strong>Country | Reporting Manager | Department: </strong>{roleInfo.country} | {roleInfo.manager_name} | {roleInfo.dept} </p>
-            <p><strong>Description:</strong><br/>
-            <div style={{height:'200px',overflowY: 'scroll',
-                        border:'1px lightgrey solid', borderRadius:"5px",
-                        padding:"5px"}}>
+            <p><strong>Description:</strong><br />
+              <div style={{
+                height: '200px', overflowY: 'scroll',
+                border: '1px lightgrey solid', borderRadius: "5px",
+                padding: "5px"
+              }}>
                 {roleInfo.role_desc}
-            </div></p>
-            <p> <strong>Skills Required: </strong><br/></p>
-              <Container className="d-flex flex-wrap p-0 mb-3">
-                {acquiredskills.map((skill, index) => (
-                  <Badge
-                    key={index}
-                    className='m-1'
-                    bg='success'>
-                    {skill}
-                  </Badge>
-                ))}
-                {lackingskills.map((skill, index) => (
-                  <Badge
-                    key={index}
-                    className='m-1'
-                    bg='secondary'>
-                    {skill}
-                  </Badge>
-                ))}
-              </Container>
+              </div></p>
+            <p> <strong>Skills Required: </strong><br /></p>
+            <Container className="d-flex flex-wrap p-0 mb-3">
+              {acquiredskills.map((skill, index) => (
+                <Badge
+                  key={index}
+                  className='m-1'
+                  bg='success'>
+                  {skill}
+                </Badge>
+              ))}
+              {lackingskills.map((skill, index) => (
+                <Badge
+                  key={index}
+                  className='m-1'
+                  bg='secondary'>
+                  {skill}
+                </Badge>
+              ))}
+            </Container>
             <p><strong>Skills Matched:</strong> {roleInfo.skillmatch} %</p>
 
             <input type="hidden" name="staff_id" value={staff_id} />
@@ -99,12 +115,12 @@ function ModalJob() {
 
             {(allowApply() && !alreadyApplied) ? (
               <BSForm.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
-              <BSForm.Label >Self-description (optional)</BSForm.Label>
-              <BSForm.Control name="app_desc" as="textarea" rows={3} value={appDesc} onChange={e => setAppDesc(e.target.value)} />
+                <BSForm.Label >Self-description (optional)</BSForm.Label>
+                <BSForm.Control name="app_desc" as="textarea" rows={3} value={appDesc} onChange={e => setAppDesc(e.target.value)} />
               </BSForm.Group>
-            ):(
+            ) : (
               <>
-              {alreadyApplied ? (<Alert variant="danger">You have already applied for this role!</Alert>):(<Alert variant="danger">This role is not currently open for application. Please refer to the date window for application</Alert>)}
+                {alreadyApplied ? (<Alert variant="danger">You have already applied for this role!</Alert>) : (<Alert variant="danger">This role is not currently open for application. Please refer to the date window for application</Alert>)}
               </>
             )}
           </Modal.Body>

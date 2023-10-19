@@ -1,5 +1,6 @@
 import axios from "axios";
 import { ENDPOINTS, useFetchedDataWithParams } from "../../common/utilities";
+import moment from "moment";
 
 
 export default async function applyToListing({ params, request }) {
@@ -8,7 +9,11 @@ export default async function applyToListing({ params, request }) {
 
     const body = { ...Object.fromEntries(formData) }
 
-    let actionData = {};
+    const actionData = {
+        time: moment(),
+        success: false,
+        message: ""
+    };
 
     try {
         await axios({
