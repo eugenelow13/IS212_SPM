@@ -10,10 +10,13 @@ import {
   useReactTable,
   getFilteredRowModel,
   getSortedRowModel,
+  getPaginationRowModel
 } from '@tanstack/react-table';
 import { Outlet, useNavigate } from 'react-router-dom';
 
 import Table from 'react-bootstrap/Table';
+import Form from 'react-bootstrap/Form';
+import { InputGroup } from 'react-bootstrap';
 
 
 type RoleListing = {
@@ -120,12 +123,12 @@ function tablelist() {
   
   
   useEffect(() => { 
-    // Fetch data asynchronously
+    // Fetch data asynchronously  
     axios.get(ENDPOINTS.listings)
       .then((response) => {
         // Update the state with the fetched data
 
-        const fetchedListings = response.data.role_listings;
+        const fetchedListings = response.data.role_listings.reverse();
         for(var item of fetchedListings){
           console.log("ITEM:",item);
           item.start_date_simple = new Date(item.start_date).toDateString().split(" ").splice(1).join(" ");
@@ -149,6 +152,7 @@ function tablelist() {
     getCoreRowModel: getCoreRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
     getSortedRowModel: getSortedRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
     state: {
       sorting: sorting,
       globalFilter:filtering,
@@ -163,11 +167,14 @@ function tablelist() {
     <div className="p-2">
 
       {/* <p>your skills</p><p>{skills.join(', ')}</p> */}
-      <input type="text" 
-            value={filtering} 
-            placeholder="Search for a role!"
-            style={{width:"30%"}}
-            onChange ={(e)=> setFiltering(e.target.value)} ></input>
+      <InputGroup style={{width:"40%"}}>
+      <InputGroup.Text>Search for a role here:</InputGroup.Text>
+              <Form.Control type="text"
+               value={filtering} 
+               placeholder="Search for a role!"
+               onChange ={(e)=> setFiltering(e.target.value)}
+              ></Form.Control>
+      </InputGroup>
       <Table className="text-center" hover>
         <thead>
           {table.getHeaderGroups().map(headerGroup => (
@@ -221,6 +228,73 @@ function tablelist() {
         </tfoot> */}
       </Table>
       {(<Outlet/>)}
+      <div className="h-2" />
+      <div className="flex items-center gap-2">
+        <button
+          className="border rounded p-1"
+          onClick={() => table.setPageIndex(0)}
+          disabled={!table.getCanPreviousPage()}
+        >
+          {'<<'}
+        </button>
+        <button
+          className="border rounded p-1"
+          onClick={() => table.previousPage()}
+          disabled={!table.getCanPreviousPage()}
+        >
+          {'<'}
+        </button>
+        <button
+          className="border rounded p-1"
+          onClick={() => table.nextPage()}
+          disabled={!table.getCanNextPage()}
+        >
+          {'>'}
+        </button>
+        <button
+          className="border rounded p-1"
+          onClick={() => table.setPageIndex(table.getPageCount() - 1)}
+          disabled={!table.getCanNextPage()}
+        >
+          {'>>'}
+        </button>
+        <span> </span>
+        <Form.Select
+          value={table.getState().pagination.pageSize}
+          style={{width:"10%",display:"inline-block",outline:"none"}}
+          onChange={e => {
+            table.setPageSize(Number(e.target.value))
+          }}
+        >
+          {[10, 20, 30, 40, 50].map(pageSize => (
+            <option key={pageSize} value={pageSize}>
+              Show {pageSize}
+            </option>
+          ))}
+        </Form.Select>
+
+        <span className="flex items-center gap-1">
+          <div>Page</div>
+          <strong>
+            {table.getState().pagination.pageIndex + 1} of{' '}
+            {table.getPageCount()}
+          </strong>
+        </span>
+        {/* <span className="flex items-center gap-1">
+          | Go to page:
+          <input
+            type="number"
+            defaultValue={table.getState().pagination.pageIndex + 1}
+            onChange={e => {
+              const page = e.target.value ? Number(e.target.value) - 1 : 0
+              table.setPageIndex(page)
+            }}
+            className="border p-1 rounded w-16"
+          />
+        </span> */}
+      </div>
+      {/* <div>{table.getRowModel().rows.length} Rows</div>
+      <pre>{JSON.stringify(table.getState().pagination, null, 2)}</pre> */}
     </div>
     </div>
   )
