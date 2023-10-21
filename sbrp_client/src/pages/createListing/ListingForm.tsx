@@ -16,6 +16,7 @@ import { SubmitButton } from '../../common/SubmitButton';
 
 import DateRangePicker from './components/DateRangePicker';
 import { WithStatusToast } from '../../common/WithStatusToast';
+import { fetchStaffs } from '../../common/utilities';
 
 export type Role = {
   role_name: string,
@@ -43,12 +44,6 @@ function fetchRoles(): Promise<Role[]> {
   return axios.get(ENDPOINTS.roles)
     .then(response => response.data.roles);
 }
-
-function fetchStaffs() {
-  return axios.get(ENDPOINTS.staffs)
-    .then(response => response.data.staffs);
-}
-
 
 const ListingFormWithStatusToast = WithStatusToast(ListingForm);
 export default ListingFormWithStatusToast;

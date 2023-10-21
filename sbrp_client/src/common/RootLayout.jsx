@@ -3,8 +3,17 @@ import { Nav, Navbar, Container } from 'react-bootstrap';
 import { useContext, useState } from "react";
 import { AccessContext } from "./AccessProvider";
 
+
+function CurrentUserNav({ currentUser }) {
+    return (<Navbar.Text>
+        Welcome
+        {currentUser
+            && `, ${currentUser?.staff_fname} ${currentUser?.staff_lname} (${currentUser?.staff_id})`}
+    </Navbar.Text>);
+}
+
 export default function RootLayout() {
-    const { accessControl } = useContext(AccessContext);
+    const { currentUser } = useContext(AccessContext);
 
     return (
         <>
@@ -22,7 +31,7 @@ export default function RootLayout() {
                             >
                                 Create Listing
                             </NavLink> */}
-                            {(accessControl == "HR") &&
+                            {(currentUser.role == 4) &&
                                 <NavLink
                                     to="/listings/new"
                                     className="nav-link">
@@ -30,11 +39,12 @@ export default function RootLayout() {
                                 </NavLink>}
                             <NavLink to="/help" className="nav-link">Help</NavLink>
                         </Nav>
+                        <CurrentUserNav currentUser={currentUser}></CurrentUserNav>
                     </Container>
                 </Navbar>
             </header>
             <main>
-                <Container className="mt-3">
+                <Container className="mt-3"> 
                     <Outlet />
                 </Container>
             </main>

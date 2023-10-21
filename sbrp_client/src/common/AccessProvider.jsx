@@ -3,11 +3,11 @@ import { createContext, useState } from "react";
 export const AccessContext = createContext();
 
 export function AccessProvider({ children }) {
-  const [accessControl, setAccessControl] = useState(sessionStorage.getItem("accessControl"));
+  const [currentUser, setCurrentUser] = useState("");
 
   const providerValue = {
-    accessControl,
-    setAccessControl
+    currentUser,
+    setCurrentUser
   }
 
   return (

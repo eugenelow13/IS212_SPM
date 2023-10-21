@@ -33,7 +33,7 @@ export function validateAll(params, validatorObj) {
         if (key in validatorObj) {
             let value = params[key];
             let validatorFn = validatorObj[key]
-            areValid[key] = validatorFn(value);o
+            areValid[key] = validatorFn(value); o
         }
     }
     return areValid;
@@ -87,6 +87,10 @@ export function useFetchedDataWithParams({ fetchFn, setState, params }) {
     }, [])
 }
 
+export function fetchStaffs() {
+    return axios.get(ENDPOINTS.staffs)
+        .then(response => response.data.staffs);
+}
 
 
 // TEST

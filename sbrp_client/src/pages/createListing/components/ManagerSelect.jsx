@@ -4,13 +4,39 @@ import { Form, Row, Col } from 'react-bootstrap';
 import { useFoundValue } from '../createListingUtilities';
 
 
+
+export function StaffDropdown(props) {
+    return (
+        <Select
+            value={props.selectedStaff}
+            className="basic-single"
+            classNamePrefix="select"
+            isSearchable={true}
+            placeholder="Search by name or staff ID..."
+            name="manager_id"
+            id="manager_id"
+            options={props.staff}
+            getOptionLabel={staff => `${staff.staff_fname} ${staff.staff_lname}`}
+            getOptionValue={staff => staff.staff_id}
+            components={{
+                Option: props.CustomOption,
+                SingleValue: props.CustomSingleValue
+            }}
+            onChange={value => props.setSelectedStaff(value)} filterOption={createFilter({
+                ignoreAccents: false
+            })} required
+        />
+    );
+}
+
+
 export default function ManagerSelect({ repManagers, listingToEdit }) {
 
     const [selectedRepManager, setSelectedRepManager] = useState('');
 
     useFoundValue(setSelectedRepManager, repManagers, "staff_id", listingToEdit?.manager_id)
 
-    const RepManagerData = (props) => {
+    const StaffMetaData = (props) => {
         return (<span style={{
             opacity: 0.5,
             fontSize: "0.9rem",
@@ -25,7 +51,7 @@ export default function ManagerSelect({ repManagers, listingToEdit }) {
         return (
             <components.Option {...props}>
                 {label}
-                <RepManagerData data={data} />
+                <StaffMetaData data={data} />
             </components.Option>
         )
     };
@@ -34,7 +60,7 @@ export default function ManagerSelect({ repManagers, listingToEdit }) {
         return (
             <components.SingleValue {...props}>
                 {children}
-                <RepManagerData data={props.data} />
+                <StaffMetaData data={props.data} />
             </components.SingleValue>
         )
     }
@@ -46,22 +72,13 @@ export default function ManagerSelect({ repManagers, listingToEdit }) {
                 <Form.Label htmlFor="manager_id">
                     Reporting Manager <span className='text-danger'>*</span>
                 </Form.Label>
-                <Select
-                    value={selectedRepManager}
-                    className="basic-single"
-                    classNamePrefix="select"
-                    isSearchable={true}
-                    placeholder="Search by name or staff ID..."
-                    name="manager_id"
-                    id="manager_id"
-                    options={repManagers}
-                    getOptionLabel={staff => `${staff.staff_fname} ${staff.staff_lname}`}
-                    getOptionValue={staff => staff.staff_id}
-                    components={{ Option: CustomOption, SingleValue: CustomSingleValue }}
-                    onChange={value => setSelectedRepManager(value)}
-                    filterOption={createFilter({ ignoreAccents: false })}
-                    required
-                />
+                <StaffDropdown
+                    staff={repManagers}
+                    selectedStaff={selectedRepManager}
+                    setSelectedStaff={setSelectedRepManager}
+                    CustomOption={CustomOption}
+                    CustomSingleValue={CustomSingleValue}>
+                </StaffDropdown>
             </Col>
             <Col sm={6} md={4}>
                 <Form.Label htmlFor="dept">Department </Form.Label>
