@@ -2,11 +2,11 @@
 import './App.css'
 
 // Page Imports
-import Home from './pages/Login/Login';
+import Login from './pages/Login/Login';
 import ListingFormWithStatusToast, { ListingForm } from './pages/createListing/ListingForm';
 import ModalJob from './pages/viewListings/components/Modal';
 
-import { createBrowserRouter, createRoutesFromChildren, Route, RouterProvider } from 'react-router-dom';
+import { createBrowserRouter, createRoutesFromChildren, Navigate, redirect, Route, RouterProvider } from 'react-router-dom';
 
 import RootLayout from './common/RootLayout';
 import { createListingAction } from './pages/createListing/createListingUtilities';
@@ -15,38 +15,44 @@ import { AccessProvider } from './common/AccessProvider';
 import { loadListing } from './pages/createListing/createListingUtilities';
 import applyToListing from './pages/viewListings/applyToListingUtilities';
 import ListingsWithStatusToast from './pages/viewListings/Listings';
+import { useContext } from 'react';
+import { redirectIfNotLoggedInFactory } from './common/sessionUtilities';
+
+const pageProtector = redirectIfNotLoggedInFactory(() => null)
 
 function App() {
 
   const router = createBrowserRouter(
     createRoutesFromChildren(
       <Route path='/' element={<RootLayout />}>
-        <Route index element={<Home />} />
-        <Route
-          action={applyToListing}
-          path="/listings"
-          element={<ListingsWithStatusToast />}
-          >
+        <Route index element={<Login />} />
           <Route
-            loader={loadListing}
-            path=":id"
-            element={<ModalJob />}
+            action={applyToListing}
+            loader={pageProtector}
+            path="/listings"
+            element={<ListingsWithStatusToast />}
           >
+            <Route
+              loader={redirectIfNotLoggedInFactory(loadListing)}
+              path=":id"
+              element={<ModalJob />}
+            >
+            </Route>
           </Route>
-        </Route>
           <Route
             path="listings/:id/edit"
-            loader={loadListing}
+            loader={redirectIfNotLoggedInFactory(loadListing)}
             element={<ListingFormWithStatusToast />}
             action={({ params, request }) => createListingAction({ params, request, method: "put" })}
           ></Route>
 
-        <Route
-          path="/listings/new"
-          // only triggers for non-get requests
-          element={<ListingFormWithStatusToast />}
-          action={createListingAction}
-        />
+          <Route
+            path="/listings/new"
+            loader={pageProtector}
+            // only triggers for non-get requests
+            element={<ListingFormWithStatusToast />}
+            action={createListingAction}
+          />
       </Route>
     )
   )

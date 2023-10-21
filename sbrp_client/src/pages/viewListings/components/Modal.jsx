@@ -4,7 +4,7 @@ import Modal from 'react-bootstrap/Modal';
 import { Container, Card, Badge, Alert, Form as BSForm } from 'react-bootstrap'
 import { useLoaderData, useNavigate, Form, Link } from 'react-router-dom';
 import { useFetchedDataWithParams } from '../../../common/utilities';
-import { fetchStaffApplications } from '../applyToListingUtilities';
+import { fetchStaffApplications, getRoleSkillMatchNo } from '../applyToListingUtilities';
 import { AccessContext } from '../../../common/AccessProvider';
 
 function ModalJob() {
@@ -14,7 +14,7 @@ function ModalJob() {
 
   const navigate = useNavigate();
   const roleInfo = useLoaderData()
-  const { accessControl } = useContext(AccessContext)
+  const { currentUser } = useContext(AccessContext)
 
   const handleClose = () => {
     setShow(false);
@@ -22,31 +22,39 @@ function ModalJob() {
 
   }
   const allowApply = () => {
-    let startDate = new Date(roleInfo.start_date);
-    let endDate = new Date(roleInfo.end_date);
-    let dateNow = new Date();
+    let startDate = new Date(roleInfo.start_date +"T00:00")
+    let endDate = new Date(roleInfo.end_date +"T23:59:59.999")
+    let dateNow = new Date()
+    console.log(startDate, endDate, dateNow);
     if (dateNow >= startDate && dateNow <= endDate) {
       return true;
     } else { return false; }
   }
 
-  const staff_id = sessionStorage.getItem("user");
-  const skills = JSON.parse(sessionStorage.skills);
+  // const staff_id = sessionStorage.getItem("user");
+  // const currentSkills = JSON.parse(sessionStorage.skills);
 
-  useFetchedDataWithParams({ fetchFn: fetchStaffApplications, setState: setAlreadyApplied, params: { staff_id, id: roleInfo.id } })
+  const staff_id = currentUser.staff_id;
+  const currentSkills = currentUser.staff_skills;
 
-  const acquiredskills = roleInfo.role_skills.filter((skill) => skills.includes(skill));
-  const lackingskills = roleInfo.role_skills.filter((skill) => !skills.includes(skill));
+  useFetchedDataWithParams(
+    {
+      fetchFn: fetchStaffApplications,
+      setState: setAlreadyApplied,
+      params: { staff_id, id: roleInfo.id }
+    }
+  )
+
+  const acquiredskills = roleInfo.role_skills.filter((skill) => currentSkills.includes(skill));
+  const lackingskills = roleInfo.role_skills.filter((skill) => !currentSkills.includes(skill));
   console.log("lackingskills", lackingskills);
   console.log("acquiredskills", acquiredskills);
-  console.log("skills", skills);
+  console.log("skills", currentSkills);
   console.log(roleInfo.role_name);
   // console.log("roleinfo.skillmatch",roleInfo.skillmatch)
 
   // role skills, skills
-  const roleSkillsSet = new Set([...roleInfo.role_skills])
-  const matchingSkills = skills.filter(skill => roleSkillsSet.has(skill))
-  roleInfo.skillmatch = (matchingSkills.length / roleSkillsSet.size * 100).toFixed(0)
+  roleInfo.skill_match = getRoleSkillMatchNo(roleInfo.role_skills, currentSkills);
 
   return (
     <>
@@ -62,7 +70,7 @@ function ModalJob() {
       >
         <Modal.Header closeButton>
           <Modal.Title>{roleInfo.role_name}</Modal.Title>
-          {accessControl == "HR" &&
+          {currentUser.role == 4 &&
             <Link
               to="edit"
             >
@@ -108,7 +116,7 @@ function ModalJob() {
                 </Badge>
               ))}
             </Container>
-            <p><strong>Skills Matched:</strong> {roleInfo.skillmatch} %</p>
+            <p><strong>Skills Matched:</strong> {roleInfo.skill_match}%</p>
 
             <input type="hidden" name="staff_id" value={staff_id} />
             <input type="hidden" name="id" value={roleInfo.id} />
@@ -139,6 +147,7 @@ function ModalJob() {
       </Modal >
     </>
   );
+
 }
 
 export default ModalJob;

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useEffect } from 'react';
+import { useEffect, useContext } from 'react';
 // import './ListingTable.css';
 import axios from 'axios'
 import { ENDPOINTS } from '../../../common/utilities';
@@ -17,6 +17,7 @@ import { Outlet, useNavigate } from 'react-router-dom';
 import Table from 'react-bootstrap/Table';
 import Form from 'react-bootstrap/Form';
 import { InputGroup } from 'react-bootstrap';
+import { AccessContext } from '../../../common/AccessProvider';
 
 
 type RoleListing = {
@@ -67,34 +68,34 @@ const columnHelper = createColumnHelper<RoleListing>()
 
 const columns = [
   {
-    header:"Role",
-    accessorKey:"role_name",
-    footer:'Role'
+    header: "Role",
+    accessorKey: "role_name",
+    footer: 'Role'
   },
   {
-    header:"Application Window",
+    header: "Application Window",
     accessorFn: row => `${row.start_date_simple} - ${row.end_date_simple}`,
-    footer:'Application Window'
+    footer: 'Application Window'
   },
   {
-    header:"Manager",
-    accessorKey:"manager_name",
-    footer:"Manager"
+    header: "Manager",
+    accessorKey: "manager_name",
+    footer: "Manager"
   },
   {
-    header:"Department",
-    accessorKey:"dept",
-    footer:"Department"
+    header: "Department",
+    accessorKey: "dept",
+    footer: "Department"
   },
   {
-    header:"Country",
-    accessorKey:"country",
-    footer:"Country"
+    header: "Country",
+    accessorKey: "country",
+    footer: "Country"
   },
   {
-    header:"Skill Match",
-    accessorKey:"skillmatch",
-    footer:"skillmatch"
+    header: "Skill Match",
+    accessorKey: "skillmatch",
+    footer: "skillmatch"
   },
 ]
 
@@ -103,39 +104,43 @@ const columns = [
 function tablelist() {
   // const [data, setData] = React.useState(()=>[]) 
   const navigate = useNavigate();
-  const user =140001;
-  const skills = ['Account Management', 'Budgeting','Database Administration', 'Problem Management', 'Problem Solving','Configuration Tracking', 'People and Performance Management', 'Communication']
-  window.sessionStorage.setItem("user",user);
-  window.sessionStorage.setItem("skills",JSON.stringify(skills));
+  // const user =140001;
+  // const skills = ['Account Management', 'Budgeting','Database Administration', 'Problem Management', 'Problem Solving','Configuration Tracking', 'People and Performance Management', 'Communication']
 
-  const [data, setData] = React.useState(() => []) 
-  const [modal,setModal] = React.useState(false);
+  // window.sessionStorage.setItem("user",user);
+  // window.sessionStorage.setItem("skills",JSON.stringify(skills));
+
+  const { currentUser } = useContext(AccessContext);
+  const skills = currentUser.staff_skills;
+
+  const [data, setData] = React.useState(() => [])
+  const [modal, setModal] = React.useState(false);
   const [filtering, setFiltering] = React.useState("")
   const [sorting, setSorting] = React.useState([])
 
-  const toggleModal = (props,visible)=>{
+  const toggleModal = (props, visible) => {
     // console.log(props.role_name,visible,modal);
     // window.sessionStorage.setItem("roledata",JSON.stringify(props));
     // setModal(!modal);
     console.log("try navigating")
     navigate("/listings/" + props.id)
   }
-  
-  
-  useEffect(() => { 
+
+
+  useEffect(() => {
     // Fetch data asynchronously  
     axios.get(ENDPOINTS.listings)
       .then((response) => {
         // Update the state with the fetched data
 
         const fetchedListings = response.data.role_listings.reverse();
-        for(var item of fetchedListings){
-          console.log("ITEM:",item);
+        for (var item of fetchedListings) {
+          console.log("ITEM:", item);
           item.start_date_simple = new Date(item.start_date).toDateString().split(" ").splice(1).join(" ");
           item.end_date_simple = new Date(item.end_date).toDateString().split(" ").splice(1).join(" ");
           const skillsMatched = skills.filter(skillName => item.role_skills.includes(skillName));
-          console.log("skillsMatched:",skillsMatched);
-          item.skillmatch = ((skillsMatched.length/item.role_skills.length)*100).toFixed(0)+"%";
+          console.log("skillsMatched:", skillsMatched);
+          item.skillmatch = ((skillsMatched.length / item.role_skills.length) * 100).toFixed(0) + "%";
 
         }
 
@@ -155,62 +160,63 @@ function tablelist() {
     getPaginationRowModel: getPaginationRowModel(),
     state: {
       sorting: sorting,
-      globalFilter:filtering,
+      globalFilter: filtering,
     },
-    onGlobalFilterChange:setFiltering,
+    onGlobalFilterChange: setFiltering,
     onSortingChange: setSorting,
   })
 
 
   return (
     <div>
-    <div className="p-2">
+      <div className="p-2">
 
-      {/* <p>your skills</p><p>{skills.join(', ')}</p> */}
-      <InputGroup style={{width:"40%"}}>
-      <InputGroup.Text>Search for a role here:</InputGroup.Text>
-              <Form.Control type="text"
-               value={filtering} 
-               placeholder="Search for a role!"
-               onChange ={(e)=> setFiltering(e.target.value)}
-              ></Form.Control>
-      </InputGroup>
-      <Table className="text-center" hover>
-        <thead>
-          {table.getHeaderGroups().map(headerGroup => (
-            <tr key={headerGroup.id}>
-              {headerGroup.headers.map(header => (
-                <th key={header.id} onClick={header.column.getToggleSortingHandler()}>
-                  {header.isPlaceholder
-                    ? null
-                    : flexRender(
+        {/* <p>your skills</p><p>{skills.join(', ')}</p> */}
+        <InputGroup style={{ width: "40%" }}>
+          <InputGroup.Text>Search for a role here:</InputGroup.Text>
+          <Form.Control type="text"
+            value={filtering}
+            placeholder="Search for a role!"
+            onChange={(e) => setFiltering(e.target.value)}
+          ></Form.Control>
+        </InputGroup>
+        <Table className="text-center" hover>
+          <thead>
+            {table.getHeaderGroups().map(headerGroup => (
+              <tr key={headerGroup.id}>
+                {headerGroup.headers.map(header => (
+                  <th key={header.id} onClick={header.column.getToggleSortingHandler()}>
+                    {header.isPlaceholder
+                      ? null
+                      : flexRender(
                         header.column.columnDef.header,
                         header.getContext()
-                      )}                      
-                      {
-                        { asc: ' ASC', desc: ' DESC'}[ header.column.getIsSorted() ?? null]
-                        }
+                      )}
+                    {
+                      { asc: ' ASC', desc: ' DESC' }[header.column.getIsSorted() ?? null]
+                    }
 
-                </th>
-              ))}
-            </tr>
-          ))}
-        </thead>
-        <tbody>
-          {table.getRowModel().rows.map(row => (
-            <tr key={row.id} onClick={()=>{
-              var show = false;
-              console.log("here",row.original)
-              toggleModal(row.original,show);}}>
-              {row.getVisibleCells().map(cell => (
-                <td key={cell.id}>
-                  {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                </td>
-              ))}
-            </tr>
-          ))}
-        </tbody>
-        {/* <tfoot>
+                  </th>
+                ))}
+              </tr>
+            ))}
+          </thead>
+          <tbody>
+            {table.getRowModel().rows.map(row => (
+              <tr key={row.id} onClick={() => {
+                var show = false;
+                console.log("here", row.original)
+                toggleModal(row.original, show);
+              }}>
+                {row.getVisibleCells().map(cell => (
+                  <td key={cell.id}>
+                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                  </td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+          {/* <tfoot>
           {table.getFooterGroups().map(footerGroup => (
             <tr key={footerGroup.id}>
               {footerGroup.headers.map(header => (
@@ -226,61 +232,61 @@ function tablelist() {
             </tr>
           ))}
         </tfoot> */}
-      </Table>
-      {(<Outlet/>)}
-      <div className="h-2" />
-      <div className="flex items-center gap-2">
-        <button
-          className="border rounded p-1"
-          onClick={() => table.setPageIndex(0)}
-          disabled={!table.getCanPreviousPage()}
-        >
-          {'<<'}
-        </button>
-        <button
-          className="border rounded p-1"
-          onClick={() => table.previousPage()}
-          disabled={!table.getCanPreviousPage()}
-        >
-          {'<'}
-        </button>
-        <button
-          className="border rounded p-1"
-          onClick={() => table.nextPage()}
-          disabled={!table.getCanNextPage()}
-        >
-          {'>'}
-        </button>
-        <button
-          className="border rounded p-1"
-          onClick={() => table.setPageIndex(table.getPageCount() - 1)}
-          disabled={!table.getCanNextPage()}
-        >
-          {'>>'}
-        </button>
-        <span> </span>
-        <Form.Select
-          value={table.getState().pagination.pageSize}
-          style={{width:"10%",display:"inline-block",outline:"none"}}
-          onChange={e => {
-            table.setPageSize(Number(e.target.value))
-          }}
-        >
-          {[10, 20, 30, 40, 50].map(pageSize => (
-            <option key={pageSize} value={pageSize}>
-              Show {pageSize}
-            </option>
-          ))}
-        </Form.Select>
+        </Table>
+        {(<Outlet />)}
+        <div className="h-2" />
+        <div className="flex items-center gap-2">
+          <button
+            className="border rounded p-1"
+            onClick={() => table.setPageIndex(0)}
+            disabled={!table.getCanPreviousPage()}
+          >
+            {'<<'}
+          </button>
+          <button
+            className="border rounded p-1"
+            onClick={() => table.previousPage()}
+            disabled={!table.getCanPreviousPage()}
+          >
+            {'<'}
+          </button>
+          <button
+            className="border rounded p-1"
+            onClick={() => table.nextPage()}
+            disabled={!table.getCanNextPage()}
+          >
+            {'>'}
+          </button>
+          <button
+            className="border rounded p-1"
+            onClick={() => table.setPageIndex(table.getPageCount() - 1)}
+            disabled={!table.getCanNextPage()}
+          >
+            {'>>'}
+          </button>
+          <span> </span>
+          <Form.Select
+            value={table.getState().pagination.pageSize}
+            style={{ width: "10%", display: "inline-block", outline: "none" }}
+            onChange={e => {
+              table.setPageSize(Number(e.target.value))
+            }}
+          >
+            {[10, 20, 30, 40, 50].map(pageSize => (
+              <option key={pageSize} value={pageSize}>
+                Show {pageSize}
+              </option>
+            ))}
+          </Form.Select>
 
-        <span className="flex items-center gap-1">
-          <div>Page</div>
-          <strong>
-            {table.getState().pagination.pageIndex + 1} of{' '}
-            {table.getPageCount()}
-          </strong>
-        </span>
-        {/* <span className="flex items-center gap-1">
+          <span className="flex items-center gap-1">
+            <div>Page</div>
+            <strong>
+              {table.getState().pagination.pageIndex + 1} of{' '}
+              {table.getPageCount()}
+            </strong>
+          </span>
+          {/* <span className="flex items-center gap-1">
           | Go to page:
           <input
             type="number"
@@ -292,10 +298,10 @@ function tablelist() {
             className="border p-1 rounded w-16"
           />
         </span> */}
-      </div>
-      {/* <div>{table.getRowModel().rows.length} Rows</div>
+        </div>
+        {/* <div>{table.getRowModel().rows.length} Rows</div>
       <pre>{JSON.stringify(table.getState().pagination, null, 2)}</pre> */}
-    </div>
+      </div>
     </div>
   )
 }

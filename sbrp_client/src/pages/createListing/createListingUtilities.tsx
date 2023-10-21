@@ -79,19 +79,6 @@ export async function loadListing({ params }) {
 
   const listing = await response.data;
 
-  // const listingToEdit = {
-  //   "id": 1,
-  //   "role_name": "Developer",
-  //   "start_date": "2023-09-23",
-  //   "end_date": "2023-10-23",
-  //   "manager_id": 130002, // keep both name and id, id needed for other page
-  //   "manager_name": "Arnold Tan",
-  //   "dept": "HR",
-  //   "country": "Vietnam",
-  //   "role_desc": "Administers Database",
-  //   "role_skills": ["SQL", "E-R diagramming"]
-  // }
-
   return listing;
 }
 

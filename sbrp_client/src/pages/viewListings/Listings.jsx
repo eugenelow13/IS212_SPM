@@ -13,8 +13,6 @@ import { WithStatusToast } from '../../common/WithStatusToast';
 const ListingsWithStatusToast = WithStatusToast(Listings);
 
 function Listings() {
-  const location = useLocation();
-  console.log(location.state);
   return (
     <Container>
       <ListingTable />

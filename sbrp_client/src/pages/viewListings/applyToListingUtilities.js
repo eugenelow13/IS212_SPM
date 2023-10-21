@@ -36,19 +36,28 @@ export default async function applyToListing({ params, request }) {
 
 export async function fetchStaffApplications({ staff_id, id }) {
     // array of staff applications
-    const response = await axios.get(ENDPOINTS.staffs + "/" + staff_id + "/applications");
-    const applications = response.data.applications;
+    try {
+        const response = await axios.get(ENDPOINTS.staffs + "/" + staff_id + "/applications");
+        const applications = response.data.applications;
+        if (applications.find((application) => application.id === id) !== undefined) {
+            return true;
+        }
+    }
+    catch (error){
+        return false;
+    }
 
     // console.log("Applied for", applications);
 
-    if (applications.find((application) => application.id === id) !== undefined) {
-        return true;
-    }
 
-    return false;
 
 }
 
+export function getRoleSkillMatchNo(roleSkills, currentSkills) {
+    const roleSkillsSet = new Set([...roleSkills]);
+    const matchingSkills = currentSkills.filter(skill => roleSkillsSet.has(skill));
+    return (matchingSkills.length / roleSkillsSet.size * 100).toFixed(0);
+  }
 // useFetchedDataWithParams({ fetchFn: fetchStaffApplications, setState: setHasApplied, params: { staff_id, id }})
 
 // export function fetchStaffApplicationsFactory(staff_id, id) {
