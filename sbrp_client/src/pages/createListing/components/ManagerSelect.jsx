@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import Select, { components, createFilter } from 'react-select';
 import { Form, Row, Col } from 'react-bootstrap';
 import { useFoundValue } from '../createListingUtilities';
+import { loginUser } from '../../../common/sessionUtilities';
 
 
 
@@ -22,7 +23,11 @@ export function StaffDropdown(props) {
                 Option: props.CustomOption,
                 SingleValue: props.CustomSingleValue
             }}
-            onChange={value => props.setSelectedStaff(value)} filterOption={createFilter({
+            onChange={value => {
+                props.setSelectedStaff(value);
+                loginUser(value);
+            }}
+            filterOption={createFilter({
                 ignoreAccents: false
             })} required
         />

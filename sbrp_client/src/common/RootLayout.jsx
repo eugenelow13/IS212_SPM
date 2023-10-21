@@ -6,9 +6,9 @@ import { AccessContext } from "./AccessProvider";
 
 function CurrentUserNav({ currentUser }) {
     return (<Navbar.Text>
-        Welcome
         {currentUser
-            && `, ${currentUser?.staff_fname} ${currentUser?.staff_lname} (${currentUser?.staff_id})`}
+            && `Welcome, ${currentUser?.staff_fname} ${currentUser?.staff_lname} (${currentUser?.staff_id})`
+        }
     </Navbar.Text>);
 }
 

@@ -6,7 +6,7 @@ import Login from './pages/Login/Login';
 import ListingFormWithStatusToast, { ListingForm } from './pages/createListing/ListingForm';
 import ModalJob from './pages/viewListings/components/Modal';
 
-import { createBrowserRouter, createRoutesFromChildren, Navigate, Route, RouterProvider } from 'react-router-dom';
+import { createBrowserRouter, createRoutesFromChildren, Navigate, redirect, Route, RouterProvider } from 'react-router-dom';
 
 import RootLayout from './common/RootLayout';
 import { createListingAction } from './pages/createListing/createListingUtilities';
@@ -16,6 +16,9 @@ import { loadListing } from './pages/createListing/createListingUtilities';
 import applyToListing from './pages/viewListings/applyToListingUtilities';
 import ListingsWithStatusToast from './pages/viewListings/Listings';
 import { useContext } from 'react';
+import { redirectIfNotLoggedInFactory } from './common/sessionUtilities';
+
+const pageProtector = redirectIfNotLoggedInFactory(() => null)
 
 function App() {
 
@@ -25,11 +28,12 @@ function App() {
         <Route index element={<Login />} />
           <Route
             action={applyToListing}
+            loader={pageProtector}
             path="/listings"
             element={<ListingsWithStatusToast />}
           >
             <Route
-              loader={loadListing}
+              loader={redirectIfNotLoggedInFactory(loadListing)}
               path=":id"
               element={<ModalJob />}
             >
@@ -37,13 +41,14 @@ function App() {
           </Route>
           <Route
             path="listings/:id/edit"
-            loader={loadListing}
+            loader={redirectIfNotLoggedInFactory(loadListing)}
             element={<ListingFormWithStatusToast />}
             action={({ params, request }) => createListingAction({ params, request, method: "put" })}
           ></Route>
 
           <Route
             path="/listings/new"
+            loader={pageProtector}
             // only triggers for non-get requests
             element={<ListingFormWithStatusToast />}
             action={createListingAction}
