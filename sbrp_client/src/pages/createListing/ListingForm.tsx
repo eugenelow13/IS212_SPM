@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Form, Link, useLoaderData } from 'react-router-dom';
 
 import axios from 'axios';
-import { ENDPOINTS, mock, useFetchedData, useIsLoading } from '../../common/utilities';
+import { ENDPOINTS, fetchManagers, mock, useFetchedData, useIsLoading } from '../../common/utilities';
 
 import ManagerSelect from './components/ManagerSelect';
 import RoleDesc from './components/RoleDesc';
@@ -70,7 +70,7 @@ export function ListingForm() {
   const [repManagers, setRepManagers] = useState();
 
   useFetchedData({ fetchFn: fetchRoles, setState: setRoles });
-  useFetchedData({ fetchFn: fetchStaffs, setState: setRepManagers });
+  useFetchedData({ fetchFn: fetchManagers, setState: setRepManagers });
 
 
   const [selectedRole, setSelectedRole] = useState();
