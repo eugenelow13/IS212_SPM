@@ -36,16 +36,20 @@ export default async function applyToListing({ params, request }) {
 
 export async function fetchStaffApplications({ staff_id, id }) {
     // array of staff applications
-    const response = await axios.get(ENDPOINTS.staffs + "/" + staff_id + "/applications");
-    const applications = response.data.applications;
+    try {
+        const response = await axios.get(ENDPOINTS.staffs + "/" + staff_id + "/applications");
+        const applications = response.data.applications;
+        if (applications.find((application) => application.id === id) !== undefined) {
+            return true;
+        }
+    }
+    catch (error){
+        return false;
+    }
 
     // console.log("Applied for", applications);
 
-    if (applications.find((application) => application.id === id) !== undefined) {
-        return true;
-    }
 
-    return false;
 
 }
 

@@ -22,9 +22,10 @@ function ModalJob() {
 
   }
   const allowApply = () => {
-    let startDate = new Date(roleInfo.start_date);
-    let endDate = new Date(roleInfo.end_date);
-    let dateNow = new Date();
+    let startDate = new Date(roleInfo.start_date +"T00:00")
+    let endDate = new Date(roleInfo.end_date +"T23:59:59.999")
+    let dateNow = new Date()
+    console.log(startDate, endDate, dateNow);
     if (dateNow >= startDate && dateNow <= endDate) {
       return true;
     } else { return false; }
@@ -36,7 +37,13 @@ function ModalJob() {
   const staff_id = currentUser.staff_id;
   const currentSkills = currentUser.staff_skills;
 
-  useFetchedDataWithParams({ fetchFn: fetchStaffApplications, setState: setAlreadyApplied, params: { staff_id, id: roleInfo.id } })
+  useFetchedDataWithParams(
+    {
+      fetchFn: fetchStaffApplications,
+      setState: setAlreadyApplied,
+      params: { staff_id, id: roleInfo.id }
+    }
+  )
 
   const acquiredskills = roleInfo.role_skills.filter((skill) => currentSkills.includes(skill));
   const lackingskills = roleInfo.role_skills.filter((skill) => !currentSkills.includes(skill));
@@ -45,7 +52,7 @@ function ModalJob() {
   console.log("skills", currentSkills);
   console.log(roleInfo.role_name);
   // console.log("roleinfo.skillmatch",roleInfo.skillmatch)
-  
+
   // role skills, skills
   roleInfo.skill_match = getRoleSkillMatchNo(roleInfo.role_skills, currentSkills);
 
