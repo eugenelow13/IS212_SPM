@@ -1,19 +1,36 @@
-import { Outlet, NavLink, Link } from "react-router-dom";
-import { Nav, Navbar, Container } from 'react-bootstrap';
+import { Outlet, NavLink, Link, redirect } from "react-router-dom";
+import { Nav, Navbar, Container, Badge } from 'react-bootstrap';
 import { useContext, useState } from "react";
 import { AccessContext } from "./AccessProvider";
+import { logoutUser } from "./sessionUtilities";
 
 
 function CurrentUserNav({ currentUser }) {
-    return (<Navbar.Text>
-        {currentUser
-            && `Welcome, ${currentUser?.staff_fname} ${currentUser?.staff_lname} (${currentUser?.staff_id})`
+    const accessRoleNameFromNo = (roleNo) => {
+        const mapping = {
+            1: "Admin",
+            2: "User",
+            3: "Manager",
+            4: "HR"
         }
-    </Navbar.Text>);
+        return mapping[roleNo];
+    }
+    return (
+        <>
+            <Navbar.Text>
+                {currentUser
+                    && `Welcome, ${currentUser?.staff_fname} ${currentUser?.staff_lname} (${currentUser?.staff_id})`
+                }
+            </Navbar.Text>
+            {currentUser
+                && <Badge className="ms-1" bg="primary">{accessRoleNameFromNo(currentUser.role)}</Badge>
+            }
+        </>
+    );
 }
 
 export default function RootLayout() {
-    const { currentUser } = useContext(AccessContext);
+    const { currentUser, setCurrentUser } = useContext(AccessContext);
 
     return (
         <>
@@ -40,11 +57,25 @@ export default function RootLayout() {
                             <NavLink to="/help" className="nav-link">Help</NavLink>
                         </Nav>
                         <CurrentUserNav currentUser={currentUser}></CurrentUserNav>
+                        <Nav>
+                            {currentUser &&
+                                <NavLink
+                                    className="ms-1"
+                                    onClick={() => {
+                                        logoutUser();
+                                        setCurrentUser("");
+                                        redirect("/")
+                                    }}
+                                >
+                                    Log Out
+                                </NavLink>
+                            }
+                        </Nav>
                     </Container>
                 </Navbar>
             </header>
             <main>
-                <Container className="mt-3"> 
+                <Container className="mt-3">
                     <Outlet />
                 </Container>
             </main>
