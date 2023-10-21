@@ -14,7 +14,9 @@ import moment from 'moment';
 export const ENDPOINTS = {
     roles: "/api/roles/",
     listings: "/api/listings",
+    openListings: "/api/listings?open=true",
     staffs: "/api/staffs",
+    managers: "/api/staffs?role=manager",
     applications: "/api/applications"
 }
 
@@ -87,10 +89,15 @@ export function useFetchedDataWithParams({ fetchFn, setState, params }) {
     }, [])
 }
 
-export function fetchStaffs() {
-    return axios.get(ENDPOINTS.staffs)
-        .then(response => response.data.staffs);
+function fetchFnFactory(url) {
+    return () => {
+        return axios.get(url)
+            .then(response => response.data.staffs);
+    }
 }
+
+export const fetchStaffs = fetchFnFactory(ENDPOINTS.staffs)
+export const fetchManagers = fetchFnFactory(ENDPOINTS.managers)
 
 
 // TEST
