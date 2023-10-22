@@ -1,57 +1,77 @@
 # IS212_SPM
-Frontend: Bootstrap, Javascript, React
-Backend: Python (Flask)
-Database: MySQL (Requires WAMP to be running)
 
-## Testing (locally using venv, backend only for now)
+Frontend: Bootstrap, Javascript, React  
+Backend: Python (Flask)  
+Database: MySQL (Requires WAMP to be running)<br>
+<br>
 
-### Set up python virtual environment (if not done so yet)
-python -m venv env
+# Testing (locally using venv, backend only for now)
 
-### Activate your virtual environment based on your local environment (Have to activate to be in the virtual environment) (For consistency purposes when testing and for the CI/CD pipeline)
-source env/bin/activate     # Linux/macOS
-env\Scripts\activate.bat    # In CMD
-env\Scripts\Activate.ps1    # In Powershell
+<h4> Set up python virtual environment (if not done so yet) </h4>  
 
-### Install python dependencies (if not done so yet)
+- <code> python -m venv env </code>  
+
+<h4> Activate your virtual environment based on your local environment (Have to activate to be in the virtual environment) (For consistency purposes when testing and for the CI/CD pipeline) </h4>
+
+- <code> source env/bin/activate     # Linux/macOS </code>
+
+- <code> env\Scripts\activate.bat    # In CMD </code>
+
+- <code> env\Scripts\Activate.ps1    # In Powershell </code>
+
+<h4> Install python dependencies (if not done so yet) </h4>
+
 <!-- 
     Make sure that any newly installed dependencies are added to the requirements.txt!!!
     pip freeze >> requirements.txt
  -->
-pip install -r requirements.txt
+ 
+ - <code> pip install -r requirements.txt </code>
 
 <!--
-    ### Navigate to the front-end folder and start the React application
+    <h4> Navigate to the front-end folder and start the React application </h4>
     cd sbrp_client
     npm i
     npm run dev
     cd ..
 -->
 
-### Create a .env file (if not yet created) and add the following environment variables
-SQLALCHEMY_DATABASE_URI=mysql://root@localhost:3306/spm_db  # for default MySQL settings on Windows
+<h4> Create a .env file (if not yet created) and add the following environment variables </h4>
 
-### Start Wampserver (Required for MySQL Database)
-Ensure that Wampserver is installed and running.
-Configure MySQL settings within Wampserver if necessary.
+- <code> SQLALCHEMY_DATABASE_URI=mysql://root@localhost:3306/spm_db  # for default MySQL settings on Windows </code>
 
-### Navigate to the back-end folder and start the Flask application
-cd backend
-python run.py
+<h4> Start Wampserver (Required for MySQL Database) </h4>
 
-Open a new shell (as the previous one should have been locked with python run.py)
+- <code> Ensure that Wampserver is installed and running. </code>
 
-### Run unit tests (unit_tests.py)
-cd backend
-python unit_tests.py
+- <code> Configure MySQL settings within Wampserver if necessary. </code>
 
-### Run integration tests (integration_tests.py)
-python integration_tests.py
+<h4> Navigate to the back-end folder and start the Flask application </h4>
 
-### To deactivate the environment
-deactivate                              # Linux/macOS
-\path\to\venv\Scripts\deactivate.bat    # In CMD
-\path\to\venv\Scripts\Deactivate.ps1    # In Powershell
+- <code> cd backend </code>
 
-### Remove env (if needed)
-Simply delete the env folder
+- <code> python run.py </code>
+
+- <code> Open a new shell (as the previous one should have been locked with python run.py) </code>
+
+<h4> Run unit tests (unit_tests.py) </h4>
+
+- <code> cd backend </code>
+
+- <code> python unit_tests.py </code>
+
+<h4> Run integration tests (integration_tests.py) </h4>
+
+- <code> python integration_tests.py </code>
+
+<h4> To deactivate the environment </h4>
+
+- <code> deactivate    # Or use the deactivate scripts in env/Scripts/ </code>
+
+- <code> \path\to\venv\Scripts\deactivate.bat    # In CMD </code>
+
+- <code> \path\to\venv\Scripts\Deactivate.ps1    # In Powershell </code>
+
+<h4> Remove env (if needed) </h4>
+
+- <code> Simply delete the env folder </code>
