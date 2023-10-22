@@ -5,11 +5,11 @@ Backend: Python (Flask)
 Database: MySQL (Requires WAMP to be running)<br>
 <br>
 
-# Testing (locally using venv, backend only for now)
+## Python virtual environment
 
 <h4> Set up python virtual environment (if not done so yet) </h4>  
 
-- <code> python -m venv env </code>  
+- <code> python -m venv env </code> 
 
 <h4> Activate your virtual environment based on your local environment (Have to activate to be in the virtual environment) (For consistency purposes when testing and for the CI/CD pipeline) </h4>
 
@@ -21,12 +21,9 @@ Database: MySQL (Requires WAMP to be running)<br>
 
 <h4> Install python dependencies (if not done so yet) </h4>
 
-<!-- 
-    Make sure that any newly installed dependencies are added to the requirements.txt!!!
-    pip freeze >> requirements.txt
- -->
+Make sure that any newly installed dependencies are added to the requirements.txt with pip freeze >> requirements.txt
  
- - <code> pip install -r requirements.txt </code>
+- <code> pip install -r requirements.txt </code>
 
 <!--
     <h4> Navigate to the front-end folder and start the React application </h4>
@@ -52,7 +49,19 @@ Database: MySQL (Requires WAMP to be running)<br>
 
 - <code> python run.py </code>
 
+
+## Linting (using flake8, doesn't need python app to be running)
+
 - <code> Open a new shell (as the previous one should have been locked with python run.py) </code>
+
+- <code> python -m flake8 backend/ </code>  
+
+## Linting (using flake8, doesn't need python app to be running)
+
+- <code> python -m yapf --recursive --diff --parallel backend </code>
+
+
+## Testing (locally using venv, backend only for now)
 
 <h4> Run unit tests (unit_tests.py) </h4>
 
@@ -68,9 +77,9 @@ Database: MySQL (Requires WAMP to be running)<br>
 
 - <code> deactivate    # Or use the deactivate scripts in env/Scripts/ </code>
 
-- <code> \path\to\venv\Scripts\deactivate.bat    # In CMD </code>
+- <code> env\Scripts\deactivate.bat    # In CMD </code>
 
-- <code> \path\to\venv\Scripts\Deactivate.ps1    # In Powershell </code>
+<!-- - <code> \path\to\venv\Scripts\Deactivate.ps1    # In Powershell </code> -->
 
 <h4> Remove env (if needed) </h4>
 

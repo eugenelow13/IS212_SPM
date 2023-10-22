@@ -3,7 +3,6 @@ from src.extensions import db
 import os
 from dotenv import load_dotenv
 # For testing
-from src.models import Staff, Role, Skill, StaffSkill, RoleSkill
 
 from src.blueprints.listings import listings
 from src.blueprints.applications import applications
