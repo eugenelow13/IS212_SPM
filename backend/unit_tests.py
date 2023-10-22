@@ -1,6 +1,6 @@
 import unittest
 from unittest.mock import Mock
-from backend.src.app import Staff, Skill, Role, RoleSkill, StaffSkill
+from src.app import Staff, Skill, Role, RoleSkill, StaffSkill
 
 
 class TestStaff(unittest.TestCase):
