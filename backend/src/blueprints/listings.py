@@ -12,9 +12,10 @@ listings = Blueprint("listings", __name__, url_prefix="/listings")
 def get_open_listings():
     today = datetime.date.today()
     listing_list = RoleListing.query.filter(RoleListing.end_date >= today).all()
-    if(len(listing_list)):
+    if (len(listing_list)):
         return jsonify({"role_listings": [listing.json() for listing in listing_list]})
     return jsonify({"message": "No role listings found."}), 404
+
 
 @listings.route("/", methods=["GET"])
 def get_all():
@@ -22,10 +23,9 @@ def get_all():
         return get_open_listings()
 
     listing_list = RoleListing.query.all()
-    if(len(listing_list)):
+    if (len(listing_list)):
         return jsonify({"role_listings": [listing.json() for listing in listing_list]}), 200
     return jsonify({"message": "No role listings found."}), 404
-
 
 
 @listings.route("/<int:listing_id>", methods=["GET"])
@@ -33,12 +33,13 @@ def get_listing(listing_id):
     listing = RoleListing.query.get(listing_id)
     if listing:
         return listing.json(), 200
-    
+
     return {"message": "No role listings found."}, 404
+
 
 @listings.route("/", methods=["POST"])
 def create_listing():
-    
+
     # Form Data
     body = request.get_json()
 
@@ -48,14 +49,14 @@ def create_listing():
         end_date = datetime.datetime.strptime(body["end_date"], "%Y-%m-%d").date()
 
     except ValueError:
-        return {"message": "Invalid date input"} 
+        return {"message": "Invalid date input"}
 
     # Validate start date and end date, making sure start date is on today or later, and end date is after start date
     # If not, return error status
-    
+
     if start_date < datetime.date.today():
         return {"message": "Start date must be today or later"}, 400
-    
+
     if end_date < start_date:
         return {"message": "End date must be after start date"}, 400
 
@@ -69,10 +70,10 @@ def create_listing():
     except IntegrityError:
         return {"message": "Duplicate listing info provided"}, 400
 
-    except:
+    except Exception as e:
         return jsonify(
             {
-                "message": "An error occurred creating the role listing"
+                "message": "An error occurred creating the role listing" + str(e)
             }
         ), 500
 
@@ -81,8 +82,7 @@ def create_listing():
             "data": role_listing.json()
         }
     ), 201
-    
-    
+
 
 @listings.route("/<int:listing_id>", methods=["PUT"])
 def edit_listing(listing_id):
@@ -96,13 +96,13 @@ def edit_listing(listing_id):
         end_date = datetime.datetime.strptime(body["end_date"], "%Y-%m-%d").date()
 
     except ValueError:
-        return {"message": "Invalid date input"} 
+        return {"message": "Invalid date input"}
     # Validate start date and end date, making sure start date is on today or later, and end date is after start date
     # If not, return error status
-    
+
     if start_date < datetime.date.today():
         return {"message": "Start date must be today or later"}, 400
-    
+
     if end_date < start_date:
         return {"message": "End date must be after start date"}, 400
 
@@ -115,17 +115,16 @@ def edit_listing(listing_id):
         role_listing.manager_id = body["manager_id"]
         role_listing.country = body["country"]
 
-
         db.session.add(role_listing)
         db.session.commit()
 
     except IntegrityError:
         return {"message": "Duplicate listing info provided"}, 400
 
-    except:
+    except Exception as e:
         return jsonify(
             {
-                "message": "An error occurred creating the role listing"
+                "message": "An error occurred creating the role listing" + str(e)
             }
         ), 500
 
@@ -135,4 +134,3 @@ def edit_listing(listing_id):
             "data": role_listing.json()
         }
     ), 201
-    
