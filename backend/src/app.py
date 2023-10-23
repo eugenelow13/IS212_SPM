@@ -37,4 +37,4 @@ api.register_blueprint(roles)
 app.register_blueprint(api)
 
 # Init App
-db.init_app(app)
+

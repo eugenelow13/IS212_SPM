@@ -1,7 +1,6 @@
-name: Linting
+name: Testing
 
 on:
-  # Run on every push, pull, or merge to any branch
   push:
     branches:
       - '*'
@@ -12,12 +11,12 @@ on:
   workflow_dispatch:
     inputs:
       custom_dispatch:
-        description: 'Manually trigger linting'
+        description: 'Manually trigger testing'
         required: false
 
 jobs:
-  # Lint on Windows
-  lint-windows:
+  # Unit tests on Windows
+  unit-tests-windows:
     runs-on: windows-latest
 
     steps:
@@ -30,13 +29,13 @@ jobs:
           python-version: 3.11.3
 
       - name: Install dependencies
-        run: pip install flake8
+        run: pip install -r requirements.txt
 
-      - name: Run Flake8 on Windows
-        run: flake8 backend/
+      - name: Run unit tests on Windows
+        run: python backend/unit_tests.py
 
-  # Lint on Linux
-  lint-linux:
+  # Unit tests on Linux
+  unit-tests-linux:
     runs-on: ubuntu-latest
 
     steps:
@@ -49,13 +48,13 @@ jobs:
           python-version: 3.11.3
 
       - name: Install dependencies
-        run: pip install flake8
+        run: pip install -r requirements.txt
 
-      - name: Run Flake8 on Linux
-        run: flake8 backend/
+      - name: Run unit tests on Linux
+        run: python backend/unit_tests.py
 
-  # Lint on macOS
-  lint-macos:
+  # Unit tests on macOS
+  unit-tests-macos:
     runs-on: macos-latest
 
     steps:
@@ -68,7 +67,11 @@ jobs:
           python-version: 3.11.3
 
       - name: Install dependencies
-        run: pip install flake8
+        run: pip install -r requirements.txt
 
-      - name: Run Flake8 on macOS
-        run: flake8 backend/
+      - name: Run unit tests on macOS
+        run: python backend/unit_tests.py
+
+  # Integration tests on Windows
+  # Integration tests on Linux
+  # Integration tests on macOS

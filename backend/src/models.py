@@ -2,6 +2,7 @@ from src.extensions import db
 from sqlalchemy import ForeignKey
 from sqlalchemy.orm import relationship
 from sqlalchemy.dialects.mysql import LONGTEXT
+from sqlalchemy.types import Text
 
 
 class Staff(db.Model):
@@ -107,7 +108,7 @@ class Application(db.Model):
     __tablename__ = 'application'
     id = db.Column(db.Integer, ForeignKey('role_listing.id'), primary_key=True)
     staff_id = db.Column(db.Integer, ForeignKey('staff.staff_id'), primary_key=True)
-    app_desc = db.Column(LONGTEXT, nullable=True)
+    app_desc = db.Column(Text, nullable=True)
     app_date = db.Column(db.Date, nullable=False)
 
     applicant = relationship("Staff", back_populates="applications")
