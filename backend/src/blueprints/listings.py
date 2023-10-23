@@ -1,5 +1,5 @@
 from flask import Blueprint, request, jsonify
-from src.models import RoleListing
+from src.models import RoleListing, Application
 import datetime
 from src.extensions import db
 from sqlalchemy.exc import IntegrityError
@@ -22,6 +22,13 @@ def get_listing(listing_id):
         return listing.json(), 200
     
     return {"message": "No role listings found."}, 404
+
+@listings.route("/<int:listing_id>/applications", methods=["GET"])
+def listing_applications(listing_id):
+    applications = Application.query.filter(Application.id==listing_id).all()
+    if(len(applications)):
+        return jsonify({"applications": [application.json() for application in applications]})
+    return jsonify({"message": "No role listings found."}), 404
 
 @listings.route("/", methods=["POST"])
 def create_listing():
