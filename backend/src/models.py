@@ -1,7 +1,7 @@
 from src.extensions import db
 from sqlalchemy import ForeignKey
 from sqlalchemy.orm import relationship
-from sqlalchemy.dialects.mysql import LONGTEXT
+# from sqlalchemy.dialects.mysql import LONGTEXT
 from sqlalchemy.types import Text
 
 

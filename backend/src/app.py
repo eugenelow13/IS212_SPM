@@ -1,8 +1,6 @@
 from flask import Flask, Blueprint
-from src.extensions import db
 import os
 from dotenv import load_dotenv
-# For testing
 
 from src.blueprints.listings import listings
 from src.blueprints.applications import applications
@@ -37,4 +35,3 @@ api.register_blueprint(roles)
 app.register_blueprint(api)
 
 # Init App
-

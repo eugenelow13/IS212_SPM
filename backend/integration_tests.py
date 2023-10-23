@@ -1,14 +1,10 @@
 import flask_testing
 import unittest
 
-from src.app import app
 from src.extensions import db
-from src.models import Staff, Skill, Role, RoleSkill, StaffSkill
 from sqlalchemy import text
 
 from flask import Flask, Blueprint
-from src.extensions import db
-from dotenv import load_dotenv
 
 from src.blueprints.listings import listings
 from src.blueprints.applications import applications
@@ -52,7 +48,6 @@ class TestApp(flask_testing.TestCase):
             db.session.commit()
 
         return app
-
 
     def setUp(self):
         pass
