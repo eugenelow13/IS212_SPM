@@ -47,8 +47,3 @@ def get_staff_applications(staff_id):
         if staff_applications:
             return {"applications": [application.json() for application in staff_applications]}, 200
     return {"message": "No applications found"}, 404
-
-
-@staff.route("/", methods=["POST"])
-def create_staff():
-    pass
