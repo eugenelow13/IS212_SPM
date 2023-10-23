@@ -1,0 +1,74 @@
+name: Linting
+
+on:
+  # Run on every push, pull, or merge to any branch
+  push:
+    branches:
+      - '*'
+  pull_request:
+    branches:
+      - '*'
+  # For manual triggering on GitHub web UI
+  workflow_dispatch:
+    inputs:
+      custom_dispatch:
+        description: 'Manually trigger linting'
+        required: false
+
+jobs:
+  # Lint on Windows
+  lint-windows:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.11.3
+
+      - name: Install dependencies
+        run: pip install flake8
+
+      - name: Run Flake8 on Windows
+        run: flake8 backend/
+
+  # Lint on Linux
+  lint-linux:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.11.3
+
+      - name: Install dependencies
+        run: pip install flake8
+
+      - name: Run Flake8 on Linux
+        run: flake8 backend/
+
+  # Lint on macOS
+  lint-macos:
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.11.3
+
+      - name: Install dependencies
+        run: pip install flake8
+
+      - name: Run Flake8 on macOS
+        run: flake8 backend/

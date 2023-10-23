@@ -3,6 +3,7 @@ from sqlalchemy import ForeignKey
 from sqlalchemy.orm import relationship
 from sqlalchemy.dialects.mysql import LONGTEXT
 
+
 class Staff(db.Model):
     __tablename__ = 'staff'
     staff_id = db.Column(db.Integer, primary_key= True)
@@ -26,15 +27,15 @@ class Staff(db.Model):
         self.role = role
 
     def json(self):
-        return{"staff_id": self.staff_id,
-               "staff_fname": self.staff_fname,
-               "staff_lname": self.staff_lname,
-               "dept": self.dept,
-               "country": self.country,
-               "email": self.email,
-               "role": self.role,
-               "staff_skills": [skill.skill_name for skill in self.staff_skills]
-               }
+        return {"staff_id": self.staff_id,
+                "staff_fname": self.staff_fname,
+                "staff_lname": self.staff_lname,
+                "dept": self.dept,
+                "country": self.country,
+                "email": self.email,
+                "role": self.role,
+                "staff_skills": [skill.skill_name for skill in self.staff_skills]
+                }
 
 
 class Role(db.Model):
@@ -50,9 +51,9 @@ class Role(db.Model):
         self.role_desc = role_desc
 
     def json(self):
-        return{"role_name": self.role_name,
-               "role_desc": self.role_desc,
-               "role_skills": [role_skill.skill_name for role_skill in self.role_skills]}
+        return {"role_name": self.role_name,
+                "role_desc": self.role_desc,
+                "role_skills": [role_skill.skill_name for role_skill in self.role_skills]}
 
 
 class Skill(db.Model):
@@ -65,8 +66,8 @@ class Skill(db.Model):
         self.skill_desc = skill_desc
 
     def json(self):
-        return{"skill_name": self.skill_name,
-               "skill_desc": self.skill_desc}
+        return {"skill_name": self.skill_name,
+                "skill_desc": self.skill_desc}
 
 
 class RoleListing(db.Model):
@@ -89,18 +90,18 @@ class RoleListing(db.Model):
         self.country = country
 
     def json(self):
-        return{"id": self.id,
-               "role_name": self.role_name,
-               "role_desc": self.role.role_desc,
-               "start_date": self.start_date.strftime('%Y-%m-%d'),
-               "end_date": self.end_date.strftime('%Y-%m-%d'),
-               "manager_id": self.manager_id,
-               "manager_name": self.manager.staff_fname + " " + self.manager.staff_lname,
-               "country": self.country,
-               "dept": self.manager.dept,
-               "role_skills": [role_skill.skill_name for role_skill in self.role.role_skills]
-               }
-    
+        return {"id": self.id,
+                "role_name": self.role_name,
+                "role_desc": self.role.role_desc,
+                "start_date": self.start_date.strftime('%Y-%m-%d'),
+                "end_date": self.end_date.strftime('%Y-%m-%d'),
+                "manager_id": self.manager_id,
+                "manager_name": self.manager.staff_fname + " " + self.manager.staff_lname,
+                "country": self.country,
+                "dept": self.manager.dept,
+                "role_skills": [role_skill.skill_name for role_skill in self.role.role_skills]
+                }
+
 
 class Application(db.Model):
     __tablename__ = 'application'
@@ -118,11 +119,11 @@ class Application(db.Model):
         self.app_date = app_date
 
     def json(self):
-        return{"id": self.id,
-               "staff_id": self.staff_id,
-               "app_desc": self.app_desc,
-               "app_date": self.app_date.strftime('%Y-%m-%d')}
-    
+        return {"id": self.id,
+                "staff_id": self.staff_id,
+                "app_desc": self.app_desc,
+                "app_date": self.app_date.strftime('%Y-%m-%d')}
+
 
 class RoleSkill(db.Model):
     __tablename__ = 'role_skill'
@@ -136,10 +137,10 @@ class RoleSkill(db.Model):
         self.skill_name = skill_name
 
     def json(self):
-        return{"role_name": self.role_name,
-               "skill_name": self.skill_name}
- 
-    
+        return {"role_name": self.role_name,
+                "skill_name": self.skill_name}
+
+
 class StaffSkill(db.Model):
     __tablename__ = 'staff_skill'
     staff_id = db.Column(db.Integer, ForeignKey('staff.staff_id'), primary_key=True)
@@ -152,5 +153,5 @@ class StaffSkill(db.Model):
         self.skill_name = skill_name
 
     def json(self):
-        return{"staff_id": self.staff_id,
-               "skill_name": self.skill_name}
+        return {"staff_id": self.staff_id,
+                "skill_name": self.skill_name}

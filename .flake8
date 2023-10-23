@@ -1,0 +1,15 @@
+[flake8]
+ignore =
+    D203,
+    # Line break before / after binary operator
+    W503, W504,
+    # Long lines
+    E501
+    E251
+exclude =
+    .git,
+    setup.py
+    __pycache__
+    env
+# mcCabe complexity checker, function complexity should be less than 10
+max-complexity = 10
