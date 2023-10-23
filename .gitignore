@@ -12,3 +12,6 @@ venv.bak/
 *.pyc
 *.pyo
 __pycache__/
+
+# sql db
+*.sql
