@@ -15,6 +15,7 @@ import { AccessProvider } from './common/AccessProvider';
 import { loadListing } from './pages/createListing/createListingUtilities';
 import applyToListing from './pages/viewListings/applyToListingUtilities';
 import ListingsWithStatusToast from './pages/viewListings/Listings';
+import ApplicantsWithStatusToast from './pages/viewApplicants/Applicants';
 import { useContext } from 'react';
 import { redirectIfNotLoggedInFactory } from './common/sessionUtilities';
 
@@ -51,6 +52,13 @@ function App() {
             loader={pageProtector}
             // only triggers for non-get requests
             element={<ListingFormWithStatusToast />}
+            action={createListingAction}
+          />
+                    <Route
+            path="/applications"
+            loader={pageProtector}
+            // only triggers for non-get requests
+            element={<ApplicantsWithStatusToast />}
             action={createListingAction}
           />
       </Route>
