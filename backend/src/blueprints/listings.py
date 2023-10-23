@@ -1,17 +1,16 @@
 from flask import Blueprint, request, jsonify
-from src.models import RoleListing
+from src.models import RoleListing, Application
 import datetime
 from src.extensions import db
 from sqlalchemy.exc import IntegrityError
-
-# from src.models import Role
 
 listings = Blueprint("listings", __name__, url_prefix="/listings")
 
 
 def get_open_listings():
     today = datetime.date.today()
-    listing_list = RoleListing.query.filter(RoleListing.end_date >= today).all()
+    listing_list = RoleListing.query.filter(
+        RoleListing.end_date >= today).all()
     if (len(listing_list)):
         return jsonify({"role_listings": [listing.json() for listing in listing_list]})
     return jsonify({"message": "No role listings found."}), 404
@@ -37,6 +36,14 @@ def get_listing(listing_id):
     return {"message": "No role listings found."}, 404
 
 
+@listings.route("/<int:listing_id>/applications", methods=["GET"])
+def listing_applications(listing_id):
+    applications = Application.query.filter(Application.id == listing_id).all()
+    if (len(applications)):
+        return jsonify({"applications": [application.json() for application in applications]})
+    return jsonify({"message": "No role listings found."}), 404
+
+
 @listings.route("/", methods=["POST"])
 def create_listing():
 
@@ -45,8 +52,10 @@ def create_listing():
 
     # Parse start_date and end_date into datetime objects using YYYY-MM-dd format
     try:
-        start_date = datetime.datetime.strptime(body["start_date"], "%Y-%m-%d").date()
-        end_date = datetime.datetime.strptime(body["end_date"], "%Y-%m-%d").date()
+        start_date = datetime.datetime.strptime(
+            body["start_date"], "%Y-%m-%d").date()
+        end_date = datetime.datetime.strptime(
+            body["end_date"], "%Y-%m-%d").date()
 
     except ValueError:
         return {"message": "Invalid date input"}
@@ -61,7 +70,8 @@ def create_listing():
         return {"message": "End date must be after start date"}, 400
 
     # Create new listing
-    role_listing = RoleListing(role_name=body["role_name"], start_date=start_date, end_date=end_date, manager_id=body["manager_id"], country=body["country"])
+    role_listing = RoleListing(role_name=body["role_name"], start_date=start_date,
+                               end_date=end_date, manager_id=body["manager_id"], country=body["country"])
 
     try:
         db.session.add(role_listing)
@@ -92,8 +102,10 @@ def edit_listing(listing_id):
 
     # Parse start_date and end_date into datetime objects using YYYY-MM-dd format
     try:
-        start_date = datetime.datetime.strptime(body["start_date"], "%Y-%m-%d").date()
-        end_date = datetime.datetime.strptime(body["end_date"], "%Y-%m-%d").date()
+        start_date = datetime.datetime.strptime(
+            body["start_date"], "%Y-%m-%d").date()
+        end_date = datetime.datetime.strptime(
+            body["end_date"], "%Y-%m-%d").date()
 
     except ValueError:
         return {"message": "Invalid date input"}

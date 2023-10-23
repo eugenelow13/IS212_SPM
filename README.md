@@ -56,7 +56,7 @@ Make sure that any newly installed dependencies are added to the requirements.tx
 
 - <code> python -m flake8 backend/ </code>  
 
-## Linting (using flake8, doesn't need python app to be running)
+## Formatting (using yapf, doesn't need python app to be running)
 
 - <code> python -m yapf --recursive --diff --parallel backend </code>
 

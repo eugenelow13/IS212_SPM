@@ -106,24 +106,27 @@ class RoleListing(db.Model):
 
 class Application(db.Model):
     __tablename__ = 'application'
-    id = db.Column(db.Integer, ForeignKey('role_listing.id'), primary_key=True)
-    staff_id = db.Column(db.Integer, ForeignKey('staff.staff_id'), primary_key=True)
-    app_desc = db.Column(Text, nullable=True)
+    id = db.Column(db.Integer, primary_key=True)
+    listing_id = db.Column(db.Integer, ForeignKey('role_listing.id'), nullable=False)
+    staff_id = db.Column(db.Integer, ForeignKey('staff.staff_id'), nullable=False)
+    app_desc = db.Column(Text, nullable=False)
     app_date = db.Column(db.Date, nullable=False)
 
     applicant = relationship("Staff", back_populates="applications")
 
-    def __init__(self, id, staff_id, app_desc, app_date):
-        self.id = id
+    def __init__(self, listing_id, staff_id, app_desc, app_date):
+        self.listing_id = listing_id
         self.staff_id = staff_id
         self.app_desc = app_desc
         self.app_date = app_date
 
     def json(self):
         return {"id": self.id,
+                "listing_id": self.listing_id,
                 "staff_id": self.staff_id,
                 "app_desc": self.app_desc,
-                "app_date": self.app_date.strftime('%Y-%m-%d')}
+                "app_date": self.app_date.strftime('%Y-%m-%d')
+                }
 
 
 class RoleSkill(db.Model):
