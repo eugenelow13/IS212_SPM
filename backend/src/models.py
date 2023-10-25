@@ -1,7 +1,8 @@
 from src.extensions import db
 from sqlalchemy import ForeignKey
 from sqlalchemy.orm import relationship
-from sqlalchemy.dialects.mysql import LONGTEXT
+# from sqlalchemy.dialects.mysql import LONGTEXT
+from sqlalchemy.types import Text
 
 
 class Staff(db.Model):
@@ -108,7 +109,7 @@ class Application(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     listing_id = db.Column(db.Integer, ForeignKey('role_listing.id'), nullable=False)
     staff_id = db.Column(db.Integer, ForeignKey('staff.staff_id'), nullable=False)
-    app_desc = db.Column(LONGTEXT, nullable=False)
+    app_desc = db.Column(Text, nullable=False)
     app_date = db.Column(db.Date, nullable=False)
 
     applicant = relationship("Staff", back_populates="applications")
