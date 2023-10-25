@@ -1,5 +1,4 @@
 from flask import Flask, Blueprint
-from src.extensions import db
 import os
 from dotenv import load_dotenv
 # For testing
@@ -12,6 +11,7 @@ from src.blueprints.roles import roles
 from flask_cors import CORS
 
 # Load environment variables from .env file
+
 
 def create_app():
     load_dotenv()
