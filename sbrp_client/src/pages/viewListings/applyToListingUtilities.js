@@ -53,14 +53,3 @@ export async function fetchStaffApplications({ staff_id, id }) {
 
 }
 
-export function getRoleSkillMatchNo(roleSkills, currentSkills) {
-    const roleSkillsSet = new Set([...roleSkills]);
-    const matchingSkills = currentSkills.filter(skill => roleSkillsSet.has(skill));
-    return (matchingSkills.length / roleSkillsSet.size * 100).toFixed(0);
-  }
-// useFetchedDataWithParams({ fetchFn: fetchStaffApplications, setState: setHasApplied, params: { staff_id, id }})
-
-// export function fetchStaffApplicationsFactory(staff_id, id) {
-//     return () => fetchStaffApplications(staff_id, id);
-// }
-

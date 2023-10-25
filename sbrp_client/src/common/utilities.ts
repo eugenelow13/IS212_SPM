@@ -91,6 +91,7 @@ export function useFetchedDataWithParams({ fetchFn, setState, params }) {
 
 function fetchFnFactory(url) {
     return () => {
+        // append params to url using urlSearchParams
         return axios.get(url)
             .then(response => response.data.staffs);
     }
@@ -98,6 +99,25 @@ function fetchFnFactory(url) {
 
 export const fetchStaffs = fetchFnFactory(ENDPOINTS.staffs)
 export const fetchManagers = fetchFnFactory(ENDPOINTS.managers)
+export const fetchApplications = fetchFnFactory(ENDPOINTS.applications)
+
+export function getRoleSkillMatchNo(roleSkills, currentSkills) {
+    const roleSkillsSet = new Set([...roleSkills]);
+    const matchingSkills = getAcquiredSkills(currentSkills, roleSkills);
+    return (matchingSkills.length / roleSkillsSet.size * 100).toFixed(0);
+}
+
+export function getAcquiredSkills(currentSkills, roleSkills) {
+    const roleSkillsSet = new Set([...roleSkills]);
+    const matchingSkills = currentSkills.filter(skill => roleSkillsSet.has(skill));
+    return matchingSkills;
+}
+
+export function getLackingSkills(currentSkills, roleSkills) {
+    const roleSkillsSet = new Set([...roleSkills]);
+    const lackingSkills = currentSkills.filter(skill => !roleSkillsSet.has(skill));
+    return lackingSkills;
+}
 
 
 // TEST

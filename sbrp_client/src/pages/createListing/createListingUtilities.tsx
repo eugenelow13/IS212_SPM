@@ -73,12 +73,9 @@ export async function createListingAction({ params, request, method = "post" }) 
 
 export async function loadListing({ params }) {
   const id = params.id;
-
   const response = await axios.get(ENDPOINTS.listings + "/" + id);
-  console.log("I AM WORKING!")
 
   const listing = await response.data;
-
   return listing;
 }
 
