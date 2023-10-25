@@ -2,37 +2,17 @@ import flask_testing
 import unittest
 
 from src.extensions import db
+from src.app import create_app
 from sqlalchemy import text
 
-from flask import Flask, Blueprint
-
-from src.blueprints.listings import listings
-from src.blueprints.applications import applications
-from src.blueprints.staff import staff
-from src.blueprints.roles import roles
 
 # TestApp is for creating a test app instance
-
-
 class TestApp(flask_testing.TestCase):
 
     def create_app(self):
 
         # Create Flask app
-        app = Flask(__name__)
-
-        # Register applications, listings, and staff blueprints under api (nest all)
-        api = Blueprint("api", __name__, url_prefix="/api")
-
-        # Path prefixed by /listings/<listing_id>/applications
-        api.register_blueprint(applications)
-
-        api.register_blueprint(listings)
-        api.register_blueprint(staff)
-        api.register_blueprint(roles)
-
-        # Register api blueprint in app
-        app.register_blueprint(api)
+        app = create_app()
 
         app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite://"
         app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {}
@@ -42,7 +22,7 @@ class TestApp(flask_testing.TestCase):
 
         with app.app_context():
             db.create_all()
-            with open('backend/test.sql') as f:
+            with open('backend/tests/test.sql') as f:
                 for line in f:
                     db.session.execute(text(line))
             db.session.commit()
