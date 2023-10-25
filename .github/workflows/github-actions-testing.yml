@@ -32,6 +32,6 @@ jobs:
         run: pip install -r requirements.txt
 
       - name: Run unit tests on Linux
-        run: python backend/unit_tests.py
+        run: python backend/tests/unit_tests.py
 
   # Integration tests on Linux
