@@ -15,6 +15,19 @@ def get_all_applications():
     return jsonify({"message": "No role listings found."}), 404
 
 
+@applications.route("/<int:application_id>", methods=["GET"])
+def get_application(application_id):
+
+    application = Application.query.get(application_id)
+
+    if application:
+        if request.args.get("detail"):
+            return application.json_detail()
+        return application.json()
+
+    return jsonify({"message": "Application not found."}), 404
+
+
 @applications.route("/<int:listing_id>", methods=["POST"])
 def create_application(listing_id):
 
