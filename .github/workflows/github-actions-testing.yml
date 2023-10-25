@@ -15,9 +15,9 @@ on:
         required: false
 
 jobs:
-  # Unit tests on Windows
-  unit-tests-windows:
-    runs-on: windows-latest
+  # Unit tests on ubuntu-latest
+  unit-tests-linux:
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
@@ -31,14 +31,7 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
 
-      - name: Run unit tests on Windows
+      - name: Run unit tests on Linux
         run: python backend/unit_tests.py
 
-      - name: Upload unit test results
-        uses: actions/upload-artifact@v3
-        with:
-          name: unit-test-results
-          path: backend/unit_tests.txt
-
-  # Integration tests on Windows
-  
+  # Integration tests on Linux

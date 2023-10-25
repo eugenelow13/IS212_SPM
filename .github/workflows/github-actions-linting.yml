@@ -16,9 +16,9 @@ on:
         required: false
 
 jobs:
-  # Lint on Windows
-  lint-windows:
-    runs-on: windows-latest
+  # Lint on ubuntu-latest
+  lint-linux:
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
@@ -32,11 +32,5 @@ jobs:
       - name: Install dependencies
         run: pip install flake8
 
-      - name: Run Flake8 on Windows
+      - name: Run Flake8 on Linux
         run: flake8 backend/
-
-      - name: Upload linting results
-        uses: actions/upload-artifact@v3
-        with:
-          name: linting-results
-          path: backend/flake8.txt
