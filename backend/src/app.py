@@ -12,29 +12,31 @@ from src.blueprints.roles import roles
 from flask_cors import CORS
 
 # Load environment variables from .env file
-load_dotenv()
 
-# Create Flask app
-app = Flask(__name__)
+def create_app():
+    load_dotenv()
 
-# This CORS(app) will allow all origins, methods, and headers
-CORS(app)
+    # Create Flask app
+    app = Flask(__name__)
 
-# mysql+mysqlconnector://<user>:<password>@<host>[:<port>]/<dbname>, this will get the URI from the .env
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get("SQLALCHEMY_DATABASE_URI")
+    # This CORS(app) will allow all origins, methods, and headers
+    CORS(app)
 
-# Register applications, listings, and staff blueprints under api (nest all)
-api = Blueprint("api", __name__, url_prefix="/api")
+    # mysql+mysqlconnector://<user>:<password>@<host>[:<port>]/<dbname>, this will get the URI from the .env
+    app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get(
+        "SQLALCHEMY_DATABASE_URI")
 
-# Path prefixed by /listings/<listing_id>/applications
-api.register_blueprint(applications)
+    # Register applications, listings, and staff blueprints under api (nest all)
+    api = Blueprint("api", __name__, url_prefix="/api")
 
-api.register_blueprint(listings)
-api.register_blueprint(staff)
-api.register_blueprint(roles)
+    # Path prefixed by /listings/<listing_id>/applications
+    api.register_blueprint(applications)
 
-# Register api blueprint in app
-app.register_blueprint(api)
+    api.register_blueprint(listings)
+    api.register_blueprint(staff)
+    api.register_blueprint(roles)
 
-# Init App
-db.init_app(app)
+    # Register api blueprint in app
+    app.register_blueprint(api)
+
+    return app
