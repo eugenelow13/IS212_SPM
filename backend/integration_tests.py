@@ -42,7 +42,7 @@ class TestApp(flask_testing.TestCase):
 
         with app.app_context():
             db.create_all()
-            with open('test.sql') as f:
+            with open('backend/test.sql') as f:
                 for line in f:
                     db.session.execute(text(line))
             db.session.commit()

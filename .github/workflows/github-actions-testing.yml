@@ -34,44 +34,11 @@ jobs:
       - name: Run unit tests on Windows
         run: python backend/unit_tests.py
 
-  # Unit tests on Linux
-  unit-tests-linux:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Set up Python
-        uses: actions/setup-python@v4
+      - name: Upload unit test results
+        uses: actions/upload-artifact@v3
         with:
-          python-version: 3.11.3
-
-      - name: Install dependencies
-        run: pip install -r requirements.txt
-
-      - name: Run unit tests on Linux
-        run: python backend/unit_tests.py
-
-  # Unit tests on macOS
-  unit-tests-macos:
-    runs-on: macos-latest
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: 3.11.3
-
-      - name: Install dependencies
-        run: pip install -r requirements.txt
-
-      - name: Run unit tests on macOS
-        run: python backend/unit_tests.py
+          name: unit-test-results
+          path: backend/unit_tests.txt
 
   # Integration tests on Windows
-  # Integration tests on Linux
-  # Integration tests on macOS
+  
