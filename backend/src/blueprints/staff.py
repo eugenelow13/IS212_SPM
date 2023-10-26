@@ -22,6 +22,7 @@ def get_all():
         return jsonify({"staffs": [staff.json() for staff in staff_list]})
     return jsonify({"message": "No staff found."}), 404
 
+
 # get all staff by role
 def get_staff_by_role(role_group):
     role = ROLE_MAPPING[role_group]
@@ -62,4 +63,6 @@ def get_staff_skills(staff_id):
 @staff.route("/", methods=["POST"])
 def create_staff():
     pass
+
+
 
