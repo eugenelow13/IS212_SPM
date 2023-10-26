@@ -47,10 +47,10 @@ function ModalJob() {
 
   const acquiredskills = roleInfo.role_skills.filter((skill) => currentSkills.includes(skill));
   const lackingskills = roleInfo.role_skills.filter((skill) => !currentSkills.includes(skill));
-  console.log("lackingskills", lackingskills);
-  console.log("acquiredskills", acquiredskills);
-  console.log("skills", currentSkills);
-  console.log(roleInfo.role_name);
+  // console.log("lackingskills", lackingskills);
+  // console.log("acquiredskills", acquiredskills);
+  // console.log("skills", currentSkills);
+  // console.log(roleInfo.role_name);
   // console.log("roleinfo.skillmatch",roleInfo.skillmatch)
 
   // role skills, skills

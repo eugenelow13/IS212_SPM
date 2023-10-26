@@ -81,7 +81,7 @@ function tablelist() {
   const [filtering, setFiltering] = React.useState("")
   const [sorting, setSorting] = React.useState([])
 
-  const toggleModal = (props, visible) => {
+  const toggleModal = (props) => {
     console.log("try navigating")
     navigate("/listings/" + props.id)
   }

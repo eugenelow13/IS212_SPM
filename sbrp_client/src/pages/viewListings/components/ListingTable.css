@@ -1,0 +1,14 @@
+
+.testing{
+    font-size: 1.2em;
+    color: red;
+}
+
+
+tr.greyed{
+    opacity: 0.6;
+}
+
+Table{
+    background-color: lightgray !important;
+}
