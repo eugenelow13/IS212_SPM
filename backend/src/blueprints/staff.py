@@ -47,3 +47,18 @@ def get_staff_applications(staff_id):
         if staff_applications:
             return {"applications": [application.json() for application in staff_applications]}, 200
     return {"message": "No applications found"}, 404
+<<<<<<< Updated upstream
+=======
+
+@staff.route("/<int:staff_id>/skills", methods=["GET"])
+def get_staff_skills(staff_id):
+    staff = Staff.query.get(staff_id)
+    if staff:
+        staff_skills = staff.staff_skills
+        if staff_skills:
+            return {"skills": [skill.json() for skill in staff_skills]}, 200
+    return {"message": "No skills found"}, 404
+@staff.route("/", methods=["POST"])
+def create_staff():
+    pass
+>>>>>>> Stashed changes
