@@ -68,7 +68,7 @@ def create_listing():
 
     if end_date < start_date:
         return {"message": "End date must be after start date"}, 400
-    
+
     manager = Staff.query.get(body["manager_id"])
 
     if not manager or manager.role != 3:
