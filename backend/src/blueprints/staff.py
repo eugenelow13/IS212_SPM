@@ -63,6 +63,3 @@ def get_staff_skills(staff_id):
 @staff.route("/", methods=["POST"])
 def create_staff():
     pass
-
-
-
