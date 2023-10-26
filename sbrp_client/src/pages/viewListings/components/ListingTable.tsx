@@ -18,6 +18,7 @@ import Table from 'react-bootstrap/Table';
 import Form from 'react-bootstrap/Form';
 import { InputGroup } from 'react-bootstrap';
 import { AccessContext } from '../../../common/AccessProvider';
+import "./ListingTable.css"
 
 
 type RoleListing = {
@@ -102,6 +103,7 @@ const columns = [
 
 
 function tablelist() {
+
   // const [data, setData] = React.useState(()=>[]) 
   const navigate = useNavigate();
   // const user =140001;
@@ -117,6 +119,7 @@ function tablelist() {
   const [modal, setModal] = React.useState(false);
   const [filtering, setFiltering] = React.useState("")
   const [sorting, setSorting] = React.useState([])
+  const [roledata, setRoledata] = React.useState(false)
 
   const toggleModal = (props, visible) => {
     // console.log(props.role_name,visible,modal);
@@ -126,30 +129,50 @@ function tablelist() {
     navigate("/listings/" + props.id)
   }
 
+  const toggleListings = () => {
+    setRoledata(!roledata);
+  }
+
+
+const dateNow = new Date();
+const dateCheck = new Date(dateNow.getFullYear(), dateNow.getMonth(), dateNow.getDate(), 0, 0, 0, 0);
 
   useEffect(() => {
-    // Fetch data asynchronously  
-    axios.get(ENDPOINTS.listings)
+    // Fetch data asynchronously
+    var handler = "";
+    roledata ? handler = ENDPOINTS.listings : handler = ENDPOINTS.openListings;
+    console.log("handler", handler);
+    axios.get(handler)
       .then((response) => {
         // Update the state with the fetched data
+        let expiredListings = [];
+        let validListings = [];
+        let allListings = [];
 
-        const fetchedListings = response.data.role_listings.reverse();
+        var fetchedListings = response.data.role_listings.reverse();
         for (var item of fetchedListings) {
-          console.log("ITEM:", item);
           item.start_date_simple = new Date(item.start_date).toDateString().split(" ").splice(1).join(" ");
           item.end_date_simple = new Date(item.end_date).toDateString().split(" ").splice(1).join(" ");
           const skillsMatched = skills.filter(skillName => item.role_skills.includes(skillName));
-          console.log("skillsMatched:", skillsMatched);
           item.skillmatch = ((skillsMatched.length / item.role_skills.length) * 100).toFixed(0) + "%";
-
+          if (dateCheck >= new Date(item.end_date)) {
+            console.log("expired");
+            expiredListings.push(item);
+            item.effect = "greyed";
+            item.style = { backgroundColor: "grey"};
+          }else {
+            console.log("valid");
+            validListings.push(item);
+          }
         }
 
-        setData(fetchedListings);
+        roledata ? allListings = validListings.concat(expiredListings) : allListings = fetchedListings;
+        setData(allListings);
       })
       .catch((error) => {
         console.error('Error:', error);
       });
-  }, []); //FETCHDATA
+  }, [roledata]); //FETCHDATA
 
   const table = useReactTable({
     data,
@@ -170,8 +193,6 @@ function tablelist() {
   return (
     <div>
       <div className="p-2">
-
-        {/* <p>your skills</p><p>{skills.join(', ')}</p> */}
         <InputGroup style={{ width: "40%" }}>
           <InputGroup.Text>Search for a role here:</InputGroup.Text>
           <Form.Control type="text"
@@ -180,6 +201,12 @@ function tablelist() {
             onChange={(e) => setFiltering(e.target.value)}
           ></Form.Control>
         </InputGroup>
+        <Form.Check 
+        type="switch"
+        id="custom-switch"
+        label="Show Expired Listings"
+        onChange={()=>{toggleListings()}}
+        />
         <Table className="text-center" hover>
           <thead>
             {table.getHeaderGroups().map(headerGroup => (
@@ -203,7 +230,7 @@ function tablelist() {
           </thead>
           <tbody>
             {table.getRowModel().rows.map(row => (
-              <tr key={row.id} onClick={() => {
+              <tr key={row.id} className={row.original.effect} style={row.original.style} onClick={() => {
                 var show = false;
                 console.log("here", row.original)
                 toggleModal(row.original, show);
@@ -215,6 +242,7 @@ function tablelist() {
                 ))}
               </tr>
             ))}
+            {/* <tr><td>nigg</td></tr> */}
           </tbody>
           {/* <tfoot>
           {table.getFooterGroups().map(footerGroup => (

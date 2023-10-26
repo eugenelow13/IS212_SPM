@@ -45,7 +45,7 @@ export async function fetchStaffApplications({ staff_id, id }) {
     }
     catch (error){
         return false;
-    }
+    }   
 
     // console.log("Applied for", applications);
 
