@@ -1,5 +1,5 @@
 from flask import Blueprint, request, jsonify
-from src.models import RoleListing, Application
+from src.models import RoleListing, Application, Staff
 import datetime
 from src.extensions import db
 from sqlalchemy.exc import IntegrityError
@@ -68,6 +68,11 @@ def create_listing():
 
     if end_date < start_date:
         return {"message": "End date must be after start date"}, 400
+    
+    manager = Staff.query.get(body["manager_id"])
+
+    if not manager or manager.role != 3:
+        return {"message": "Reporting Manager must be a manager"}, 400
 
     # Create new listing
     role_listing = RoleListing(role_name=body["role_name"], start_date=start_date,
