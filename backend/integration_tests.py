@@ -96,64 +96,71 @@ class TestStaff(TestApp):
 
 class TestApplications(TestApp):
     def test_get_application(self):
-        test_data = {"id": 1,
-                     "listing_id": 3,
-                     "role_name": "Call Centre",
-                     "staff_id": 160331,
-                     "staff_name": "Nara Loo",
-                     "app_desc": "this is hr trying out",
-                     "app_date": "2023-10-22"
-                     }
-        response = self.client.get("/api/applications/1")
+        test_data = {
+            "app_date": "2023-10-26",
+            "app_desc": "As an experienced consultant, I bring a unique blend of expertise, strategic thinking, and exceptional problem-solving skills to every project I undertake. With a passion for delivering measurable results and driving impactful change, I am dedicated to helping organizations achieve their goals and overcome their challenges.\\n\\nMy professional background includes a successful track record in providing consultancy services across various industries, including but not limited to finance, technology, and marketing. I have been entrusted with advising clients of all sizes, from startups to Fortune 500 companies, offering valuable insights and innovative strategies to optimize processes, improve efficiency, and enhance overall performance.\\n\\nOne of my key strengths lies in my ability to quickly understand complex business environments and identify areas for improvement. I have a sound analytical mindset, combined with a strong expertise in data analysis and research, allowing me to accurately assess client needs and develop comprehensive recommendations tailored to their specific circumstances.\\n\\nI am known for my excellent communication skills, which enable me to effectively articulate ideas and concepts to clients at all levels of the organization. I am equally comfortable providing clear instructions to operational staff as I am presenting findings and proposals to C-level executives. My ability to build strong, professional relationships allows me to establish trust with clients and collaborate seamlessly with stakeholders to drive successful outcomes.\\n\\nIn addition to my technical skills, I am a continuous learner, always staying up to date with the latest industry trends and best practices. I actively seek opportunities to expand my knowledge and skill set through professional development courses and certifications, ensuring that I am equipped with the most relevant information and tools to deliver top-notch consultancy services.\\n\\nOverall, I am a highly motivated and results-driven consultant with a deep passion for helping organizations succeed. With my combination of industry expertise, excellent problem-solving abilities, and strong interpersonal skills, I am confident in my ability to make a positive impact and deliver exceptional value to any consulting project I am involved in.",
+            "id": 3,
+            "listing_id": 36,
+            "role_name": "Consultant",
+            "staff_id": 140002,
+            "staff_name": "Susan Goh"
+        }
+        response = self.client.get("/api/applications/3")
         self.maxDiff = None
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.json, test_data)
 
     def test_get_applications_detail(self):
-        test_data = {"id": 1,
-                     "listing_id": 3,
-                     "role_name": "Call Centre",
-                     "staff_id": 160331,
-                     "staff_name": "Nara Loo",
-                     "app_desc": "this is hr trying out",
-                     "app_date": "2023-10-22",
-                     "applicant": {
-                         "country": "Singapore",
-                         "dept": "HR",
-                         "email": "Nara.Loo@allinone.com.sg",
-                         "role": 4,
-                         "staff_fname": "Nara",
-                         "staff_id": 160331,
-                         "staff_lname": "Loo",
-                         "staff_skills": [
-                             "Business Acumen",
-                             "Human Resource Advisory",
-                             "People and Performance Management",
-                             "Problem Solving"
-                         ]},
-                     "role_listing": {
-                         "id": 3,
-                         "role_name": "Call Centre",
-                         "role_desc": "Call Centre Executive is responsible for providing assistance to customers by addressing their queries and requests. He/She advises customers on appropriate products and services based on their needs. He is responsible for the preparation of customer documentation. In the case of complex customer requests, he escalates them to senior officers. He is able to abide by safety and/or security standards in the workplace.\\r\\n\\r\\nThe Call Centre Executive  pays strong attention to details to verify and process documentation. He also shows initiative and quick decision-making skills to provide excellent personalised customer services and support. He is comfortable with various stakeholder interactions whilst working in shifts and possesses adequate computer literacy to process customer documentation. ",
-                         "dept": "HR",
-                         "manager_name": "Anh Van",
-                         "role_skills": [
-                             "Call Centre Management",
-                             "Collaboration",
-                             "Communication",
-                             "Customer Relationship Management",
-                             "Digital Fluency",
-                             "Problem Solving",
-                             "Stakeholder Management",
-                             "Technology Application"
-                         ],
-                         "start_date": "2023-10-22",
-                         "end_date": "2023-10-24",
-                         "manager_id": 160306,
-                         "country": "Vietnam"
-                     }}
+        test_data = {
+            "app_date": "2023-10-26",
+            "app_desc": "As an experienced consultant, I bring a unique blend of expertise, strategic thinking, and exceptional problem-solving skills to every project I undertake. With a passion for delivering measurable results and driving impactful change, I am dedicated to helping organizations achieve their goals and overcome their challenges.\\n\\nMy professional background includes a successful track record in providing consultancy services across various industries, including but not limited to finance, technology, and marketing. I have been entrusted with advising clients of all sizes, from startups to Fortune 500 companies, offering valuable insights and innovative strategies to optimize processes, improve efficiency, and enhance overall performance.\\n\\nOne of my key strengths lies in my ability to quickly understand complex business environments and identify areas for improvement. I have a sound analytical mindset, combined with a strong expertise in data analysis and research, allowing me to accurately assess client needs and develop comprehensive recommendations tailored to their specific circumstances.\\n\\nI am known for my excellent communication skills, which enable me to effectively articulate ideas and concepts to clients at all levels of the organization. I am equally comfortable providing clear instructions to operational staff as I am presenting findings and proposals to C-level executives. My ability to build strong, professional relationships allows me to establish trust with clients and collaborate seamlessly with stakeholders to drive successful outcomes.\\n\\nIn addition to my technical skills, I am a continuous learner, always staying up to date with the latest industry trends and best practices. I actively seek opportunities to expand my knowledge and skill set through professional development courses and certifications, ensuring that I am equipped with the most relevant information and tools to deliver top-notch consultancy services.\\n\\nOverall, I am a highly motivated and results-driven consultant with a deep passion for helping organizations succeed. With my combination of industry expertise, excellent problem-solving abilities, and strong interpersonal skills, I am confident in my ability to make a positive impact and deliver exceptional value to any consulting project I am involved in.",
+            "applicant": {
+                "country": "Singapore",
+                "dept": "Sales",
+                "email": "Susan.Goh@allinone.com.sg",
+                "role": 2,
+                "staff_fname": "Susan",
+                "staff_id": 140002,
+                "staff_lname": "Goh",
+                "staff_skills": [
+                    "Accounting and Tax Systems",
+                    "Business Environment Analysis",
+                    "Customer Relationship Management",
+                    "Professional and Business Ethics"
+                ]
+            },
+            "id": 3,
+            "listing_id": 36,
+            "role_listing": {
+                "country": "Indonesia",
+                "dept": "Engineering",
+                "end_date": "2023-10-28",
+                "id": 36,
+                "manager_id": 150866,
+                "manager_name": "Henry Chan",
+                "role_desc": "The Consultant is responsible for providing Sales technical expertise to the sales team and clients during the sales process. He/She delivers presentations and technical demonstrations of the organisation's products to prospective clients. He translates the client's business requirements into technical specifications and requirements, and provides technical inputs for proposals, tenders, bids and any relevant documents. He uses prescribed guidelines or policies to analyse and solve problems. He works in a fast-paced and dynamic environment, and travels frequently to clients' premises for technical sales pitches and meetings. He is familiar with client relationship management and sales tools. He possesses deep product and technical knowledge, and is knowledgeable of the trends, developments and challenges of the industry domain. The Sakes Consultant displays effective listening skills and is inquisitive in nature. He possesses deep technical and domain knowledge, pays attention to detail, and has strong analytical and problem-solving capabilities. He has a service-oriented personality and is a team player who works towards developing solutions collaboratively.",
+                "role_name": "Consultant",
+                "role_skills": [
+                    "Account Management",
+                    "Business Development",
+                    "Business Needs Analysis",
+                    "Collaboration",
+                    "Communication",
+                    "Data Analytics",
+                    "Problem Management",
+                    "Problem Solving",
+                    "Product Management",
+                    "Project Management",
+                    "Stakeholder Management"
+                ],
+                "start_date": "2023-10-26"
+            },
+            "role_name": "Consultant",
+            "staff_id": 140002,
+            "staff_name": "Susan Goh"
+        }
 
-        response = self.client.get("/api/applications/1?detail=true")
+        response = self.client.get("/api/applications/3?detail=true")
         self.maxDiff = None
 
         print(response.json)
