@@ -1,6 +1,7 @@
 from flask import Blueprint, jsonify, request
 from src.models import Staff
 
+
 ROLE_MAPPING = {
     "admin": "1",
     "user": "2",
@@ -20,7 +21,6 @@ def get_all():
     if (len(staff_list)):
         return jsonify({"staffs": [staff.json() for staff in staff_list]})
     return jsonify({"message": "No staff found."}), 404
-
 
 # get all staff by role
 def get_staff_by_role(role_group):
@@ -47,8 +47,7 @@ def get_staff_applications(staff_id):
         if staff_applications:
             return {"applications": [application.json() for application in staff_applications]}, 200
     return {"message": "No applications found"}, 404
-<<<<<<< Updated upstream
-=======
+
 
 @staff.route("/<int:staff_id>/skills", methods=["GET"])
 def get_staff_skills(staff_id):
@@ -58,7 +57,9 @@ def get_staff_skills(staff_id):
         if staff_skills:
             return {"skills": [skill.json() for skill in staff_skills]}, 200
     return {"message": "No skills found"}, 404
+
+
 @staff.route("/", methods=["POST"])
 def create_staff():
     pass
->>>>>>> Stashed changes
+
