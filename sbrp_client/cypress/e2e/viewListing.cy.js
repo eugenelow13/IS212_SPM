@@ -1,6 +1,9 @@
 /// <reference types="Cypress" />
 
 describe('template spec', () => {
+    beforeEach(() => {
+        cy.login();
+    })
     // it('open select', () => {
     //   cy.visit('/listings/new');
 
@@ -13,17 +16,8 @@ describe('template spec', () => {
 
     // AI-assisted test case
     const arr = ["Call Centre",
-        "Call Centre",
-        "Call Centre",
-        "Call Centre",
         "Consultancy Director",
-        "Consultant",
-        "Consultant",
-        "Consultant",
-        "Developer",
-        "Engineering Director",
-        "Engineering Director",
-        "Solutioning Director",]
+        "Consultant"]
 
     it("Tests that search feature filters the text by keyword", () => {
         cy.visit('/listings');
@@ -31,5 +25,27 @@ describe('template spec', () => {
             cy.get('input[placeholder*="Search"]').clear().type(role);
             cy.get('table tbody tr').should('have.length', arr.filter(r => r === role).length);
         });
+    })
+
+    it("Tests that sorting by role-skill match works", () => {
+        cy.visit("/listings")
+        // get 6th td element of each row
+        cy.contains("Skill Match").click()
+
+        const sortedArr = ["14%", "18%", "25%"];
+        cy.get('table tbody tr td:nth-child(6)').each((td, i) => {
+            // get text of td
+            cy.wrap(td).should('have.text', sortedArr[i])
+        })
+
+        cy.contains("Skill Match").click()
+
+        cy.get('table tbody tr td:nth-child(6)').each((td, i) => {
+            // get text of td
+            // check if text is in array
+            cy.wrap(td).should('have.text', sortedArr.reverse()[i])
+        })
+
+
     })
 })

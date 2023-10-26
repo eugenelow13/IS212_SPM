@@ -1,6 +1,6 @@
 /// <reference types="Cypress" />
 
-import RoleSelect from '../../components/RoleSelect';
+import RoleSelect from '../../src/pages/createListing/components/RoleSelect';
 
 describe('template spec', () => {
   // it('open select', () => {

@@ -16,7 +16,7 @@ export default function ListingDetailsCollapse({ application }) {
                         <strong>Country:</strong> {role_listing.country}
                     </p>
                     <p>
-                        <strong>Reporting Manager:</strong> {role_listing.manager_name}
+                        <strong>Reporting Manager:</strong> {role_listing.manager_name} ({role_listing.manager_id})
                     </p>
                     <p>
                         <strong>Department:</strong> {role_listing.dept}

@@ -36,6 +36,7 @@ export default function ApplicationModal() {
         <ListingDetailsCollapse
           application={application}
         />
+        <p><strong>Email: </strong>{applicant.email}</p>
         <p><strong>Dept | Country: </strong>{applicant.dept} | {applicant.country}</p>
         <p><strong>Skills Matched: </strong>{skillMatch}%</p>
         <SkillMatchBadges
