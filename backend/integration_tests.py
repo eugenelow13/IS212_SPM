@@ -1,16 +1,32 @@
 import flask_testing
 import unittest
-from src.app import app
+
+from src.app import create_app
+from src.extensions import db
+from sqlalchemy import text
 
 # TestApp is for creating a test app instance
 
 
 class TestApp(flask_testing.TestCase):
-    app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite://"
-    app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {}
-    app.config['TESTING'] = True
 
     def create_app(self):
+
+        # Create Flask app
+        app = create_app()
+        app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite://"
+        app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {}
+        app.config['TESTING'] = True
+
+        db.init_app(app)
+
+        with app.app_context():
+            db.create_all()
+            with open('backend/test.sql') as f:
+                for line in f:
+                    db.session.execute(text(line))
+            db.session.commit()
+
         return app
 
     def setUp(self):
@@ -73,7 +89,7 @@ class TestStaff(TestApp):
         }
 
         for role, value in data.items():
-            response = self.client.get(f"/api/staffs/roles/{role}")
+            response = self.client.get(f"/api/staffs/?role={role}")
             self.assertEqual(response.status_code, 200)
             self.assertEqual(len(response.json["staffs"]), value)
 

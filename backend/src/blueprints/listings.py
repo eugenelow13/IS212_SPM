@@ -4,8 +4,6 @@ import datetime
 from src.extensions import db
 from sqlalchemy.exc import IntegrityError
 
-# from src.models import Role
-
 listings = Blueprint("listings", __name__, url_prefix="/listings")
 
 

@@ -10,13 +10,3 @@ def get_all():
     if (len(role_list)):
         return jsonify({"roles": [role.json() for role in role_list]})
     return jsonify({"message": "No roles found."}), 404
-
-
-@roles.route("/<int:role_id>", methods=["GET"])
-def get_role():
-    pass
-
-
-@roles.route("/", methods=["POST"])
-def create_role():
-    pass
