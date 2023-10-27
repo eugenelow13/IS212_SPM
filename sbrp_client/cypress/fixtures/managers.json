@@ -1,0 +1,737 @@
+{
+    "staffs": [
+        {
+            "country": "Singapore",
+            "dept": "Sales",
+            "email": "Derek.Tan@allinone.com.sg",
+            "role": 3,
+            "staff_fname": "Derek",
+            "staff_id": 140001,
+            "staff_lname": "Tan",
+            "staff_skills": [
+                "Account Management",
+                "Business Development",
+                "Customer Acquisition Management",
+                "Database Administration",
+                "Financial Statements Analysis",
+                "Pricing Strategy",
+                "Product Management",
+                "Technology Integration"
+            ]
+        },
+        {
+            "country": "Singapore",
+            "dept": "Sales",
+            "email": "Jaclyn.Lee@allinone.com.sg",
+            "role": 3,
+            "staff_fname": "Jaclyn",
+            "staff_id": 140008,
+            "staff_lname": "Lee",
+            "staff_skills": [
+                "Applications Integration",
+                "Business Presentation Delivery",
+                "Developing People",
+                "Infrastructure Support",
+                "Professional and Business Ethics",
+                "SOP Development and Implementation"
+            ]
+        },
+        {
+            "country": "Singapore",
+            "dept": "Sales",
+            "email": "Sophia.Toh@allinone.com.sg",
+            "role": 3,
+            "staff_fname": "Sophia",
+            "staff_id": 140103,
+            "staff_lname": "Toh",
+            "staff_skills": [
+                "Business Acumen",
+                "Configuration Tracking",
+                "Sales Strategy",
+                "Service Level Management",
+                "Technology Application"
+            ]
+        },
+        {
+            "country": "Singapore",
+            "dept": "Sales",
+            "email": "Siti.Abdullah@allinone.com.sg",
+            "role": 3,
+            "staff_fname": "Siti",
+            "staff_id": 140879,
+            "staff_lname": "Abdullah",
+            "staff_skills": [
+                "Accounting Standards",
+                "Business Requirements Mapping",
+                "Digital Fluency",
+                "Problem Solving",
+                "Project Management"
+            ]
+        },
+        {
+            "country": "Singapore",
+            "dept": "Sales",
+            "email": "Rahim.Khalid@allinone.com.sg",
+            "role": 3,
+            "staff_fname": "Rahim",
+            "staff_id": 140894,
+            "staff_lname": "Khalid",
+            "staff_skills": [
+                "Accounting and Tax Systems",
+                "Business Environment Analysis",
+                "Business Presentation Delivery",
+                "Developing People",
+                "Professional and Business Ethics"
+            ]
+        },
+        {
+            "country": "Singapore",
+            "dept": "Sales",
+            "email": "Yee.Lim@allinone.com.sg",
+            "role": 3,
+            "staff_fname": "Yee",
+            "staff_id": 140944,
+            "staff_lname": "Lim",
+            "staff_skills": [
+                "Applications Integration",
+                "Business Presentation Delivery",
+                "Sales Strategy",
+                "SOP Development and Implementation"
+            ]
+        },
+        {
+            "country": "Singapore",
+            "dept": "Solutioning",
+            "email": "Eric.Loh@allinone.com.sg",
+            "role": 3,
+            "staff_fname": "Eric",
+            "staff_id": 150008,
+            "staff_lname": "Loh",
+            "staff_skills": [
+                "Business Development",
+                "Security Administration",
+                "Technology Integration"
+            ]
+        },
+        {
+            "country": "Singapore",
+            "dept": "Engineering",
+            "email": "John.Lim@allinone.com.sg",
+            "role": 3,
+            "staff_fname": "John",
+            "staff_id": 150143,
+            "staff_lname": "Lim",
+            "staff_skills": [
+                "Applications Support and Enhancement",
+                "Business Requirements Mapping",
+                "Collaboration",
+                "Project Management",
+                "Solutions Design Thinking"
+            ]
+        },
+        {
+            "country": "Singapore",
+            "dept": "Engineering",
+            "email": "Benjamin.Tan@allinone.com.sg",
+            "role": 3,
+            "staff_fname": "Benjamin",
+            "staff_id": 150245,
+            "staff_lname": "Tan",
+            "staff_skills": [
+                "Business Acumen",
+                "Configuration Tracking",
+                "Data Analytics",
+                "Service Level Management",
+                "Technology Application"
+            ]
+        },
+        {
+            "country": "Singapore",
+            "dept": "Engineering",
+            "email": "William.Heng@allinone.com.sg",
+            "role": 3,
+            "staff_fname": "William",
+            "staff_id": 150345,
+            "staff_lname": "Heng",
+            "staff_skills": [
+                "Collaboration",
+                "Security Administration"
+            ]
+        },
+        {
+            "country": "Singapore",
+            "dept": "Engineering",
+            "email": "Jaclyn.Wong@allinone.com.sg",
+            "role": 3,
+            "staff_fname": "Jaclyn",
+            "staff_id": 150555,
+            "staff_lname": "Wong",
+            "staff_skills": [
+                "Configuration Tracking",
+                "Data Analytics",
+                "Problem Solving",
+                "Service Level Management",
+                "Software Design",
+                "Technology Application"
+            ]
+        },
+        {
+            "country": "Singapore",
+            "dept": "Engineering",
+            "email": "Henry.Chan@allinone.com.sg",
+            "role": 3,
+            "staff_fname": "Henry",
+            "staff_id": 150866,
+            "staff_lname": "Chan",
+            "staff_skills": [
+                "Applications Development",
+                "Infrastructure Deployment",
+                "Product Management",
+                "Regulatory Compliance",
+                "Software Testing"
+            ]
+        },
+        {
+            "country": "Singapore",
+            "dept": "Engineering",
+            "email": "Philip.Lee@allinone.com.sg",
+            "role": 3,
+            "staff_fname": "Philip",
+            "staff_id": 151408,
+            "staff_lname": "Lee",
+            "staff_skills": [
+                "Regulatory Compliance",
+                "System Integration"
+            ]
+        },
+        {
+            "country": "Singapore",
+            "dept": "Engineering",
+            "email": "Phuong.Dinh@allinone.com.sg",
+            "role": 3,
+            "staff_fname": "Phuong",
+            "staff_id": 151410,
+            "staff_lname": "Dinh",
+            "staff_skills": [
+                "Communication",
+                "Regulatory Compliance",
+                "System Integration"
+            ]
+        },
+        {
+            "country": "Vietnam",
+            "dept": "Engineering",
+            "email": "Ji.Han@allinone.com.vn",
+            "role": 3,
+            "staff_fname": "Ji",
+            "staff_id": 151439,
+            "staff_lname": "Han",
+            "staff_skills": [
+                "Infrastructure Deployment",
+                "Product Management",
+                "Technology Integration"
+            ]
+        },
+        {
+            "country": "Singapore",
+            "dept": "Engineering",
+            "email": "Minh.Hoang@allinone.com.sg",
+            "role": 3,
+            "staff_fname": "Minh",
+            "staff_id": 151441,
+            "staff_lname": "Hoang",
+            "staff_skills": [
+                "Business Needs Analysis",
+                "Business Requirements Mapping",
+                "Digital Fluency",
+                "Project Management",
+                "User Interface Design"
+            ]
+        },
+        {
+            "country": "Hong Kong",
+            "dept": "Engineering",
+            "email": "Anil.Kumar@allinone.com.hk",
+            "role": 3,
+            "staff_fname": "Anil",
+            "staff_id": 151443,
+            "staff_lname": "Kumar",
+            "staff_skills": [
+                "Applications Development",
+                "Infrastructure Deployment",
+                "Regulatory Compliance",
+                "Software Testing"
+            ]
+        },
+        {
+            "country": "Indonesia ",
+            "dept": "Engineering",
+            "email": "Rithya.Suon@allinone.com.id",
+            "role": 3,
+            "staff_fname": "Rithya",
+            "staff_id": 151452,
+            "staff_lname": "Suon",
+            "staff_skills": [
+                "Configuration Tracking",
+                "Data Analytics",
+                "Problem Solving",
+                "Service Level Management",
+                "Technology Application"
+            ]
+        },
+        {
+            "country": "Malaysia",
+            "dept": "Engineering",
+            "email": "Chandra.Pandey@allinone.com.my",
+            "role": 3,
+            "staff_fname": "Chandra",
+            "staff_id": 151457,
+            "staff_lname": "Pandey",
+            "staff_skills": [
+                "Business Environment Analysis",
+                "Problem Management",
+                "Professional and Business Ethics",
+                "Software Configuration",
+                "Technology Road Mapping"
+            ]
+        },
+        {
+            "country": "Singapore",
+            "dept": "Engineering",
+            "email": "Chanh.Ly@allinone.com.sg",
+            "role": 3,
+            "staff_fname": "Chanh",
+            "staff_id": 151471,
+            "staff_lname": "Ly",
+            "staff_skills": [
+                "Collaboration",
+                "Security Administration"
+            ]
+        },
+        {
+            "country": "Singapore",
+            "dept": "Engineering",
+            "email": "Narong.Chua@allinone.com.sg",
+            "role": 3,
+            "staff_fname": "Narong",
+            "staff_id": 151600,
+            "staff_lname": "Chua",
+            "staff_skills": [
+                "Collaboration",
+                "Security Administration",
+                "Technology Integration"
+            ]
+        },
+        {
+            "country": "Singapore",
+            "dept": "HR",
+            "email": "James.Tan@allinone.com.sg",
+            "role": 3,
+            "staff_fname": "James",
+            "staff_id": 160075,
+            "staff_lname": "Tan",
+            "staff_skills": [
+                "Customer Relationship Management",
+                "Organisational Design",
+                "Sense Making"
+            ]
+        },
+        {
+            "country": "Singapore",
+            "dept": "HR",
+            "email": "Kumara.Sareth@allinone.com.sg",
+            "role": 3,
+            "staff_fname": "Kumara",
+            "staff_id": 160302,
+            "staff_lname": "Sareth",
+            "staff_skills": [
+                "Call Centre Management",
+                "Employee Engagement Management"
+            ]
+        },
+        {
+            "country": "Singapore",
+            "dept": "HR",
+            "email": "Anh.Van@allinone.com.sg",
+            "role": 3,
+            "staff_fname": "Anh",
+            "staff_id": 160306,
+            "staff_lname": "Van",
+            "staff_skills": [
+                "Collaboration",
+                "Financial Statements Analysis",
+                "Onboarding",
+                "Tax Computation"
+            ]
+        },
+        {
+            "country": "Singapore",
+            "dept": "HR",
+            "email": "Narong.Chua@allinone.com.sg",
+            "role": 3,
+            "staff_fname": "Narong",
+            "staff_id": 160318,
+            "staff_lname": "Chua",
+            "staff_skills": [
+                "Digital Fluency",
+                "Human Resource Systems Management",
+                "Learning and Development Programme Management",
+                "Project Management"
+            ]
+        },
+        {
+            "country": "Singapore",
+            "dept": "HR",
+            "email": "Hlaing.Myat@allinone.com.sg",
+            "role": 3,
+            "staff_fname": "Hlaing",
+            "staff_id": 160328,
+            "staff_lname": "Myat",
+            "staff_skills": [
+                "Call Centre Management",
+                "People and Performance Management",
+                "Talent Management"
+            ]
+        },
+        {
+            "country": "Singapore",
+            "dept": "HR",
+            "email": "Yee.Chong@allinone.com.sg",
+            "role": 3,
+            "staff_fname": "Yee",
+            "staff_id": 160335,
+            "staff_lname": "Chong",
+            "staff_skills": [
+                "Employee Communication Management",
+                "Human Resource Practices Implementation"
+            ]
+        },
+        {
+            "country": "Singapore",
+            "dept": "Finance",
+            "email": "David.Yap@allinone.com.sg",
+            "role": 3,
+            "staff_fname": "David",
+            "staff_id": 170166,
+            "staff_lname": "Yap",
+            "staff_skills": [
+                "Collaboration",
+                "Finance Business Partnering",
+                "Financial Management",
+                "Tax Computation"
+            ]
+        },
+        {
+            "country": "Singapore",
+            "dept": "Finance",
+            "email": "Nanda.Kesavan@allinone.com.sg",
+            "role": 3,
+            "staff_fname": "Nanda",
+            "staff_id": 171009,
+            "staff_lname": "Kesavan",
+            "staff_skills": [
+                "Accounting Standards",
+                "Business Requirements Mapping",
+                "Digital Fluency",
+                "Finance Business Partnering",
+                "Learning and Development Programme Management",
+                "Project Management"
+            ]
+        },
+        {
+            "country": "Singapore",
+            "dept": "Finance",
+            "email": "Kumari.Pillai@allinone.com.sg",
+            "role": 3,
+            "staff_fname": "Kumari",
+            "staff_id": 171014,
+            "staff_lname": "Pillai",
+            "staff_skills": [
+                "Audit Frameworks",
+                "Business Acumen",
+                "Financial Closing",
+                "Financial Reporting",
+                "Technology Application"
+            ]
+        },
+        {
+            "country": "Singapore",
+            "dept": "Finance",
+            "email": "Phuong.Truong@allinone.com.sg",
+            "role": 3,
+            "staff_fname": "Phuong",
+            "staff_id": 171018,
+            "staff_lname": "Truong",
+            "staff_skills": [
+                "Business Negotiation",
+                "Database Administration",
+                "Financial Statements Analysis"
+            ]
+        },
+        {
+            "country": "Singapore",
+            "dept": "Finance",
+            "email": "Somchai.Kong@allinone.com.sg",
+            "role": 3,
+            "staff_fname": "Somchai",
+            "staff_id": 171029,
+            "staff_lname": "Kong",
+            "staff_skills": [
+                "Audit Compliance",
+                "Business Risk Management",
+                "Communication",
+                "Financial Acumen"
+            ]
+        },
+        {
+            "country": "Singapore",
+            "dept": "Finance",
+            "email": "Phuc.Luong@allinone.com.sg",
+            "role": 3,
+            "staff_fname": "Phuc",
+            "staff_id": 171043,
+            "staff_lname": "Luong",
+            "staff_skills": [
+                "Accounting and Tax Systems",
+                "Business Presentation Delivery",
+                "Financial Closing",
+                "Professional and Business Ethics"
+            ]
+        },
+        {
+            "country": "Singapore",
+            "dept": "Consultancy",
+            "email": "Ernst.Sim@allinone.com.sg",
+            "role": 3,
+            "staff_fname": "Ernst",
+            "staff_id": 180001,
+            "staff_lname": "Sim",
+            "staff_skills": [
+                "Applications Support and Enhancement",
+                "Collaboration",
+                "Customer Acquisition Management",
+                "Financial Management",
+                "Financial Statements Analysis",
+                "Pricing Strategy",
+                "Security Administration",
+                "Skills Framework Adoption",
+                "Tax Computation"
+            ]
+        },
+        {
+            "country": "Singapore",
+            "dept": "Consultancy",
+            "email": "Ji.Han@allinone.com.sg",
+            "role": 3,
+            "staff_fname": "Ji",
+            "staff_id": 180012,
+            "staff_lname": "Han",
+            "staff_skills": [
+                "Accounting Standards",
+                "Business Needs Analysis",
+                "Business Requirements Mapping",
+                "Digital Fluency",
+                "Finance Business Partnering",
+                "Human Resource Systems Management",
+                "Learning and Development Programme Management",
+                "Project Management",
+                "Regulatory Strategy",
+                "Strategy Planning"
+            ]
+        },
+        {
+            "country": "Singapore",
+            "dept": "Consultancy",
+            "email": "Chandra.Pandey@allinone.com.sg",
+            "role": 3,
+            "staff_fname": "Chandra",
+            "staff_id": 180029,
+            "staff_lname": "Pandey",
+            "staff_skills": [
+                "Account Management",
+                "Applications Development",
+                "Business Negotiation",
+                "Database Administration",
+                "Human Resource Practices Implementation",
+                "Infrastructure Deployment",
+                "Product Management"
+            ]
+        },
+        {
+            "country": "Singapore",
+            "dept": "Solutioning",
+            "email": "Heng.Sim@allinone.com.sg",
+            "role": 3,
+            "staff_fname": "Heng",
+            "staff_id": 190019,
+            "staff_lname": "Sim",
+            "staff_skills": [
+                "Business Acumen",
+                "Configuration Tracking",
+                "Data Analytics",
+                "Network Administration and Maintenance",
+                "Sales Strategy",
+                "Service Level Management",
+                "Technology Application"
+            ]
+        },
+        {
+            "country": "Singapore",
+            "dept": "Solutioning",
+            "email": "Siti.Abdullah@allinone.com.sg",
+            "role": 3,
+            "staff_fname": "Siti",
+            "staff_id": 190037,
+            "staff_lname": "Abdullah",
+            "staff_skills": [
+                "Business Development",
+                "Database Administration",
+                "Security Administration",
+                "Technology Integration"
+            ]
+        },
+        {
+            "country": "Singapore",
+            "dept": "Solutioning",
+            "email": "Phuc.Le@allinone.com.sg",
+            "role": 3,
+            "staff_fname": "Phuc",
+            "staff_id": 190059,
+            "staff_lname": "Le",
+            "staff_skills": [
+                "Account Management",
+                "Applications Development",
+                "Infrastructure Deployment",
+                "Stakeholder Management"
+            ]
+        },
+        {
+            "country": "Malaysia",
+            "dept": "Solutioning",
+            "email": "Minh.Ly@allinone.com.my",
+            "role": 3,
+            "staff_fname": "Minh",
+            "staff_id": 190067,
+            "staff_lname": "Ly",
+            "staff_skills": [
+                "Applications Integration",
+                "Configuration Tracking",
+                "Network Administration and Maintenance",
+                "Sales Strategy",
+                "Service Level Management"
+            ]
+        },
+        {
+            "country": "Indonesia ",
+            "dept": "Solutioning",
+            "email": "Nara.Khun@allinone.com.id",
+            "role": 3,
+            "staff_fname": "Nara",
+            "staff_id": 190070,
+            "staff_lname": "Khun",
+            "staff_skills": [
+                "Business Acumen",
+                "Configuration Tracking",
+                "Data Analytics",
+                "Problem Solving",
+                "Service Level Management",
+                "Software Design",
+                "Technology Application"
+            ]
+        },
+        {
+            "country": "Vietnam",
+            "dept": "Solutioning",
+            "email": "Anh.Pham@allinone.com.vn",
+            "role": 3,
+            "staff_fname": "Anh",
+            "staff_id": 190077,
+            "staff_lname": "Pham",
+            "staff_skills": [
+                "Account Management",
+                "Database Administration",
+                "Infrastructure Deployment",
+                "Product Management",
+                "Software Testing",
+                "Stakeholder Management"
+            ]
+        },
+        {
+            "country": "Hong Kong",
+            "dept": "Solutioning",
+            "email": "Hlaing.Sithu@allinone.com.hk",
+            "role": 3,
+            "staff_fname": "Hlaing",
+            "staff_id": 190086,
+            "staff_lname": "Sithu",
+            "staff_skills": [
+                "Applications Support and Enhancement",
+                "Business Requirements Mapping",
+                "Collaboration",
+                "Security Administration"
+            ]
+        },
+        {
+            "country": "Singapore",
+            "dept": "Solutioning",
+            "email": "Chandra.Rai@allinone.com.sg",
+            "role": 3,
+            "staff_fname": "Chandra",
+            "staff_id": 190093,
+            "staff_lname": "Rai",
+            "staff_skills": [
+                "Account Management",
+                "Business Development",
+                "Database Administration",
+                "Product Management",
+                "Software Testing",
+                "Technology Integration"
+            ]
+        },
+        {
+            "country": "Singapore",
+            "dept": "IT",
+            "email": "Peter.aypallinone.com.sg",
+            "role": 3,
+            "staff_fname": "Peter",
+            "staff_id": 210001,
+            "staff_lname": "Yap",
+            "staff_skills": [
+                "Business Acumen",
+                "Configuration Tracking",
+                "Data Analytics",
+                "Technology Application"
+            ]
+        },
+        {
+            "country": "Singapore",
+            "dept": "IT",
+            "email": "Rithy.Sok@allinone.com.sg",
+            "role": 3,
+            "staff_fname": "Mani",
+            "staff_id": 210018,
+            "staff_lname": "Devi",
+            "staff_skills": [
+                "Business Environment Analysis",
+                "Customer Relationship Management",
+                "Problem Management",
+                "Sense Making",
+                "Software Configuration"
+            ]
+        },
+        {
+            "country": "Singapore",
+            "dept": "IT",
+            "email": "Hlaing.Myat@allinone.com.sg",
+            "role": 3,
+            "staff_fname": "Anh",
+            "staff_id": 210028,
+            "staff_lname": "Vo",
+            "staff_skills": [
+                "Applications Support and Enhancement",
+                "Collaboration",
+                "Security Administration"
+            ]
+        }
+    ]
+}
