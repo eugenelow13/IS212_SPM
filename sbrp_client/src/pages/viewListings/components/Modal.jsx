@@ -60,8 +60,8 @@ function ModalJob() {
 
   return (
     <>
-      {console.log(alreadyApplied)}
-      {console.log(roleInfo)}
+      {console.log("applied?:",alreadyApplied)}
+      {console.log("roleInfo:",roleInfo)}
 
       <Modal
         show={show}
@@ -93,10 +93,10 @@ function ModalJob() {
             <p> <strong>Country | Reporting Manager | Department: </strong>{roleInfo.country} | {roleInfo.manager_name} | {roleInfo.dept} </p>
             <p><strong>Description:</strong><br />
               <div style={{
-                height: '200px', overflowY: 'scroll',
+                height: 'fit-content',maxHeight:'200px', overflowY: 'scroll',
                 border: '1px lightgrey solid', borderRadius: "5px",
                 padding: "5px"
-              }}>
+              }} className="">
                 {roleInfo.role_desc}
               </div></p>
             <p> <strong>Skills Required: </strong><br /></p>
@@ -113,7 +113,7 @@ function ModalJob() {
               </BSForm.Group>
             ) : (
               <>
-                {alreadyApplied ? (<Alert variant="danger">You have already applied for this role!</Alert>) : (<Alert variant="danger">This role is not currently open for application. Please refer to the date window for application</Alert>)}
+                {alreadyApplied ? (<Alert variant="warning">You have already applied for this role!</Alert>) : (<Alert variant="danger">This role is not currently open for application. Please refer to the date window for application</Alert>)}
               </>
             )}
           </Modal.Body>

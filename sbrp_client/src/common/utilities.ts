@@ -80,6 +80,7 @@ export function useFetchedDataWithParams({ fetchFn, setState, params }) {
     useEffect(() => {
         fetchFn(params)
             .then((data) => {
+                console.log("data",data);
                 setState(data);
                 // console.table(data)
             })

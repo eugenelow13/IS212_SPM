@@ -26,6 +26,7 @@ export default function ApplicationModal() {
     <Modal
       show={show}
       onHide={unshowAndNavigate}
+      size="lg"
     >
       <Modal.Header closeButton>
         <Modal.Title>{application.staff_name} ({application.staff_id})</Modal.Title>

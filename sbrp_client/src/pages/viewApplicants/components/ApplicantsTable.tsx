@@ -32,33 +32,32 @@ type RoleListing = {
 }
 
 type Applicant = {
+  id: number
   listing_id: number
   dept: string
   role_name: string
   staff_name: string
-  application_date: string
+  staff_id: number
+  app_date: string
+  app_desc: string
 }
 
 
 const columns=[
   {
-    header: "Applicant",
+    header: "Applicant(ID)",
+    accessorFn: row=>`${row.staff_name}(${row.staff_id})`,
     accessorKey: "staff_name",
     footer: 'Applicant'
   },
   {
-    header: "Role",
-    accessorKey: "role_name",
+    header: "Applied Role",
+    accessorFn: row=>`${row.role_name} | ${row.dept}`,
     footer: 'Role'
   },
   {
-    header: "Department",
-    accessorKey: "dept",
-    footer: 'Department'
-  },
-  {
     header: "Application Date",
-    accessorKey: "application_date",
+    accessorKey: "app_date_simple",
     footer: 'Application Date'
   },
   {
@@ -83,71 +82,27 @@ function tablelist() {
 
   const toggleModal = (props) => {
     console.log("try navigating")
-    navigate("/listings/" + props.id)
+    navigate("/applications/" + props.id)
   }
 
 
   useEffect(() => {
+    console.log(ENDPOINTS.applications)
     // Fetch data asynchronously  
-    // axios.get(ENDPOINTS.listings)
-    //   .then((response) => {
-    //     // Update the state with the fetched data
-
-    //     const fetchedListings = response.data.role_listings.reverse();
-    //     for (var item of fetchedListings) {
-    //       console.log("ITEM:", item);
-    //       item.start_date_simple = new Date(item.start_date).toDateString().split(" ").splice(1).join(" ");
-    //       item.end_date_simple = new Date(item.end_date).toDateString().split(" ").splice(1).join(" ");
-    //       const skillsMatched = skills.filter(skillName => item.role_skills.includes(skillName));
-    //       console.log("skillsMatched:", skillsMatched);
-    //       item.skillmatch = ((skillsMatched.length / item.role_skills.length) * 100).toFixed(0) + "%";
-
-    //     }
-
-    //     setData(fetchedListings);
-    //   })
-    //   .catch((error) => {
-    //     console.error('Error:', error);
-    //   });
-    const applicants = [
-      {
-        "listing_id": 1,
-        "dept": "Sales",
-        "role_name": "Sales Manager",
-        "staff_name": "Alice",
-        "application_date": new Date().toDateString(),
-      },
-      {
-        "listing_id": 2,
-        "dept": "Marketing",
-        "role_name": "Marketing Specialist",
-        "staff_name": "Bob",
-        "application_date": new Date().toDateString(),
-      },
-      {
-        "listing_id": 3,
-        "dept": "HR",
-        "role_name": "HR Coordinator",
-        "staff_name": "Charlie",
-        "application_date": new Date().toDateString(),
-      },
-      {
-        "listing_id": 4,
-        "dept": "IT",
-        "role_name": "Software Developer",
-        "staff_name": "David",
-        "application_date": new Date().toDateString(),
-      },
-      {
-        "listing_id": 5,
-        "dept": "Finance",
-        "role_name": "Financial Analyst",
-        "staff_name": "Eve",
-        "application_date": new Date().toDateString(),
-      }
-    ];
-    
-    setData(applicants);
+    axios.get(ENDPOINTS.applications)
+      .then((response) => {
+        // Update the state with the fetched data
+        console.log(response.data.applications);
+        const applicants = response.data.applications;
+        for(var item of applicants){
+          console.log(item.app_date);
+          item.app_date_simple = new Date(item.app_date).toDateString();
+        }
+        setData(applicants);
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      });
   }, []); //FETCHDATA
 
   const table = useReactTable({
@@ -169,14 +124,14 @@ function tablelist() {
   return (
     <div>
       <div className="p-2">
-        {/* <InputGroup style={{ width: "40%" }}>
-          <InputGroup.Text>Search for a role here:</InputGroup.Text>
+      <InputGroup style={{ width: "40%" }}>
+          <InputGroup.Text>Search for an application here:</InputGroup.Text>
           <Form.Control type="text"
             value={filtering}
-            placeholder="Search for a role!"
+            placeholder="eg: 32"
             onChange={(e) => setFiltering(e.target.value)}
           ></Form.Control>
-        </InputGroup> */}
+        </InputGroup>
         <Table className="text-center" hover>
           <thead>
             {table.getHeaderGroups().map(headerGroup => (
@@ -190,9 +145,8 @@ function tablelist() {
                         header.getContext()
                       )}
                     {
-                      { asc: ' ASC', desc: ' DESC' }[header.column.getIsSorted() ?? null]
+                    { asc: ' ASC', desc: ' DESC' }[header.column.getIsSorted() ?? null]
                     }
-
                   </th>
                 ))}
               </tr>
@@ -201,9 +155,8 @@ function tablelist() {
           <tbody>
             {table.getRowModel().rows.map(row => (
               <tr key={row.id} onClick={() => {
-                var show = false;
                 console.log("here", row.original)
-                toggleModal(row.original, show);
+                toggleModal(row.original);
               }}>
                 {row.getVisibleCells().map(cell => (
                   <td key={cell.id}>
@@ -215,6 +168,8 @@ function tablelist() {
           </tbody>
         </Table>
         {(<Outlet />)}
+
+        {/* Pagination */}
         <div className="h-2" />
         <div className="flex items-center gap-2">
           <button
@@ -259,7 +214,6 @@ function tablelist() {
               </option>
             ))}
           </Form.Select>
-
           <span className="flex items-center gap-1">
             <div>Page</div>
             <strong>

@@ -133,7 +133,8 @@ class Application(db.Model):
                 "staff_id": self.staff_id,
                 "staff_name": self.applicant.staff_fname + " " + self.applicant.staff_lname,
                 "app_desc": self.app_desc,
-                "app_date": self.app_date.strftime('%Y-%m-%d')
+                "app_date": self.app_date.strftime('%Y-%m-%d'),
+                "dept": self.listing.manager.dept
                 }
 
     def json_detail(self):
