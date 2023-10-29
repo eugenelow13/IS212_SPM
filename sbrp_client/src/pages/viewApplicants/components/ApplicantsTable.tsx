@@ -132,7 +132,8 @@ function tablelist() {
             onChange={(e) => setFiltering(e.target.value)}
           ></Form.Control>
         </InputGroup>
-        <Table className="text-center" hover>
+        <div style={{overflowY:'scroll'}}>
+        <Table className="text-center" hover style={{overflowY:'scroll'}}>
           <thead>
             {table.getHeaderGroups().map(headerGroup => (
               <tr key={headerGroup.id}>
@@ -167,6 +168,7 @@ function tablelist() {
             ))}
           </tbody>
         </Table>
+        </div>
         {(<Outlet />)}
 
         {/* Pagination */}
@@ -203,7 +205,7 @@ function tablelist() {
           <span> </span>
           <Form.Select
             value={table.getState().pagination.pageSize}
-            style={{ width: "10%", display: "inline-block", outline: "none" }}
+            style={{ width: "fit-content", display: "inline-block", outline: "none" }}
             onChange={e => {
               table.setPageSize(Number(e.target.value))
             }}

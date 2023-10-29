@@ -207,7 +207,8 @@ const dateCheck = new Date(dateNow.getFullYear(), dateNow.getMonth(), dateNow.ge
         label="Show Expired Listings"
         onChange={()=>{toggleListings()}}
         />
-        <Table className="text-center" hover>
+        <div style={{overflowY:'scroll'}}>
+        <Table className="text-center" hover style={{overflowY:'scroll'}}>
           <thead>
             {table.getHeaderGroups().map(headerGroup => (
               <tr key={headerGroup.id}>
@@ -261,6 +262,7 @@ const dateCheck = new Date(dateNow.getFullYear(), dateNow.getMonth(), dateNow.ge
           ))}
         </tfoot> */}
         </Table>
+        </div>
         {(<Outlet />)}
         <div className="h-2" />
         <div className="flex items-center gap-2">
