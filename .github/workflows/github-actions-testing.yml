@@ -15,8 +15,8 @@ on:
         required: false
 
 jobs:
-  # Unit tests on ubuntu-latest
-  unit-tests-linux:
+  # Unit and integration tests on Linux
+  tests-linux:
     runs-on: ubuntu-latest
 
     steps:
@@ -34,4 +34,5 @@ jobs:
       - name: Run unit tests on Linux
         run: python backend/unit_tests.py
 
-  # Integration tests on Linux
+      - name: Run integration tests on Linux
+        run: python backend/integration_tests.py
