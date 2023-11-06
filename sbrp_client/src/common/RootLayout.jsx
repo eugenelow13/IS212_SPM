@@ -49,11 +49,19 @@ export default function RootLayout() {
                                 Create Listing
                             </NavLink> */}
                             {(currentUser.role == 4) &&
+                            <>
                                 <NavLink
                                     to="/listings/new"
                                     className="nav-link">
                                     Create Listing
-                                </NavLink>}
+                                </NavLink>
+                                <NavLink
+                                    to="/applications"
+                                    className="nav-link">
+                                    View Applicants
+                                </NavLink>
+                            </>
+                            }
                             <NavLink to="/help" className="nav-link">Help</NavLink>
                         </Nav>
                         <CurrentUserNav currentUser={currentUser}></CurrentUserNav>

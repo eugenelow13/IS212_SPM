@@ -15,8 +15,10 @@ import { AccessProvider } from './common/AccessProvider';
 import { loadListing } from './pages/createListing/createListingUtilities';
 import applyToListing from './pages/viewListings/applyToListingUtilities';
 import ListingsWithStatusToast from './pages/viewListings/Listings';
-import { useContext } from 'react';
+import ApplicantsWithStatusToast from './pages/viewApplicants/Applicants';
 import { redirectIfNotLoggedInFactory } from './common/sessionUtilities';
+import { loadApplicationDetail } from './pages/viewApplicants/viewApplicantsUtilities';
+import ApplicationModal from './pages/viewApplicants/components/ApplicationModal';
 
 const pageProtector = redirectIfNotLoggedInFactory(() => null)
 
@@ -26,33 +28,48 @@ function App() {
     createRoutesFromChildren(
       <Route path='/' element={<RootLayout />}>
         <Route index element={<Login />} />
+        <Route
+          action={applyToListing}
+          loader={pageProtector}
+          path="/listings"
+          element={<ListingsWithStatusToast />}
+        >
           <Route
-            action={applyToListing}
-            loader={pageProtector}
-            path="/listings"
-            element={<ListingsWithStatusToast />}
-          >
-            <Route
-              loader={redirectIfNotLoggedInFactory(loadListing)}
-              path=":id"
-              element={<ModalJob />}
-            >
-            </Route>
-          </Route>
-          <Route
-            path="listings/:id/edit"
             loader={redirectIfNotLoggedInFactory(loadListing)}
-            element={<ListingFormWithStatusToast />}
-            action={({ params, request }) => createListingAction({ params, request, method: "put" })}
-          ></Route>
+            path=":id"
+            element={<ModalJob />}
+          >
+          </Route>
+        </Route>
+        <Route
+          path="listings/:id/edit"
+          loader={redirectIfNotLoggedInFactory(loadListing)}
+          element={<ListingFormWithStatusToast />}
+          action={({ params, request }) => createListingAction({ params, request, method: "put" })}
+        ></Route>
 
+        <Route
+          path="/listings/new"
+          loader={pageProtector}
+          // only triggers for non-get requests
+          element={<ListingFormWithStatusToast />}
+          action={createListingAction}
+        />
+        <Route
+          path="/applications"
+          loader={pageProtector}
+          // only triggers for non-get requests
+          element={<ApplicantsWithStatusToast />}
+          action={createListingAction}
+        >
           <Route
-            path="/listings/new"
-            loader={pageProtector}
-            // only triggers for non-get requests
-            element={<ListingFormWithStatusToast />}
-            action={createListingAction}
-          />
+            path=":id"
+            loader={loadApplicationDetail}
+            element={<ApplicationModal/>}
+          >
+
+          </Route>
+        </Route>
       </Route>
     )
   )

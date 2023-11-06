@@ -1,11 +1,13 @@
-import { useContext, useState } from 'react';
+import { Alert, Form as BSForm } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
-import { Container, Card, Badge, Alert, Form as BSForm } from 'react-bootstrap'
-import { useLoaderData, useNavigate, Form, Link } from 'react-router-dom';
-import { useFetchedDataWithParams } from '../../../common/utilities';
-import { fetchStaffApplications, getRoleSkillMatchNo } from '../applyToListingUtilities';
+import { Form, Link, useLoaderData, useNavigate } from 'react-router-dom';
 import { AccessContext } from '../../../common/AccessProvider';
+import SkillMatchBadges from '../../../common/SkillMatchBadges';
+import { useFetchedDataWithParams } from '../../../common/utilities';
+import { fetchStaffApplications } from '../applyToListingUtilities';
+import { getRoleSkillMatchNo } from "../../../common/utilities";
+import { useState, useContext } from 'react';
 
 function ModalJob() {
   const [show, setShow] = useState(true);
@@ -22,8 +24,8 @@ function ModalJob() {
 
   }
   const allowApply = () => {
-    let startDate = new Date(roleInfo.start_date +"T00:00")
-    let endDate = new Date(roleInfo.end_date +"T23:59:59.999")
+    let startDate = new Date(roleInfo.start_date + "T00:00")
+    let endDate = new Date(roleInfo.end_date + "T23:59:59.999")
     let dateNow = new Date()
     console.log(startDate, endDate, dateNow);
     if (dateNow >= startDate && dateNow <= endDate) {
@@ -45,12 +47,12 @@ function ModalJob() {
     }
   )
 
-  const acquiredskills = roleInfo.role_skills.filter((skill) => currentSkills.includes(skill));
-  const lackingskills = roleInfo.role_skills.filter((skill) => !currentSkills.includes(skill));
-  console.log("lackingskills", lackingskills);
-  console.log("acquiredskills", acquiredskills);
-  console.log("skills", currentSkills);
-  console.log(roleInfo.role_name);
+  const acquiredSkills = roleInfo.role_skills.filter((skill) => currentSkills.includes(skill));
+  const lackingSkills = roleInfo.role_skills.filter((skill) => !currentSkills.includes(skill));
+  // console.log("lackingskills", lackingskills);
+  // console.log("acquiredskills", acquiredskills);
+  // console.log("skills", currentSkills);
+  // console.log(roleInfo.role_name);
   // console.log("roleinfo.skillmatch",roleInfo.skillmatch)
 
   // role skills, skills
@@ -58,8 +60,8 @@ function ModalJob() {
 
   return (
     <>
-      {console.log(alreadyApplied)}
-      {console.log(roleInfo)}
+      {console.log("applied?:",alreadyApplied)}
+      {console.log("roleInfo:",roleInfo)}
 
       <Modal
         show={show}
@@ -91,31 +93,14 @@ function ModalJob() {
             <p> <strong>Country | Reporting Manager | Department: </strong>{roleInfo.country} | {roleInfo.manager_name} | {roleInfo.dept} </p>
             <p><strong>Description:</strong><br />
               <div style={{
-                height: '200px', overflowY: 'scroll',
+                height: 'fit-content',maxHeight:'200px', overflowY: 'scroll',
                 border: '1px lightgrey solid', borderRadius: "5px",
                 padding: "5px"
-              }}>
+              }} className="">
                 {roleInfo.role_desc}
               </div></p>
             <p> <strong>Skills Required: </strong><br /></p>
-            <Container className="d-flex flex-wrap p-0 mb-3">
-              {acquiredskills.map((skill, index) => (
-                <Badge
-                  key={index}
-                  className='m-1'
-                  bg='success'>
-                  {skill}
-                </Badge>
-              ))}
-              {lackingskills.map((skill, index) => (
-                <Badge
-                  key={index}
-                  className='m-1'
-                  bg='secondary'>
-                  {skill}
-                </Badge>
-              ))}
-            </Container>
+            <SkillMatchBadges acquiredSkills={acquiredSkills} lackingSkills={lackingSkills}></SkillMatchBadges>
             <p><strong>Skills Matched:</strong> {roleInfo.skill_match}%</p>
 
             <input type="hidden" name="staff_id" value={staff_id} />
@@ -128,7 +113,7 @@ function ModalJob() {
               </BSForm.Group>
             ) : (
               <>
-                {alreadyApplied ? (<Alert variant="danger">You have already applied for this role!</Alert>) : (<Alert variant="danger">This role is not currently open for application. Please refer to the date window for application</Alert>)}
+                {alreadyApplied ? (<Alert variant="warning">You have already applied for this role!</Alert>) : (<Alert variant="danger">This role is not currently open for application. Please refer to the date window for application</Alert>)}
               </>
             )}
           </Modal.Body>

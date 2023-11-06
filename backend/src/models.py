@@ -7,7 +7,7 @@ from sqlalchemy.types import Text
 
 class Staff(db.Model):
     __tablename__ = 'staff'
-    staff_id = db.Column(db.Integer, primary_key= True)
+    staff_id = db.Column(db.Integer, primary_key=True)
     staff_fname = db.Column(db.String(50), nullable=False)
     staff_lname = db.Column(db.String(50), nullable=False)
     dept = db.Column(db.String(50), nullable=False)
@@ -74,14 +74,17 @@ class Skill(db.Model):
 class RoleListing(db.Model):
     __tablename__ = 'role_listing'
     id = db.Column(db.Integer, primary_key=True)
-    role_name = db.Column(db.String(20), ForeignKey('role.role_name'), nullable=False)
+    role_name = db.Column(db.String(20), ForeignKey(
+        'role.role_name'), nullable=False)
     start_date = db.Column(db.Date, nullable=False)
     end_date = db.Column(db.Date, nullable=False)
-    manager_id = db.Column(db.Integer, ForeignKey('staff.staff_id'), nullable=False)
+    manager_id = db.Column(db.Integer, ForeignKey(
+        'staff.staff_id'), nullable=False)
     country = db.Column(db.String(50), nullable=False)
 
     manager = relationship("Staff", back_populates="role_listing")
     role = relationship("Role", back_populates="role_listing")
+    applications = relationship("Application", back_populates="listing")
 
     def __init__(self, role_name, start_date, end_date, manager_id, country):
         self.role_name = role_name
@@ -107,11 +110,14 @@ class RoleListing(db.Model):
 class Application(db.Model):
     __tablename__ = 'application'
     id = db.Column(db.Integer, primary_key=True)
-    listing_id = db.Column(db.Integer, ForeignKey('role_listing.id'), nullable=False)
-    staff_id = db.Column(db.Integer, ForeignKey('staff.staff_id'), nullable=False)
+    listing_id = db.Column(db.Integer, ForeignKey(
+        'role_listing.id'), nullable=False)
+    staff_id = db.Column(db.Integer, ForeignKey(
+        'staff.staff_id'), nullable=False)
     app_desc = db.Column(Text, nullable=False)
     app_date = db.Column(db.Date, nullable=False)
 
+    listing = relationship("RoleListing", back_populates="applications")
     applicant = relationship("Staff", back_populates="applications")
 
     def __init__(self, listing_id, staff_id, app_desc, app_date):
@@ -123,16 +129,27 @@ class Application(db.Model):
     def json(self):
         return {"id": self.id,
                 "listing_id": self.listing_id,
+                "role_name": self.listing.role_name,
                 "staff_id": self.staff_id,
+                "staff_name": self.applicant.staff_fname + " " + self.applicant.staff_lname,
                 "app_desc": self.app_desc,
-                "app_date": self.app_date.strftime('%Y-%m-%d')
+                "app_date": self.app_date.strftime('%Y-%m-%d'),
+                "dept": self.listing.manager.dept
                 }
+
+    def json_detail(self):
+        role_info = {"applicant": self.applicant.json()}
+        staff_info = {"role_listing": self.listing.json()}
+
+        return self.json() | role_info | staff_info
 
 
 class RoleSkill(db.Model):
     __tablename__ = 'role_skill'
-    role_name = db.Column(db.String(20), ForeignKey('role.role_name'), primary_key=True)
-    skill_name = db.Column(db.String(50), ForeignKey('skill.skill_name'), primary_key=True)
+    role_name = db.Column(db.String(20), ForeignKey(
+        'role.role_name'), primary_key=True)
+    skill_name = db.Column(db.String(50), ForeignKey(
+        'skill.skill_name'), primary_key=True)
 
     role = relationship("Role", back_populates="role_skills")
 
@@ -147,8 +164,10 @@ class RoleSkill(db.Model):
 
 class StaffSkill(db.Model):
     __tablename__ = 'staff_skill'
-    staff_id = db.Column(db.Integer, ForeignKey('staff.staff_id'), primary_key=True)
-    skill_name = db.Column(db.String(50), ForeignKey('skill.skill_name'), primary_key=True)
+    staff_id = db.Column(db.Integer, ForeignKey(
+        'staff.staff_id'), primary_key=True)
+    skill_name = db.Column(db.String(50), ForeignKey(
+        'skill.skill_name'), primary_key=True)
 
     staff = relationship("Staff", back_populates="staff_skills")
 
