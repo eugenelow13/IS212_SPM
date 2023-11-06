@@ -25,23 +25,17 @@ Make sure that any newly installed dependencies are added to the requirements.tx
  
 - <code> pip install -r requirements.txt </code>
 
-<!--
-    <h4> Navigate to the front-end folder and start the React application </h4>
-    cd sbrp_client
-    npm i
-    npm run dev
-    cd ..
--->
-
 <h4> Create a .env file (if not yet created) and add the following environment variables </h4>
 
 - <code> SQLALCHEMY_DATABASE_URI=mysql://root@localhost:3306/spm_db  # for default MySQL settings on Windows </code>
 
 <h4> Start Wampserver (Required for MySQL Database) </h4>
 
-- <code> Ensure that Wampserver is installed and running. </code>
+- Ensure that Wampserver is installed and running.
 
-- <code> Configure MySQL settings within Wampserver if necessary. </code>
+- Configure MySQL settings within Wampserver if necessary.
+
+- If first time opening the app, run the `spm_db.sql` file in MySQL Workbench to set up the database
 
 <h4> Navigate to the back-end folder and start the Flask application </h4>
 
@@ -49,6 +43,13 @@ Make sure that any newly installed dependencies are added to the requirements.tx
 
 - <code> python run.py </code>
 
+<h4> In another terminal, navigate to the front-end folder and start the React application </h4>
+
+```
+cd sbrp_client
+npm i
+npm run dev
+```
 
 ## Linting (using flake8, doesn't need python app to be running)
 
@@ -61,7 +62,7 @@ Make sure that any newly installed dependencies are added to the requirements.tx
 - <code> python -m yapf --recursive --diff --parallel backend </code>
 
 
-## Testing (locally using venv, backend only for now)
+## Testing
 
 <h4> Run unit tests (unit_tests.py) </h4>
 
@@ -84,3 +85,12 @@ Make sure that any newly installed dependencies are added to the requirements.tx
 <h4> Remove env (if needed) </h4>
 
 - <code> Simply delete the env folder </code>
+
+### E2E Testing with Cypress
+
+- With `npm run dev` running the frontend on `localhost:5173` and with `backend/run.py` running the flask app on `localhost:5000`
+- In a new separate terminal:
+  - `cd sbrp_client`
+  - `npx cypress run`
+
+<h4></h4>
