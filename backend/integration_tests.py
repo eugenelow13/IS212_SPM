@@ -98,8 +98,7 @@ class TestApplications(TestApp):
     def test_get_application(self):
         test_data = {
             "app_date": "2023-10-26",
-            "app_desc": "Some nice stuff about myself",
-            "dept": "Engineering",
+            "app_desc": "As an experienced consultant, I bring a unique blend of expertise, strategic thinking, and exceptional problem-solving skills to every project I undertake. With a passion for delivering measurable results and driving impactful change, I am dedicated to helping organizations achieve their goals and overcome their challenges.\\n\\nMy professional background includes a successful track record in providing consultancy services across various industries, including but not limited to finance, technology, and marketing. I have been entrusted with advising clients of all sizes, from startups to Fortune 500 companies, offering valuable insights and innovative strategies to optimize processes, improve efficiency, and enhance overall performance.\\n\\nOne of my key strengths lies in my ability to quickly understand complex business environments and identify areas for improvement. I have a sound analytical mindset, combined with a strong expertise in data analysis and research, allowing me to accurately assess client needs and develop comprehensive recommendations tailored to their specific circumstances.\\n\\nI am known for my excellent communication skills, which enable me to effectively articulate ideas and concepts to clients at all levels of the organization. I am equally comfortable providing clear instructions to operational staff as I am presenting findings and proposals to C-level executives. My ability to build strong, professional relationships allows me to establish trust with clients and collaborate seamlessly with stakeholders to drive successful outcomes.\\n\\nIn addition to my technical skills, I am a continuous learner, always staying up to date with the latest industry trends and best practices. I actively seek opportunities to expand my knowledge and skill set through professional development courses and certifications, ensuring that I am equipped with the most relevant information and tools to deliver top-notch consultancy services.\\n\\nOverall, I am a highly motivated and results-driven consultant with a deep passion for helping organizations succeed. With my combination of industry expertise, excellent problem-solving abilities, and strong interpersonal skills, I am confident in my ability to make a positive impact and deliver exceptional value to any consulting project I am involved in.",
             "id": 3,
             "listing_id": 36,
             "role_name": "Consultant",
@@ -109,15 +108,12 @@ class TestApplications(TestApp):
         response = self.client.get("/api/applications/3")
         self.maxDiff = None
         self.assertEqual(response.status_code, 200)
-        # assert dicts are equivalent
-        self.assertDictEqual(response.json, test_data)
-
-        # self.assertEqual(response.json, test_data)
+        self.assertEqual(response.json, test_data)
 
     def test_get_applications_detail(self):
         test_data = {
             "app_date": "2023-10-26",
-            "app_desc": "Some nice stuff about myself",
+            "app_desc": "As an experienced consultant, I bring a unique blend of expertise, strategic thinking, and exceptional problem-solving skills to every project I undertake. With a passion for delivering measurable results and driving impactful change, I am dedicated to helping organizations achieve their goals and overcome their challenges.\\n\\nMy professional background includes a successful track record in providing consultancy services across various industries, including but not limited to finance, technology, and marketing. I have been entrusted with advising clients of all sizes, from startups to Fortune 500 companies, offering valuable insights and innovative strategies to optimize processes, improve efficiency, and enhance overall performance.\\n\\nOne of my key strengths lies in my ability to quickly understand complex business environments and identify areas for improvement. I have a sound analytical mindset, combined with a strong expertise in data analysis and research, allowing me to accurately assess client needs and develop comprehensive recommendations tailored to their specific circumstances.\\n\\nI am known for my excellent communication skills, which enable me to effectively articulate ideas and concepts to clients at all levels of the organization. I am equally comfortable providing clear instructions to operational staff as I am presenting findings and proposals to C-level executives. My ability to build strong, professional relationships allows me to establish trust with clients and collaborate seamlessly with stakeholders to drive successful outcomes.\\n\\nIn addition to my technical skills, I am a continuous learner, always staying up to date with the latest industry trends and best practices. I actively seek opportunities to expand my knowledge and skill set through professional development courses and certifications, ensuring that I am equipped with the most relevant information and tools to deliver top-notch consultancy services.\\n\\nOverall, I am a highly motivated and results-driven consultant with a deep passion for helping organizations succeed. With my combination of industry expertise, excellent problem-solving abilities, and strong interpersonal skills, I am confident in my ability to make a positive impact and deliver exceptional value to any consulting project I am involved in.",
             "applicant": {
                 "country": "Singapore",
                 "dept": "Sales",
@@ -134,7 +130,6 @@ class TestApplications(TestApp):
                 ]
             },
             "id": 3,
-            "dept": "Engineering",
             "listing_id": 36,
             "role_listing": {
                 "country": "Indonesia",
