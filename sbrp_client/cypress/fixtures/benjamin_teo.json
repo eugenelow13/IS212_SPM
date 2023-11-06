@@ -1,0 +1,17 @@
+{
+    "country": "Singapore",
+    "dept": "HR",
+    "email": "Benjamin.Teo@allinone.com.sg",
+    "role": 4,
+    "staff_fname": "Benjamin",
+    "staff_id": 160142,
+    "staff_lname": "Teo",
+    "staff_skills": [
+        "Accounting Standards",
+        "Digital Fluency",
+        "Human Resource Advisory",
+        "Human Resource Systems Management",
+        "Problem Solving",
+        "Project Management"
+    ]
+}

@@ -76,4 +76,15 @@ describe('test applicant details', () => {
     })
 
 
+    it("Tests that role-skil match score is displayed in applicant modal", () => {
+        cy.visit("/listings")
+        cy.get("table tbody tr td:nth-child(6)").each((td) => {
+            cy.wrap(td).click();
+            // should contain same content as td
+            cy.get('.modal-body').should('contain.text', td.text());
+            cy.contains('Close').click();
+        })
+    })
+
+
 })
