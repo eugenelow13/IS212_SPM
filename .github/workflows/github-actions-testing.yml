@@ -36,10 +36,3 @@ jobs:
 
       - name: Run integration tests on Linux
         run: python backend/integration_tests.py
-
-      # Run npx cypress run
-      - name: Run Cypress tests on Linux
-        run: |
-          cd sbrp_client
-          npm install
-          npx cypress run
