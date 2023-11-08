@@ -105,7 +105,7 @@ npm run dev
 - Click on view applicants to see incoming applications. Click on an application to view applicant details, role-skill match, and self-description
 
 ### Staff
-- As a staff, browse role listings using the interactive table, where you can sort by fields like role-skill match
+- As a staff, go to **Listings** to browse role listings using the interactive table, where you can sort by fields like role-skill match
 - Click on a role listing to apply and fill up an optional self-description
 
 ### Manager
