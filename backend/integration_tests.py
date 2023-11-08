@@ -98,7 +98,7 @@ class TestApplications(TestApp):
     def test_get_application(self):
         test_data = {
             "app_date": "2023-10-26",
-            "app_desc": "Some nice stuff about myself",
+            "app_desc": "Hire me pls",
             "dept": "Engineering",
             "id": 3,
             "listing_id": 36,
@@ -109,15 +109,13 @@ class TestApplications(TestApp):
         response = self.client.get("/api/applications/3")
         self.maxDiff = None
         self.assertEqual(response.status_code, 200)
-        # assert dicts are equivalent
-        self.assertDictEqual(response.json, test_data)
-
-        # self.assertEqual(response.json, test_data)
+        self.assertEqual(response.json, test_data)
 
     def test_get_applications_detail(self):
         test_data = {
             "app_date": "2023-10-26",
-            "app_desc": "Some nice stuff about myself",
+            "app_desc": "Hire me pls",
+            "dept": "Engineering",
             "applicant": {
                 "country": "Singapore",
                 "dept": "Sales",
@@ -134,7 +132,6 @@ class TestApplications(TestApp):
                 ]
             },
             "id": 3,
-            "dept": "Engineering",
             "listing_id": 36,
             "role_listing": {
                 "country": "Indonesia",
