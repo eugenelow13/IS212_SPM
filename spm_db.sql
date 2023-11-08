@@ -719,9 +719,9 @@ CREATE TABLE IF NOT EXISTS `role_listing` (
 );
 
 -- insert data into role_listing
-INSERT INTO `role_listing` VALUES(34, 'Call Centre', '2023-10-26', '2023-11-02', 190077, 'Malaysia');
+INSERT INTO `role_listing` VALUES(34, 'Call Centre', '2023-10-26', '2023-11-11', 190077, 'Malaysia');
 INSERT INTO `role_listing` VALUES(35, 'Consultancy Director', '2023-10-26', '2023-12-06', 151410, 'Indonesia');
-INSERT INTO `role_listing` VALUES(36, 'Consultant', '2023-10-26', '2023-10-28', 150866, 'Indonesia');
+INSERT INTO `role_listing` VALUES(36, 'Consultant', '2023-10-26', '2023-12-28', 150866, 'Indonesia');
 
 -- Table structure for table `application`
 DROP TABLE IF EXISTS `application`;

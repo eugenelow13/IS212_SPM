@@ -62,7 +62,7 @@ export default function RootLayout() {
                                 </NavLink>
                             </>
                             }
-                            <NavLink to="/help" className="nav-link">Help</NavLink>
+                            {/* <NavLink to="/help" className="nav-link">Help</NavLink> */}
                         </Nav>
                         <CurrentUserNav currentUser={currentUser}></CurrentUserNav>
                         <Nav>
