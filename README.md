@@ -1,5 +1,7 @@
 # IS212_SPM
 
+[Github Repo](https://github.com/eugenelow13/IS212_SPM)
+
 Frontend: Bootstrap, Javascript, React  
 Backend: Python (Flask)  
 Database: MySQL (Requires WAMP to be running)<br>
