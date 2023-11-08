@@ -95,4 +95,18 @@ npm run dev
   - `cd sbrp_client`
   - `npx cypress run`
 
-<h4></h4>
+## How to Use
+- At the login page, select the user role (You can type to filter out). Sample users are provided at the top.
+
+### HR
+- As a HR, navigate to **Create Listing** to create a new role listing.
+- Go to **Listings** to see posted role listings. Click to see details and edit
+- All tables are interactive, with text filtering and sorting for every column (click to toggle)
+- Click on view applicants to see incoming applications. Click on an application to view applicant details, role-skill match, and self-description
+
+### Staff
+- As a staff, browse role listings using the interactive table, where you can sort by fields like role-skill match
+- Click on a role listing to apply and fill up an optional self-description
+
+### Manager
+- In this release, manager shares the same fucntionality as a staff.
